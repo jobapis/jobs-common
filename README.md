@@ -1,15 +1,15 @@
-# Juju Jobs API Client Library for PHP #
+# Standard Jobs Objects #
 
 ## Description ##
-The Juju Jobs API Client Library enables you to work with the Juju
-Jobs API as described on Juju.com [here](http://www.juju.com/publisher/spec/).
+This library includes interfaces and objects for standardizing responses from
+API clients. Each client that uses this is expected to return a collection of jobs
+that it generates with its own transformer.
 
 ## Requirements ##
 * [PHP 5.2.1 or higher](http://www.php.net/)
 * [PHP JSON extension](http://php.net/manual/en/book.json.php)
 
 ## Getting Started ##
-* Rename `config.php.default` to `config.php` and include your own Juju Partner ID
 * Run `composer update`
 * Check out the examples folder to see an example of the api library at work.
 
@@ -18,7 +18,4 @@ Jobs API as described on Juju.com [here](http://www.juju.com/publisher/spec/).
 * Install from [Packagist](https://packagist.org/packages/karllhughes/#)
 
 ## Note ##
-This API Library is still in progress. Feel free to grab it and make your own
-version or submit pull requests for improvements. More info on the API can be
-found by creating a publisher account and going
-[here](http://www.juju.com/publisher/signup/)
+This project is still in progress.
