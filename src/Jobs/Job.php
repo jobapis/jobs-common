@@ -60,32 +60,32 @@ class Job implements JobInterface
 
     public function setCompanies($companies = [])
     {
-
+        $this->companies = $companies;
     }
 
     public function setLocations($locations = [])
     {
-
+        $this->locations = $locations;
     }
 
     public function setIndustries($industries = [])
     {
-
+        $this->industries = $industries;
     }
 
     public function setDates($dates = [])
     {
-
+        $this->dates = $dates;
     }
 
     public function setSalaries($salaries = [])
     {
-
+        $this->salaries = $salaries;
     }
 
     public function setCodes($codes = [])
     {
-
+        $this->codes = $codes;
     }
 
 }
