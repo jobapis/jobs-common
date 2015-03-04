@@ -1,0 +1,31 @@
+{
+    "name": "karllhughes/juju_jobs",
+    "type": "library",
+    "description": "PHP client for Juju Jobs API",
+    "keywords": ["juju", "jobs", "api client"],
+    "homepage": "http://www.karllhughes.com/",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Karl Hughes",
+            "email": "khughes.me@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.1",
+        "guzzlehttp/guzzle": ">=5.0"
+    },
+    "require-dev": {
+      "phpunit/phpunit": "3.7.*"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.1.x-dev"
+        }
+    },
+    "autoload": {
+        "psr-0": {
+            "JujuJobs": "src/"
+        }
+    }
+}
