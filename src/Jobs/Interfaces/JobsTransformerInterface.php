@@ -1,4 +1,4 @@
-<?php namespace Jobs;
+<?php namespace Jobs\Interfaces;
 
 interface JobsTransformerInterface
 {
