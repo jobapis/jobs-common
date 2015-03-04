@@ -5,6 +5,6 @@ interface JobsTransformerInterface
     /**
     * Returns the standardized job object
     */
-    public function createJobObject();
+    public function createJobObject($input = []);
 
 }
