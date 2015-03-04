@@ -11,7 +11,7 @@ that it generates with its own transformer.
 
 ## Getting Started ##
 * Run `composer update`
-* Check out the examples folder to see an example of the api library at work.
+* Check out the example.php file to see an example of the api library at work.
 
 #### OR ####
 
