@@ -1,5 +1,5 @@
 {
-    "name": "karllhughes/jobs",
+    "name": "karllhughes/jobs-objects",
     "type": "library",
     "description": "Standard Jobs collection and object for use with API clients",
     "keywords": ["jobs", "api client", "object"],
