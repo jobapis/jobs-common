@@ -4,50 +4,25 @@ use Jobs\Job;
 
 class JobsCollection extends Collection
 {
-    public $query;
-    public $totalResults;
-    public $count;
-    public $page;
-    public $error;
-    private $jobs = [];
+    protected $attributes = [];
 
-    public function addJob($job, $key = null)
+    public function __construct($attributes = [])
     {
-        if ($key == null) {
-            $this->jobs[] = $job;
-        } else {
-            if (isset($this->jobs[$key])) {
-                return $this->setError("Invalid key $key.");
-            } else {
-                $this->jobs[$key] = $job;
+        $this->setAttributes($attributes);
+    }
+
+    public function setAttributes($attributes = [])
+    {
+        if ($attributes && is_array($attributes)) {
+            foreach ($attributes as $name => $value) {
+                $this->attributes[$name] = $value;
             }
         }
-        return $this;
     }
 
-    public function deleteJob($key)
+    public function getAttributes()
     {
-        if (isset($this->jobs[$key])) {
-            unset($this->jobs[$key]);
-        } else {
-            return $this->setError("Invalid key $key.");
-        }
-        return $this;
+        return $this->attributes;
     }
 
-    public function getJob($key)
-    {
-        if (isset($this->jobs[$key])) {
-            return $this->jobs[$key];
-        } else {
-            return $this->setError("Invalid key $key.");
-        }
-        return $this;
-    }
-
-    public function setError($message = NULL)
-    {
-        $this->error = $message;
-        return $this;
-    }
 }

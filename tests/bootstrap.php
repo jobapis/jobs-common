@@ -1,4 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../src/IndeedJobs/IndeedJobsClient.php';
+
+require_once dirname(__FILE__) . '/../vendor/autoload.php';
 
 date_default_timezone_set('UTC');
