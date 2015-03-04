@@ -1,8 +1,8 @@
 {
-    "name": "karllhughes/juju_jobs",
+    "name": "karllhughes/jobs",
     "type": "library",
-    "description": "PHP client for Juju Jobs API",
-    "keywords": ["juju", "jobs", "api client"],
+    "description": "Standard Jobs collection and object for use with API clients",
+    "keywords": ["jobs", "api client", "object"],
     "homepage": "http://www.karllhughes.com/",
     "license": "Apache-2.0",
     "authors": [
@@ -11,10 +11,6 @@
             "email": "khughes.me@gmail.com"
         }
     ],
-    "require": {
-        "php": ">=5.2.1",
-        "guzzlehttp/guzzle": ">=5.0"
-    },
     "require-dev": {
       "phpunit/phpunit": "3.7.*"
     },
@@ -25,7 +21,7 @@
     },
     "autoload": {
         "psr-0": {
-            "JujuJobs": "src/"
+            "Jobs": "src/"
         }
     }
 }
