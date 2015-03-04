@@ -9,12 +9,18 @@ class Job implements JobInterface
 
     public function __construct($attributes = [])
     {
+        $this->createJobFromAttributes($attributes);
+    }
+
+    public function createJobFromAttributes($attributes = [])
+    {
         foreach ($attributes as $name => $value) {
             $method = 'set'.ucwords($name);
             if (method_exists($this, $method)) {
                 $this->$method($value);
             }
         }
+        return $this;
     }
 
     public function setId($id = NULL)
