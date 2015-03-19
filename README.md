@@ -15,7 +15,7 @@ that it generates with its own transformer.
 
 #### OR ####
 
-* Install from [Packagist](https://packagist.org/packages/karllhughes/#)
+* Install from [Packagist](https://packagist.org/packages/karllhughes/jobs-objects)
 
 ## Note ##
 This project is still in progress.
