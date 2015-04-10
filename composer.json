@@ -1,19 +1,34 @@
 {
-    "name": "karllhughes/jobs-objects",
+    "name": "jobbrander/jobs-common",
     "type": "library",
     "description": "Standard Jobs collection and object for use with API clients",
-    "keywords": ["jobs", "api client", "object"],
-    "homepage": "http://www.karllhughes.com/",
+    "keywords": [
+        "jobs",
+        "api client",
+        "object"
+    ],
+    "homepage": "https://github.com/JobBrander/jobs-common",
     "license": "Apache-2.0",
     "authors": [
         {
             "name": "Karl Hughes",
-            "email": "khughes.me@gmail.com"
+            "email": "khughes.me@gmail.com",
+            "homepage": "http://www.karllhughes.com"
+        },
+        {
+            "name": "Steven Maguire",
+            "email": "stevenmaguire@gmail.com",
+            "homepage": "https://github.com/stevenmaguire"
         }
     ],
+    "require": {
+        "php": ">=5.2.1",
+        "guzzlehttp/guzzle": ">=5.0"
+    },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
-        "phpunit/php-code-coverage": "~2.0"
+        "phpunit/php-code-coverage": "~2.0",
+        "mockery/mockery": ">=0.9.4"
     },
     "extra": {
         "branch-alias": {
@@ -21,8 +36,13 @@
         }
     },
     "autoload": {
-        "psr-0": {
-            "Jobs": "src/"
+        "psr-4": {
+            "JobBrander\\Jobs\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JobBrander\\Jobs\\Test\\": "tests/src/"
         }
     }
 }

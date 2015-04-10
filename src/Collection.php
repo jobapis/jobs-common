@@ -1,12 +1,13 @@
-<?php namespace Jobs\Collections;
+<?php namespace JobBrander\Jobs;
 
+/**
+* Class for storing a collection of items. Basically this adds functionality
+* and security to an array.
+*/
 class Collection
 {
-    /**
-    * Class for storing a collection of items. Basically this adds functionality
-    * and security to an array.
-    */
     protected $items = [];
+
     protected $errors = [];
 
     public function add($item, $key = null)

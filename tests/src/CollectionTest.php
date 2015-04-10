@@ -1,12 +1,12 @@
-<?php
+<?php namespace JobBrander\Jobs\Tests;
+
+use JobBrander\Jobs\Collection;
+
 /**
  *  Uses PHPUnit to test methods and properties set in
  *  the generic Collection class.
  */
-
-use Jobs\Collections\Collection;
-
-class CollectionTest extends PHPUnit_Framework_TestCase
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -33,6 +33,18 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($item, $this->collection->get($key));
     }
 
+    public function testItDeletesItemFromCollectionWithValidKey()
+    {
+        $item = "New Item for Collection";
+        $key = "1";
+        $error = "Invalid key $key.";
+
+        $result = $this->collection->add($item, $key)->delete($key)->get($key);
+        $errors = $this->collection->getErrors();
+
+        $this->assertEquals($error, end($errors));
+    }
+
     public function testItFailsToAddItemToCollectionWithUsedKey()
     {
         $item = "New Item for Collection";
@@ -55,6 +67,28 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $message = "Invalid error mesage.";
 
         $this->collection->addError($error);
+        $errors = $this->collection->getErrors();
+
+        $this->assertEquals($message, end($errors));
+    }
+
+    public function testItFailsToGetItemWithoutValidKey()
+    {
+        $key = uniqid();
+        $message = "Invalid key $key.";
+
+        $this->collection->get($key);
+        $errors = $this->collection->getErrors();
+
+        $this->assertEquals($message, end($errors));
+    }
+
+    public function testItFailsToDeleteItemWithoutValidKey()
+    {
+        $key = uniqid();
+        $message = "Invalid key $key.";
+
+        $this->collection->delete($key);
         $errors = $this->collection->getErrors();
 
         $this->assertEquals($message, end($errors));

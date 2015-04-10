@@ -1,17 +1,26 @@
-<?php
+<?php namespace JobBrander\Jobs\Tests;
+
+use JobBrander\Jobs\Job;
+
 /**
  *  Uses PHPUnit to test methods and properties set in
  *  the Job class.
  */
-
-use Jobs\Job;
-
-class JobTest extends PHPUnit_Framework_TestCase
+class JobTest extends \PHPUnit_Framework_TestCase
 {
 
     public function setUp()
     {
         $this->job = new Job();
+    }
+
+    public function testGetId()
+    {
+        $id = uniqid();
+
+        $result = $this->job->setId($id)->getId();
+
+        $this->assertEquals($id, $result);
     }
 
     public function testInstantiateJobWithAttributes()
@@ -25,6 +34,59 @@ class JobTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($id, $job->id);
         $this->assertEquals($title, $job->title);
+    }
+
+    public function testItCanCheckIfExistingPropertyIsset()
+    {
+        $key = 'id';
+        $value = uniqid();
+
+        $this->job->{$key} = $value;
+        $result = isset($this->job->{$key});
+
+        $this->assertTrue($result);
+    }
+
+    public function testItCanSetAndGetExistingProperty()
+    {
+        $key = 'id';
+        $value = uniqid();
+
+        $this->job->{$key} = $value;
+        $result = $this->job->{$key};
+
+        $this->assertEquals($value, $result);
+    }
+
+    /**
+     * @expectedException BadMethodCallException
+     */
+    public function testItCanNotHandleNonImplementedMethods()
+    {
+        $method = uniqid();
+
+        $this->job->{$method}();
+    }
+
+    /**
+     * @expectedException OutOfRangeException
+     */
+    public function testItCanNotGetNonExistentProperty()
+    {
+        $key = uniqid();
+
+        $this->job->{$key};
+    }
+
+    /**
+     * @expectedException OutOfRangeException
+     */
+    public function testItCanNotSetNonExistentProperty()
+    {
+        $key = uniqid();
+        $value = $key;
+
+        $this->job->{$key} = $value;
     }
 
     public function testSetId()
