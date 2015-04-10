@@ -3,6 +3,3 @@ build/
 phpunit.xml
 composer.lock
 vendor
-config.php
-tests/report
-tests/testdox.html
