@@ -30,11 +30,6 @@
         "phpunit/php-code-coverage": "~2.0",
         "mockery/mockery": ">=0.9.4"
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.1.x-dev"
-        }
-    },
     "autoload": {
         "psr-4": {
             "JobBrander\\Jobs\\": "src/"
