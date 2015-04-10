@@ -184,19 +184,18 @@ abstract class AbstractClient
      */
     protected static function getValue($index, $value)
     {
-        if(is_array($index) &&
+        if (is_array($index) &&
             count($index)) {
             $current_index = array_shift($index);
         }
 
-        if(is_array($index) &&
+        if (is_array($index) &&
             count($index) &&
             isset($value[$current_index]) &&
             is_array($value[$current_index]) &&
             count($value[$current_index])) {
-
             return self::getValue($index, $value[$current_index]);
-        } elseif(isset($value[$current_index])) {
+        } elseif (isset($value[$current_index])) {
             return $value[$current_index];
         } else {
             throw new \Exception("Attempt to access missing variable: $current_index");

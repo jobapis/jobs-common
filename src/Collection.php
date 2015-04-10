@@ -62,5 +62,4 @@ class Collection
     {
         return $this->errors;
     }
-
 }
