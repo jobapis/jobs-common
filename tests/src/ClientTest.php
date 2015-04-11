@@ -7,9 +7,13 @@ use Mockery as m;
 
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
+    private $clientClass = 'JobBrander\Jobs\Providers\AbstractClient';
+    private $collectionClass = 'JobBrander\Jobs\Collection';
+    private $jobClass = 'JobBrander\Jobs\Job';
+
     public function setUp()
     {
-        $this->client = m::mock(AbstractClient::class)
+        $this->client = m::mock($this->clientClass)
             ->shouldDeferMissing()
             ->shouldAllowMockingProtectedMethods();
     }
@@ -24,7 +28,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'state' => uniqid(),
         ];
         $client = $this->client;
-        $reflectedClass = new \ReflectionClass(AbstractClient::class);
+        $reflectedClass = new \ReflectionClass($this->clientClass);
         $constructor = $reflectedClass->getConstructor();
 
         $constructor->invoke($client, $attributes);
@@ -47,7 +51,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             array_push($payload[$path], ['title' => uniqid()]);
         }
 
-        $job = m::mock(Job::class);
+        $job = m::mock($this->jobClass);
         $job->shouldReceive('setQuery')->with($keyword)->times($jobs_count)->andReturnSelf();
 
         $this->client->keyword = $keyword;
@@ -68,7 +72,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $results = $this->client->getJobs();
 
-        $this->assertInstanceOf(Collection::class, $results);
+        $this->assertInstanceOf($this->collectionClass, $results);
         $this->assertCount($jobs_count, $results);
     }
 
