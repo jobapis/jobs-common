@@ -71,7 +71,7 @@ abstract class AbstractProvider
      *
      * @param array|object $payload
      *
-     * @return \JobBrander\Jobs\Job
+     * @return \JobBrander\Jobs\Client\Job
      */
     abstract public function createJobObject($payload);
 
@@ -100,7 +100,7 @@ abstract class AbstractProvider
     /**
      * Makes the api call and returns a collection of job objects
      *
-     * @return  JobBrander\Jobs\Collection
+     * @return  JobBrander\Jobs\Client\Collection
      */
     public function getJobs()
     {
