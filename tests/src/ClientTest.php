@@ -183,4 +183,36 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             $this->assertNull($value);
         });
     }
+
+    public function testItCanExtractRawListingDataFromPayloadWhenPathProvided()
+    {
+        $path = 'results.jobs';
+        $jobs = [uniqid(), uniqid()];
+        $payload = ['results' => ['jobs' => $jobs]];
+        $this->client->shouldReceive('getListingsPath')->once()->andReturn($path);
+
+        $listings = $this->client->getRawListings($payload);
+
+        $this->assertEquals($jobs, $listings);
+    }
+
+    public function testItCanNotExtractRawListingDataFromPayloadWhenPathNotProvided()
+    {
+        $path = '';
+        $jobs = [uniqid(), uniqid()];
+        $payload = ['results' => ['jobs' => $jobs]];
+        $this->client->shouldReceive('getListingsPath')->once()->andReturn($path);
+
+        $listings = $this->client->getRawListings($payload);
+
+        $this->assertEquals($payload, $listings);
+    }
+
+    /**
+     * @expectedException OutOfRangeException
+     */
+    public function testItCanNotGetValueWhenIndexIsEmpty()
+    {
+        $value = $this->client->getValue(null, null);
+    }
 }

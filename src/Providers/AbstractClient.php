@@ -71,7 +71,7 @@ abstract class AbstractClient
      *
      * @param array|object $payload
      *
-     * @return JobBrander\Jobs\Job
+     * @return \JobBrander\Jobs\Job
      */
     abstract public function createJobObject($payload);
 
@@ -158,9 +158,11 @@ abstract class AbstractClient
      */
     protected function getRawListings($payload = [])
     {
-        $index = explode('.', $this->getListingsPath());
+        $path = $this->getListingsPath();
 
-        if (!empty($index)) {
+        if (!empty($path)) {
+            $index = explode('.', $path);
+
             return (array) self::getValue($index, $payload);
         }
 
@@ -200,7 +202,7 @@ abstract class AbstractClient
         } elseif (isset($value[$current_index])) {
             return $value[$current_index];
         } else {
-            throw new \Exception("Attempt to access missing variable: $current_index");
+            throw new \OutOfRangeException("Attempt to access missing variable: $current_index");
         }
     }
 
