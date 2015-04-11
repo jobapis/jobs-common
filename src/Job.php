@@ -1,5 +1,20 @@
 <?php namespace JobBrander\Jobs;
 
+/**
+ * @method Job setId($value)
+ * @method Job setTitle($value)
+ * @method Job setDescription($value)
+ * @method Job setSource($value)
+ * @method Job setUrl($value)
+ * @method Job setQuery($value)
+ * @method Job setType($value)
+ * @method Job setCompanies($value)
+ * @method Job setLocations($value)
+ * @method Job setIndustries($value)
+ * @method Job setDates($value)
+ * @method Job setSalaries($value)
+ * @method Job setCodes($value)
+ */
 class Job
 {
     use AttributeTrait;
