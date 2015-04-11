@@ -1,8 +1,8 @@
-<?php namespace JobBrander\Jobs\Providers;
+<?php namespace JobBrander\Jobs\Client\Providers;
 
-use JobBrander\Jobs\Job;
+use JobBrander\Jobs\Client\Job;
 
-class Indeed extends AbstractClient
+class Indeed extends AbstractProvider
 {
     /**
      * Publisher Id
@@ -52,13 +52,33 @@ class Indeed extends AbstractClient
     }
 
     /**
+     * Get data format
+     *
+     * @return string
+     */
+    public function getFormat()
+    {
+        return 'json';
+    }
+
+    /**
      * Get listings path
      *
      * @return  string
      */
-    protected function getListingsPath()
+    public function getListingsPath()
     {
         return 'results';
+    }
+
+    /**
+     * Get parameters
+     *
+     * @return  array
+     */
+    public function getParameters()
+    {
+        return [];
     }
 
     /**
@@ -77,5 +97,15 @@ class Indeed extends AbstractClient
             .'l='.urlencode($this->city.', '.$this->state).'&'
             .'start='.$this->page.'&'
             .'limit='.$this->count;
+    }
+
+    /**
+     * Get http verb
+     *
+     * @return  string
+     */
+    public function getVerb()
+    {
+        return 'GET';
     }
 }

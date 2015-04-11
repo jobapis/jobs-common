@@ -1,15 +1,12 @@
-<?php namespace JobBrander\Jobs\Test\Providers;
+<?php namespace JobBrander\Jobs\Client\Test;
 
-use JobBrander\Jobs\Providers\AbstractClient;
-use JobBrander\Jobs\Collection;
-use JobBrander\Jobs\Job;
 use Mockery as m;
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ProviderTest extends \PHPUnit_Framework_TestCase
 {
-    private $clientClass = 'JobBrander\Jobs\Providers\AbstractClient';
-    private $collectionClass = 'JobBrander\Jobs\Collection';
-    private $jobClass = 'JobBrander\Jobs\Job';
+    private $clientClass = 'JobBrander\Jobs\Client\Providers\AbstractProvider';
+    private $collectionClass = 'JobBrander\Jobs\Client\Collection';
+    private $jobClass = 'JobBrander\Jobs\Client\Job';
 
     public function setUp()
     {
@@ -43,7 +40,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $url = uniqid();
         $verb = uniqid();
         $path = uniqid();
+        $format = uniqid();
         $keyword = uniqid();
+        $params = [uniqid()];
         $jobs_count = rand(2,10);
         $payload = [$path => []];
 
@@ -56,12 +55,14 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $this->client->keyword = $keyword;
         $this->client->shouldReceive('createJobObject')->times($jobs_count)->andReturn($job);
-        $this->client->shouldReceive('getListingsPath')->once()->andReturn($path);
-        $this->client->shouldReceive('getUrl')->once()->andReturn($url);
-        $this->client->shouldReceive('getVerb')->once()->andReturn($verb);
+        $this->client->shouldReceive('getFormat')->andReturn($format);
+        $this->client->shouldReceive('getListingsPath')->andReturn($path);
+        $this->client->shouldReceive('getParameters')->andReturn($params);
+        $this->client->shouldReceive('getUrl')->andReturn($url);
+        $this->client->shouldReceive('getVerb')->andReturn($verb);
 
         $response = m::mock('GuzzleHttp\Message\Response');
-        $response->shouldReceive($this->client->getFormat())->once()->andReturn($payload);
+        $response->shouldReceive($format)->once()->andReturn($payload);
 
         $http = m::mock('GuzzleHttp\Client');
         $http->shouldReceive(strtolower($verb))
@@ -115,14 +116,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($state);
     }
 
-    public function testItUsesJsonByDefault()
-    {
-        $default_format = 'json';
-
-        $format = $this->client->getFormat();
-
-        $this->assertEquals($default_format, $format);
-    }
 
     public function testItHttpClientOptionsEmptyWhenVerbIsGet()
     {
@@ -144,31 +137,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client_options = $this->client->getHttpClientOptions();
 
         $this->assertEquals($params, $client_options['body']);
-    }
-
-    public function testItUsesEmptyListingPathByDefault()
-    {
-        $listing_path = $this->client->getListingsPath();
-
-        $this->assertEmpty($listing_path);
-        $this->assertTrue(is_string($listing_path));
-    }
-
-    public function testItUsesEmptyParametersByDefault()
-    {
-        $parameters = $this->client->getParameters();
-
-        $this->assertEmpty($parameters);
-        $this->assertTrue(is_array($parameters));
-    }
-
-    public function testItUsesGetHttpVerbByDefault()
-    {
-        $default_verb = 'GET';
-
-        $verb = $this->client->getVerb();
-
-        $this->assertEquals($default_verb, $verb);
     }
 
     public function testItParsesDefaultAttributes()

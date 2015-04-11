@@ -1,4 +1,4 @@
-<?php namespace JobBrander\Jobs;
+<?php namespace JobBrander\Jobs\Client;
 
 /**
  * @method Job setId($value)

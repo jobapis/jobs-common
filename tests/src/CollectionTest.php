@@ -1,6 +1,6 @@
-<?php namespace JobBrander\Jobs\Test;
+<?php namespace JobBrander\Jobs\Client\Test;
 
-use JobBrander\Jobs\Collection;
+use JobBrander\Jobs\Client\Collection;
 
 /**
  *  Uses PHPUnit to test methods and properties set in

@@ -1,4 +1,4 @@
-<?php namespace JobBrander\Jobs;
+<?php namespace JobBrander\Jobs\Client;
 
 use Countable;
 

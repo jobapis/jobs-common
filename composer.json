@@ -1,7 +1,7 @@
 {
     "name": "jobbrander/jobs-common",
     "type": "library",
-    "description": "Standard Jobs collection and object for use with API clients",
+    "description": "Making it simple to integrate your application with job api providers.",
     "keywords": [
         "jobs",
         "api client",
@@ -32,12 +32,12 @@
     },
     "autoload": {
         "psr-4": {
-            "JobBrander\\Jobs\\": "src/"
+            "JobBrander\\Jobs\\Client\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "JobBrander\\Jobs\\Test\\": "tests/src/"
+            "JobBrander\\Jobs\\Client\\Test\\": "tests/src/"
         }
     }
 }

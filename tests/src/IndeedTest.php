@@ -1,6 +1,6 @@
-<?php namespace JobBrander\Jobs\Test\Providers;
+<?php namespace JobBrander\Jobs\Client\Test;
 
-use JobBrander\Jobs\Providers\Indeed;
+use JobBrander\Jobs\Client\Providers\Indeed;
 use Mockery as m;
 
 class IndeedTest extends \PHPUnit_Framework_TestCase
@@ -12,6 +12,14 @@ class IndeedTest extends \PHPUnit_Framework_TestCase
             'version' => 2,
             'highlight' => 0,
         ]);
+    }
+
+    public function testItWillProvideEmptyParameters()
+    {
+        $parameters = $this->client->getParameters();
+
+        $this->assertEmpty($parameters);
+        $this->assertTrue(is_array($parameters));
     }
 
     public function testItCanConnect()

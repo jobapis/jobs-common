@@ -1,10 +1,10 @@
-<?php namespace JobBrander\Jobs\Providers;
+<?php namespace JobBrander\Jobs\Client\Providers;
 
 use GuzzleHttp\Client as HttpClient;
-use JobBrander\Jobs\AttributeTrait;
-use JobBrander\Jobs\Collection;
+use JobBrander\Jobs\Client\AttributeTrait;
+use JobBrander\Jobs\Client\Collection;
 
-abstract class AbstractClient
+abstract class AbstractProvider
 {
     use AttributeTrait;
 
@@ -78,12 +78,9 @@ abstract class AbstractClient
     /**
      * Get format
      *
-     * @return  string
+     * @return  string Currently only 'json' and 'xml' supported
      */
-    public function getFormat()
-    {
-        return 'json';
-    }
+    abstract public function getFormat();
 
     /**
      * Get http client options based on current client
@@ -134,20 +131,14 @@ abstract class AbstractClient
      *
      * @return  string
      */
-    protected function getListingsPath()
-    {
-        return '';
-    }
+    abstract public function getListingsPath();
 
     /**
      * Get parameters
      *
      * @return  array
      */
-    public function getParameters()
-    {
-        return [];
-    }
+    abstract public function getParameters();
 
     /**
      * Get raw listings from payload
@@ -215,14 +206,11 @@ abstract class AbstractClient
     }
 
     /**
-     * Get http verb
+     * Get http verb to use when making request
      *
      * @return  string
      */
-    public function getVerb()
-    {
-        return 'GET';
-    }
+    abstract public function getVerb();
 
     /**
      * Checks if given value is an array and that it has contents
