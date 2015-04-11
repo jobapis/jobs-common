@@ -186,24 +186,32 @@ abstract class AbstractClient
      */
     protected static function getValue($index, $value)
     {
-        $current_index = 0;
+        $current_index = self::getValueCurrentIndex($index);
 
-        if (is_array($index) &&
-            count($index)) {
-            $current_index = array_shift($index);
-        }
+        if (isset($value[$current_index])) {
+            $index_array = self::isArrayNotEmpty($index);
+            $value_array = self::isArrayNotEmpty($value[$current_index]);
 
-        if (is_array($index) &&
-            count($index) &&
-            isset($value[$current_index]) &&
-            is_array($value[$current_index]) &&
-            count($value[$current_index])) {
-            return self::getValue($index, $value[$current_index]);
-        } elseif (isset($value[$current_index])) {
-            return $value[$current_index];
+            if ($index_array && $value_array) {
+                return self::getValue($index, $value[$current_index]);
+            } else {
+                return $value[$current_index];
+            }
         } else {
             throw new \OutOfRangeException("Attempt to access missing variable: $current_index");
         }
+    }
+
+    /**
+     * Get value current index
+     *
+     * @param  mixed $index
+     *
+     * @return array|null
+     */
+    private static function getValueCurrentIndex(&$index)
+    {
+        return is_array($index) && count($index) ? array_shift($index) : null;
     }
 
     /**
@@ -214,6 +222,18 @@ abstract class AbstractClient
     public function getVerb()
     {
         return 'GET';
+    }
+
+    /**
+     * Checks if given value is an array and that it has contents
+     *
+     * @param  mixed $array
+     *
+     * @return boolean
+     */
+    private static function isArrayNotEmpty($array)
+    {
+        return is_array($array) && count($array);
     }
 
     /**
