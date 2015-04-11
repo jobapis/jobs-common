@@ -27,7 +27,9 @@ The following versions of PHP are supported.
 * HHVM
 
 ## Usage
-
+```php
+// Usage instructions
+```
 
 ## Providers
 
