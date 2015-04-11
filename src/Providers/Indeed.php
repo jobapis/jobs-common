@@ -4,8 +4,25 @@ use JobBrander\Jobs\Job;
 
 class Indeed extends AbstractClient
 {
+    /**
+     * Publisher Id
+     *
+     * @var string
+     */
     protected $publisherId;
+
+    /**
+     * Version
+     *
+     * @var string
+     */
     protected $version;
+
+    /**
+     * Highlight
+     *
+     * @var string
+     */
     protected $highlight;
 
     /**
@@ -13,11 +30,14 @@ class Indeed extends AbstractClient
      *
      * @param array $payload
      *
-     * @return JobBrander\Jobs\Job
+     * @return \JobBrander\Jobs\Job
      */
     public function createJobObject($payload)
     {
-        $payload = $this->parseDefaults($payload);
+        $defaults = ['jobtitle', 'company', 'formattedLocation', 'source',
+            'date', 'snippet', 'url', 'jobkey'];
+
+        $payload = static::parseAttributeDefaults($payload, $defaults);
 
         return new Job([
             'title' => $payload['jobtitle'],
@@ -57,26 +77,5 @@ class Indeed extends AbstractClient
             .'l='.urlencode($this->city.', '.$this->state).'&'
             .'start='.$this->page.'&'
             .'limit='.$this->count;
-    }
-
-    /**
-     * [parseDefaults description]
-     *
-     * @param  [type]  [description]
-     *
-     * @return [type]  [description]
-     */
-    private function parseDefaults($attributes)
-    {
-        $defaults = ['jobtitle', 'company', 'formattedLocation', 'source',
-            'date', 'snippet', 'url', 'jobkey'];
-
-        array_map(function ($attribute) use (&$attributes) {
-            if (!isset($attributes[$attribute])) {
-                $attributes[$attribute] = null;
-            }
-        }, $defaults);
-
-        return $attributes;
     }
 }

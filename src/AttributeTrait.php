@@ -3,11 +3,12 @@
 trait AttributeTrait
 {
     /**
-     * [__get description]
+     * Magic method to get protected property, if exists
      *
-     * @param  [type]  [description]
+     * @param  string $name
      *
-     * @return [type]  [description]
+     * @return mixed
+     * @throws OutOfRangeException
      */
     public function __get($name)
     {
@@ -23,10 +24,13 @@ trait AttributeTrait
     }
 
     /**
-     * [__set description]
+     * Magic method to set protected property, if exists
      *
-     * @param [type]  [description]
-     * @param [type]  [description]
+     * @param  string $property
+     * @param  mixed $value
+     *
+     * @return mixed
+     * @throws OutOfRangeException
      */
     public function __set($property, $value)
     {
@@ -41,11 +45,11 @@ trait AttributeTrait
     }
 
     /**
-     * [__isset description]
+     * Magic method to check if property is set
      *
-     * @param  [type]   [description]
+     * @param  string $name
      *
-     * @return boolean  [description]
+     * @return boolean
      */
     public function __isset($name)
     {
@@ -53,14 +57,15 @@ trait AttributeTrait
     }
 
     /**
-     * [__call description]
+     * Magic method to handle get and set methods for properties
      *
-     * @param  [type]  [description]
-     * @param  [type]  [description]
+     * @param  string $method
+     * @param  array  $parameters
      *
-     * @return [type]  [description]
+     * @return mixed
+     * @throws BadMethodCallException
      */
-    public function __call($method, $parameters = [])
+    public function __call($method, $parameters)
     {
         $attribute = $this->getAttributeFromGetSetMethod($method);
         $value = count($parameters) ? $parameters[0] : null;
@@ -77,11 +82,11 @@ trait AttributeTrait
     }
 
     /**
-     * [getAttributeFromGetSetMethod description]
+     * Get property name from get and set method names
      *
-     * @param  [type]  [description]
+     * @param  string $method
      *
-     * @return [type]  [description]
+     * @return string
      */
     private function getAttributeFromGetSetMethod($method)
     {
@@ -89,11 +94,11 @@ trait AttributeTrait
     }
 
     /**
-     * [isGetterMethod description]
+     * Checks if given method name is a get method
      *
-     * @param  [type]   [description]
+     * @param  string $method
      *
-     * @return boolean  [description]
+     * @return boolean
      */
     private function isGetterMethod($method)
     {
@@ -101,11 +106,11 @@ trait AttributeTrait
     }
 
     /**
-     * [isSetterMethod description]
+     * Checks if given method name is a set method
      *
-     * @param  [type]   [description]
+     * @param  string $method
      *
-     * @return boolean  [description]
+     * @return boolean
      */
     private function isSetterMethod($method)
     {

@@ -184,6 +184,8 @@ abstract class AbstractClient
      */
     protected static function getValue($index, $value)
     {
+        $current_index = 0;
+
         if (is_array($index) &&
             count($index)) {
             $current_index = array_shift($index);
@@ -210,6 +212,25 @@ abstract class AbstractClient
     public function getVerb()
     {
         return 'GET';
+    }
+
+    /**
+     * Parse job attributes against defaults
+     *
+     * @param  array $attributes
+     * @param  array $defaults
+     *
+     * @return array
+     */
+    public static function parseAttributeDefaults(array $attributes, array $defaults = array())
+    {
+        array_map(function ($attribute) use (&$attributes) {
+            if (!isset($attributes[$attribute])) {
+                $attributes[$attribute] = null;
+            }
+        }, $defaults);
+
+        return $attributes;
     }
 
     /**
