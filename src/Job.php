@@ -1,6 +1,25 @@
 <?php namespace JobBrander\Jobs\Client;
 
 /**
+ * @method Job addCompanies($value)
+ * @method Job addLocations($value)
+ * @method Job addIndustries($value)
+ * @method Job addDates($value)
+ * @method Job addSalaries($value)
+ * @method Job addCodes($value)
+ * @method Job getId($value)
+ * @method Job getTitle($value)
+ * @method Job getDescription($value)
+ * @method Job getSource($value)
+ * @method Job getUrl($value)
+ * @method Job getQuery($value)
+ * @method Job getType($value)
+ * @method Job getCompanies($value)
+ * @method Job getLocations($value)
+ * @method Job getIndustries($value)
+ * @method Job getDates($value)
+ * @method Job getSalaries($value)
+ * @method Job getCodes($value)
  * @method Job setId($value)
  * @method Job setTitle($value)
  * @method Job setDescription($value)
@@ -73,42 +92,42 @@ class Job
      *
      * @var array
      */
-    protected $companies;
+    protected $companies = [];
 
     /**
      * Job Locations
      *
      * @var array
      */
-    protected $locations;
+    protected $locations = [];
 
     /**
      * Job Industries
      *
      * @var array
      */
-    protected $industries;
+    protected $industries =[];
 
     /**
      * Job Dates
      *
      * @var array
      */
-    protected $dates;
+    protected $dates = [];
 
     /**
      * Job Salaries
      *
      * @var array
      */
-    protected $salaries;
+    protected $salaries = [];
 
     /**
      * Job Codes
      *
      * @var array
      */
-    protected $codes;
+    protected $codes = [];
 
     /**
      * Create new job

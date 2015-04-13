@@ -76,9 +76,31 @@ trait AttributeTrait
             return $this;
         } elseif ($this->isGetterMethod($method)) {
             return $this->{$attribute};
+        } elseif ($this->isAdderMethod($method)) {
+            return $this->addToArrayProperty($attribute, $value);
         }
 
         throw new \BadMethodCallException;
+    }
+
+    /**
+     * Add a value to a given array property. If property is not array,
+     * transform into array.
+     *
+     * @param  string $attribute
+     * @param  mixed  $value
+     *
+     * @return mixed
+     */
+    private function addToArrayProperty($attribute, $value)
+    {
+        if (property_exists($this, $attribute)) {
+            if (is_array($this->$attribute)) {
+                array_push($this->$attribute, $value);
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -90,7 +112,19 @@ trait AttributeTrait
      */
     private function getAttributeFromGetSetMethod($method)
     {
-        return lcfirst(preg_replace('/[s|g]et/', '', $method));
+        return lcfirst(preg_replace('/[s|g]et|add/', '', $method));
+    }
+
+    /**
+     * Checks if given method name is an add method
+     *
+     * @param  string $method
+     *
+     * @return boolean
+     */
+    private function isAdderMethod($method)
+    {
+        return substr($method, 0, 3) === "add";
     }
 
     /**

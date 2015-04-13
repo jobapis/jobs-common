@@ -37,7 +37,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "JobBrander\\Jobs\\Client\\Test\\": "tests/src/"
+            "JobBrander\\Jobs\\Client\\Test\\": "test/src/"
         }
     }
 }

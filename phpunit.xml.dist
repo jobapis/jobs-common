@@ -22,7 +22,7 @@
     </logging>
     <testsuites>
         <testsuite name="Package Test Suite">
-            <directory suffix=".php">./tests/</directory>
+            <directory suffix=".php">./test/</directory>
         </testsuite>
     </testsuites>
     <filter>
@@ -30,7 +30,7 @@
             <directory suffix=".php">./</directory>
             <exclude>
                 <directory suffix=".php">./vendor</directory>
-                <directory suffix=".php">./tests</directory>
+                <directory suffix=".php">./test</directory>
             </exclude>
         </whitelist>
     </filter>

@@ -143,7 +143,16 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
     public function testSetCompanies()
     {
-        //
+        $companies = [uniqid()];
+        $this->job->setCompanies($companies);
+        $this->assertEquals($companies, $this->job->companies);
+    }
+
+    public function testAddCompanies()
+    {
+        $company = uniqid();
+        $this->job->addCompanies($company);
+        $this->assertContains($company, $this->job->companies);
     }
 
 }
