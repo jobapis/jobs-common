@@ -14,31 +14,31 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->job = new Job();
     }
 
-    public function testGetId()
+    public function testGetSourceId()
     {
-        $id = uniqid();
+        $sourceId = uniqid();
 
-        $result = $this->job->setId($id)->getId();
+        $result = $this->job->setSourceId($sourceId)->getSourceId();
 
-        $this->assertEquals($id, $result);
+        $this->assertEquals($sourceId, $result);
     }
 
     public function testInstantiateJobWithAttributes()
     {
-        $id = uniqid();
+        $sourceId = uniqid();
         $title = "test title";
         $job = new Job([
-            'id' => $id,
+            'sourceId' => $sourceId,
             'title' => $title
         ]);
 
-        $this->assertEquals($id, $job->id);
+        $this->assertEquals($sourceId, $job->sourceId);
         $this->assertEquals($title, $job->title);
     }
 
     public function testItCanCheckIfExistingPropertyIsset()
     {
-        $key = 'id';
+        $key = 'sourceId';
         $value = uniqid();
 
         $this->job->{$key} = $value;
@@ -49,7 +49,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
     public function testItCanSetAndGetExistingProperty()
     {
-        $key = 'id';
+        $key = 'sourceId';
         $value = uniqid();
 
         $this->job->{$key} = $value;
@@ -89,14 +89,14 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->job->{$key} = $value;
     }
 
-    public function testSetId()
+    public function testSetSourceId()
     {
         // Arrange
-        $id = uniqid();
+        $sourceId = uniqid();
         // Act
-        $this->job->setId($id);
+        $this->job->setSourceId($sourceId);
         // Assert
-        $this->assertEquals($id, $this->job->id);
+        $this->assertEquals($sourceId, $this->job->sourceId);
     }
 
     public function testSetTitle()

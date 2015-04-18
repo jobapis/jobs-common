@@ -1,0 +1,71 @@
+#rdfa:
+# - tests/data/schema.rdfa
+#relations:
+# - tests/data/v1.owl
+# The PHP namespace of generated entities
+annotationGenerators:
+    - SchemaOrgModel\AnnotationGenerator\PhpDocAnnotationGenerator
+doctrine:
+  useCollection: false
+namespaces:
+  entity: "JobBrander\Jobs\Client\Schema\Entity"
+  enum: "JobBrander\Jobs\Client\Schema\Enum"
+  interface: "JobBrander\Jobs\Client\Schema\Contract"
+generateId: false
+header: |
+  /*
+   * This class was automatically generated.
+   */
+fieldVisibility: "protected"
+# The list of types and properties we want to use
+types:
+  DataType:
+  JobPosting:
+    parent: Thing
+    properties:
+      baseSalary: { range: "Number"}
+      benefits: { range: "Text"}
+      datePosted: { range: "Date"}
+      educationRequirements: { range: "Text"}
+      employmentType: { range: "Text"}
+      experienceRequirements: { range: "Text"}
+      hiringOrganization: { range: "Organization"}
+      incentives: { range: "Text"}
+      industry: { range: "Text"}
+      jobLocation: { range: "Place"}
+      occupationalCategory: { range: "Text"}
+      qualifications: { range: "Text"}
+      responsibilities: { range: "Text"}
+      salaryCurrency: { range: "Text"}
+      skills: { range: "Text"}
+      specialCommitments: { range: "Text"}
+      title: { range: "Text"}
+      workHours: { range: "Text"}
+  Organization:
+    properties:
+      address: { range: "PostalAddress"}
+      email: { range: "Text"}
+      telephone: { range: "Text"}
+  Place:
+    properties:
+      address: { range: "PostalAddress"}
+      telephone: { range: "Text"}
+  PostalAddress:
+    # Disable the generation of the class hierarchy for this type
+    parent: false
+    properties:
+      # Force the type of the addressCountry property to text
+      addressCountry: { range: "Text" }
+      addressLocality: ~
+      addressRegion: ~
+      postOfficeBoxNumber: ~
+      postalCode: ~
+      streetAddress: ~
+  Text:
+  # Parent class of JobPosting
+  Thing:
+    properties:
+      name: { range: "Text" }
+      description: { range: "Text" }
+      alternateName: { range: "Text" }
+      url: { range: "Text" }
