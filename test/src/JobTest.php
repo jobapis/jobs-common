@@ -141,6 +141,38 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($input, $this->job->type);
     }
 
+    public function testSetStartDate()
+    {
+        $input = '10-13-1988';
+        $this->job->setStartDate($input);
+        $this->assertEquals($input, $this->job->startDate);
+        $this->assertEquals($input, $this->job->getStartDate());
+    }
+
+    public function testSetEndDate()
+    {
+        $input = '10-13-2016';
+        $this->job->setEndDate($input);
+        $this->assertEquals($input, $this->job->endDate);
+        $this->assertEquals($input, $this->job->getEndDate());
+    }
+
+    public function testSetMinimumSalary()
+    {
+        $input = '10000';
+        $this->job->setMinimumSalary($input);
+        $this->assertEquals($input, $this->job->minimumSalary);
+        $this->assertEquals($input, $this->job->getMinimumSalary());
+    }
+
+    public function testSetMaximumSalary()
+    {
+        $input = '100000';
+        $this->job->setMaximumSalary($input);
+        $this->assertEquals($input, $this->job->maximumSalary);
+        $this->assertEquals($input, $this->job->getMaximumSalary());
+    }
+
     public function testSetCompanies()
     {
         $companies = [uniqid()];

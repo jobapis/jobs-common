@@ -27,11 +27,13 @@
  * @method Job setUrl($value)
  * @method Job setQuery($value)
  * @method Job setType($value)
+ * @method Job setStartDate($value)
+ * @method Job setEndDate($value)
+ * @method Job setMinimumSalary($value)
+ * @method Job setMaximumSalary($value)
  * @method Job setCompanies($value)
  * @method Job setLocations($value)
  * @method Job setIndustries($value)
- * @method Job setDates($value)
- * @method Job setSalaries($value)
  * @method Job setCodes($value)
  */
 class Job
@@ -88,6 +90,34 @@ class Job
     protected $type;
 
     /**
+     * Job Start Date
+     *
+     * @var string
+     */
+    protected $startDate;
+
+    /**
+     * Job End Date
+     *
+     * @var string
+     */
+    protected $endDate;
+
+    /**
+     * Job Minimum Salary
+     *
+     * @var array
+     */
+    protected $minimumSalary;
+
+    /**
+     * Job Maximum Salary
+     *
+     * @var array
+     */
+    protected $maximumSalary;
+
+    /**
      * Job Companies
      *
      * @var array
@@ -107,20 +137,6 @@ class Job
      * @var array
      */
     protected $industries =[];
-
-    /**
-     * Job Dates
-     *
-     * @var array
-     */
-    protected $dates = [];
-
-    /**
-     * Job Salaries
-     *
-     * @var array
-     */
-    protected $salaries = [];
 
     /**
      * Job Codes
