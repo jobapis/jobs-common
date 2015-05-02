@@ -135,7 +135,7 @@ abstract class AbstractProvider
      *
      * @return Collection
      */
-    private function getJobsCollectionFromListings($listings)
+    protected function getJobsCollectionFromListings(array $listings = array())
     {
         $collection = new Collection;
 
@@ -170,7 +170,7 @@ abstract class AbstractProvider
      *
      * @return array
      */
-    protected function getRawListings($payload = [])
+    protected function getRawListings(array $payload = array())
     {
         $path = $this->getListingsPath();
 
@@ -185,6 +185,8 @@ abstract class AbstractProvider
 
     /**
      * Get short name of a given or current class
+     *
+     * @param  object $object Optional object
      *
      * @return string
      */
