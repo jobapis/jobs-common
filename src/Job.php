@@ -1,5 +1,38 @@
 <?php namespace JobBrander\Jobs\Client;
 
+/**
+ * @method Job addCodes($value)
+ * @method Job getId()
+ * @method Job getTitle()
+ * @method Job getDescription()
+ * @method Job getSource()
+ * @method Job getUrl()
+ * @method Job getQuery()
+ * @method Job getType()
+ * @method Job getCompany()
+ * @method Job getLocation()
+ * @method Job getIndustry()
+ * @method Job getStartDate()
+ * @method Job getEndDate()
+ * @method Job getMinimumSalariy()
+ * @method Job getMaximumSalariy()
+ * @method Job getCodes()
+ * @method Job setId($value)
+ * @method Job setTitle($value)
+ * @method Job setDescription($value)
+ * @method Job setSource($value)
+ * @method Job setUrl($value)
+ * @method Job setQuery($value)
+ * @method Job setType($value)
+ * @method Job setStartDate($value)
+ * @method Job setEndDate($value)
+ * @method Job setMinimumSalary($value)
+ * @method Job setMaximumSalary($value)
+ * @method Job setCompany($value)
+ * @method Job setLocation($value)
+ * @method Job setIndustry($value)
+ * @method Job setCodes($value)
+ */
 class Job extends Schema\Entity\JobPosting
 {
     use AttributeTrait;
@@ -33,39 +66,53 @@ class Job extends Schema\Entity\JobPosting
     protected $type;
 
     /**
-     * Job Companies
+     * Job Start Date
      *
-     * @var array
+     * @var string
      */
-    protected $companies = [];
+    protected $startDate;
 
     /**
-     * Job Locations
+     * Job End Date
      *
-     * @var array
+     * @var string
      */
-    protected $locations = [];
+    protected $endDate;
 
     /**
-     * Job Industries
+     * Job Minimum Salary
      *
-     * @var array
+     * @var string
      */
-    protected $industries =[];
+    protected $minimumSalary;
 
     /**
-     * Job Dates
+     * Job Maximum Salary
      *
-     * @var array
+     * @var string
      */
-    protected $dates = [];
+    protected $maximumSalary;
 
     /**
-     * Job Salaries
+     * Job Company
      *
-     * @var array
+     * @var string
      */
-    protected $salaries = [];
+    protected $company;
+
+    /**
+     * Job Location
+     *
+     * @var string
+     */
+    protected $location;
+
+    /**
+     * Job Industry
+     *
+     * @var string
+     */
+    protected $industry;
 
     /**
      * Job Codes

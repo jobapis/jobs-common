@@ -1,6 +1,33 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 0.3.0 - 2015-05-02
+
+### Added
+- Added support for Job Start date
+- Added support for Job End date
+- Added support for Job Minimum Salary
+- Added support for Job Maximum Salary
+- Added support for Job Company
+- Added support for Job Industry
+- Added support for Job Location
+- Improved support for source attribution
+
+### Deprecated
+- Job Companies
+- Job Industries
+- Job Locations 
+- Job Dates
+
+### Fixed
+- Nothing
+
+### Removed
+- Nothing
+
+### Security
+- Nothing
+
 ## 0.2.0 - 2015-04-13
 
 ### Added

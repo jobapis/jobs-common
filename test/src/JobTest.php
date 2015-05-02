@@ -141,18 +141,75 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($input, $this->job->type);
     }
 
-    public function testSetCompanies()
+    public function testSetStartDate()
     {
-        $companies = [uniqid()];
-        $this->job->setCompanies($companies);
-        $this->assertEquals($companies, $this->job->companies);
+        $input = '10-13-1988';
+        $this->job->setStartDate($input);
+        $this->assertEquals($input, $this->job->startDate);
+        $this->assertEquals($input, $this->job->getStartDate());
     }
 
-    public function testAddCompanies()
+    public function testSetEndDate()
+    {
+        $input = '10-13-2016';
+        $this->job->setEndDate($input);
+        $this->assertEquals($input, $this->job->endDate);
+        $this->assertEquals($input, $this->job->getEndDate());
+    }
+
+    public function testSetMinimumSalary()
+    {
+        $input = '10000';
+        $this->job->setMinimumSalary($input);
+        $this->assertEquals($input, $this->job->minimumSalary);
+        $this->assertEquals($input, $this->job->getMinimumSalary());
+    }
+
+    public function testSetMaximumSalary()
+    {
+        $input = '100000';
+        $this->job->setMaximumSalary($input);
+        $this->assertEquals($input, $this->job->maximumSalary);
+        $this->assertEquals($input, $this->job->getMaximumSalary());
+    }
+
+    public function testSetCompany()
     {
         $company = uniqid();
-        $this->job->addCompanies($company);
-        $this->assertContains($company, $this->job->companies);
+        $this->job->setCompany($company);
+        $this->assertEquals($company, $this->job->company);
+        $this->assertEquals($company, $this->job->getCompany());
     }
 
+    public function testSetLocation()
+    {
+        $location = uniqid();
+        $this->job->setLocation($location);
+        $this->assertEquals($location, $this->job->location);
+        $this->assertEquals($location, $this->job->getLocation());
+    }
+
+    public function testSetIndustry()
+    {
+        $industry = uniqid();
+        $this->job->setIndustry($industry);
+        $this->assertEquals($industry, $this->job->industry);
+        $this->assertEquals($industry, $this->job->getIndustry());
+    }
+
+    public function testSetCodes()
+    {
+        $codes = [uniqid()];
+        $this->job->setCodes($codes);
+        $this->assertEquals($codes, $this->job->codes);
+        $this->assertEquals($codes, $this->job->getCodes());
+    }
+
+    public function testAddCodes()
+    {
+        $code = uniqid();
+        $this->job->addCodes($code);
+        $this->assertContains($code, $this->job->codes);
+        $this->assertContains($code, $this->job->getCodes());
+    }
 }
