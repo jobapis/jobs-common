@@ -83,6 +83,16 @@ abstract class AbstractProvider
     abstract public function getFormat();
 
     /**
+     * Get source attribution
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return $this->getShortName();
+    }
+
+    /**
      * Get http client options based on current client
      *
      * @return array
@@ -119,7 +129,8 @@ abstract class AbstractProvider
 
         array_map(function ($item) use ($collection) {
             $job = $this->createJobObject($item);
-            $job->setQuery($this->keyword);
+            $job->setQuery($this->keyword)
+                ->setSource($this->getSource());
             $collection->add($job);
         }, $listings);
 
@@ -158,6 +169,22 @@ abstract class AbstractProvider
         }
 
         return (array) $payload;
+    }
+
+    /**
+     * Get short name of a given or current class
+     *
+     * @return string
+     */
+    private function getShortName($object = null)
+    {
+        if (is_null($object)) {
+            $object = $this;
+        }
+
+        $ref = new \ReflectionClass(get_class($object));
+
+        return $ref->getShortName();
     }
 
     /**

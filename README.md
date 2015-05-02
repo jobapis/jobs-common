@@ -85,6 +85,8 @@ abstract public function getVerb();
 Each of these abstract methods contain a docblock defining their expectations and typical behaviour. Once you have
 extended this class, you can simply follow the example above using your new `Provider`.
 
+Each job object that is created will automatically set `source` and `query` based on the criteria passed into the provider. If you would like to customize this `source` value, your provider must implement a `getSource` method that returns a string to identify your provider's source.
+
 #### Make your provider official
 
 If you want to transfer your provider to the `jobbrander` GitHub organization and add it to the list of officially supported providers, please open a pull request on the jobbrander/jobs-common package. Before new providers will be accepted, they must have 100% unit test code coverage, and follow the conventions and code style used in other Jobs Client providers.

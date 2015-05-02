@@ -42,6 +42,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $path = uniqid();
         $format = uniqid();
         $keyword = uniqid();
+        $source = uniqid();
         $params = [uniqid()];
         $jobs_count = rand(2,10);
         $payload = [$path => []];
@@ -52,10 +53,12 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 
         $job = m::mock($this->jobClass);
         $job->shouldReceive('setQuery')->with($keyword)->times($jobs_count)->andReturnSelf();
+        $job->shouldReceive('setSource')->with($source)->times($jobs_count)->andReturnSelf();
 
         $this->client->keyword = $keyword;
         $this->client->shouldReceive('createJobObject')->times($jobs_count)->andReturn($job);
         $this->client->shouldReceive('getFormat')->andReturn($format);
+        $this->client->shouldReceive('getSource')->andReturn($source);
         $this->client->shouldReceive('getListingsPath')->andReturn($path);
         $this->client->shouldReceive('getParameters')->andReturn($params);
         $this->client->shouldReceive('getUrl')->andReturn($url);
@@ -182,5 +185,12 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     public function testItCanNotGetValueWhenIndexIsEmpty()
     {
         $value = $this->client->getValue(null, null);
+    }
+
+    public function testItCanGetSource()
+    {
+        $source = $this->client->getSource();
+
+        $this->assertNotNull($source);
     }
 }
