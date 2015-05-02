@@ -1,5 +1,9 @@
 <?php namespace JobBrander\Jobs\Client;
 
+use JobBrander\Jobs\Client\Schema\Entity\JobPosting;
+use JobBrander\Jobs\Client\Schema\Entity\Place;
+use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
+
 /**
  * @method Job addCodes($value)
  * @method Job getId()
@@ -33,7 +37,7 @@
  * @method Job setIndustry($value)
  * @method Job setCodes($value)
  */
-class Job extends Schema\Entity\JobPosting
+class Job extends JobPosting
 {
     use AttributeTrait;
 
@@ -131,6 +135,188 @@ class Job extends Schema\Entity\JobPosting
         array_walk($attributes, function ($value, $key) {
             $this->{$key} = $value;
         });
+    }
+
+    /**
+     * Get city
+     *
+     * @return string
+     */
+    public function getCity()
+    {
+        $location = $this->getJobLocation();
+
+        if ($location) {
+            $address = $location->getAddress();
+
+            if ($address) {
+                return $address->getAddressLocality();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     *
+     * @return $this
+     */
+    public function setCity($city)
+    {
+        $location = $this->getJobLocation();
+
+        if (!$location) {
+            $location = new Place;
+        }
+
+        $address = $location->getAddress();
+
+        if (!$address) {
+            $address = new PostalAddress;
+        }
+
+        $address->setAddressLocality($city);
+
+        $location->setAddress($address);
+
+        return $this->setJobLocation($location);
+    }
+
+    /**
+     * Get state
+     *
+     * @return string
+     */
+    public function getState()
+    {
+        $location = $this->getJobLocation();
+
+        if ($location) {
+            $address = $location->getAddress();
+
+            if ($address) {
+                return $address->getAddressRegion();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Set state
+     *
+     * @param string $state
+     *
+     * @return $this
+     */
+    public function setState($state)
+    {
+        $location = $this->getJobLocation();
+
+        if (!$location) {
+            $location = new Place;
+        }
+
+        $address = $location->getAddress();
+
+        if (!$address) {
+            $address = new PostalAddress;
+        }
+
+        $address->setAddressRegion($state);
+
+        $location->setAddress($address);
+
+        return $this->setJobLocation($location);
+    }
+
+    /**
+     * Get telephone
+     *
+     * @return string
+     */
+    public function getTelephone()
+    {
+        $location = $this->getJobLocation();
+
+        if ($location) {
+            return $location->getTelephone();
+        }
+
+        return null;
+    }
+
+    /**
+     * Set telephone
+     *
+     * @param string $telephone
+     *
+     * @return $this
+     */
+    public function setTelephone($telephone)
+    {
+        $location = $this->getJobLocation();
+
+        if (!$location) {
+            $location = new Place;
+        }
+
+        $location->setTelephone($telephone);
+
+        return $this->setJobLocation($location);
+    }
+
+    /**
+     * Set minimum salary
+     *
+     * @param float $salary
+     *
+     * @return $this
+     */
+    public function setMinimumSalary($salary)
+    {
+        $this->minimumSalary = $salary;
+
+        return $this->setBaseSalary($salary);
+    }
+
+    /**
+     * Get minimum salary
+     *
+     * @return float
+     */
+    public function getMinimumSalary()
+    {
+        return $this->minimumSalary;
+    }
+
+    /**
+     * Set location
+     *
+     * @param string $location
+     *
+     * @return $this
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
+
+        //return $this->setJobLocation($location);
+    }
+
+    /**
+     * Get location
+     *
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 
     /**

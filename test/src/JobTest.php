@@ -212,4 +212,31 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertContains($code, $this->job->codes);
         $this->assertContains($code, $this->job->getCodes());
     }
+
+    public function testSetCity()
+    {
+        $city = uniqid();
+
+        $this->job->setCity($city);
+
+        $this->assertEquals($city, $this->job->getCity());
+    }
+
+    public function testSetState()
+    {
+        $state = uniqid();
+
+        $this->job->setState($state);
+
+        $this->assertEquals($state, $this->job->getState());
+    }
+
+    public function testSetTelephone()
+    {
+        $telephone = uniqid();
+
+        $this->job->setTelephone($telephone);
+
+        $this->assertEquals($telephone, $this->job->getTelephone());
+    }
 }
