@@ -125,6 +125,18 @@ abstract class AbstractProvider
 
         $listings = $this->getRawListings($payload);
 
+        return $this->getJobsCollectionFromListings($listings);
+    }
+
+    /**
+     * Create and get collection of jobs from given listings
+     *
+     * @param  array $listings
+     *
+     * @return Collection
+     */
+    private function getJobsCollectionFromListings($listings)
+    {
         $collection = new Collection;
 
         array_map(function ($item) use ($collection) {
