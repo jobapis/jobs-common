@@ -110,7 +110,6 @@ $ ./vendor/bin/phpunit
 
 Please see [CONTRIBUTING](https://github.com/jobbrander/jobs-common/blob/master/CONTRIBUTING.md) for details.
 
-
 ## Credits
 
 - [Karl Hughes](https://github.com/karllhughes)
