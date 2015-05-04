@@ -1,6 +1,23 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 0.3.1 - 2015-05-02
+
+### Added
+- Added visibility to getJobsCollectionFromListings method
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Nothing
+
+### Removed
+- Nothing
+
+### Security
+- Nothing
+
 ## 0.3.0 - 2015-05-02
 
 ### Added
