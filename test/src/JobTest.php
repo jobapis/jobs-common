@@ -213,6 +213,15 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertContains($code, $this->job->getCodes());
     }
 
+    public function testSetStreetAddress()
+    {
+        $address = uniqid();
+
+        $this->job->setStreetAddress($address);
+
+        $this->assertEquals($address, $this->job->getStreetAddress());
+    }
+
     public function testSetCity()
     {
         $city = uniqid();
@@ -229,6 +238,24 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->job->setState($state);
 
         $this->assertEquals($state, $this->job->getState());
+    }
+
+    public function testSetCountry()
+    {
+        $country = uniqid();
+
+        $this->job->setCountry($country);
+
+        $this->assertEquals($country, $this->job->getCountry());
+    }
+
+    public function testSetPostalCode()
+    {
+        $postal_code = uniqid();
+
+        $this->job->setPostalCode($postal_code);
+
+        $this->assertEquals($postal_code, $this->job->getPostalCode());
     }
 
     public function testSetTelephone()

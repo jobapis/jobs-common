@@ -138,6 +138,46 @@ class Job extends JobPosting
     }
 
     /**
+     * Get street address
+     *
+     * @return string
+     */
+    public function getStreetAddress()
+    {
+        $location = $this->getJobLocation();
+
+        if ($location) {
+            $address = $location->getAddress();
+
+            if ($address) {
+                return $address->getStreetAddress();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Set street address
+     *
+     * @param string $street_address
+     *
+     * @return $this
+     */
+    public function setStreetAddress($street_address)
+    {
+        $location = $this->getOrCreateJobLocation();
+
+        $address = $this->getOrCreatePostalAddress($location);
+
+        $address->setStreetAddress($street_address);
+
+        $location->setAddress($address);
+
+        return $this->setJobLocation($location);
+    }
+
+    /**
      * Get city
      *
      * @return string
@@ -166,17 +206,9 @@ class Job extends JobPosting
      */
     public function setCity($city)
     {
-        $location = $this->getJobLocation();
+        $location = $this->getOrCreateJobLocation();
 
-        if (!$location) {
-            $location = new Place;
-        }
-
-        $address = $location->getAddress();
-
-        if (!$address) {
-            $address = new PostalAddress;
-        }
+        $address = $this->getOrCreatePostalAddress($location);
 
         $address->setAddressLocality($city);
 
@@ -214,19 +246,91 @@ class Job extends JobPosting
      */
     public function setState($state)
     {
-        $location = $this->getJobLocation();
+        $location = $this->getOrCreateJobLocation();
 
-        if (!$location) {
-            $location = new Place;
-        }
-
-        $address = $location->getAddress();
-
-        if (!$address) {
-            $address = new PostalAddress;
-        }
+        $address = $this->getOrCreatePostalAddress($location);
 
         $address->setAddressRegion($state);
+
+        $location->setAddress($address);
+
+        return $this->setJobLocation($location);
+    }
+
+    /**
+     * Get postal code
+     *
+     * @return string
+     */
+    public function getPostalCode()
+    {
+        $location = $this->getJobLocation();
+
+        if ($location) {
+            $address = $location->getAddress();
+
+            if ($address) {
+                return $address->getPostalCode();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Set postal code
+     *
+     * @param string $postal_code
+     *
+     * @return $this
+     */
+    public function setPostalCode($postal_code)
+    {
+        $location = $this->getOrCreateJobLocation();
+
+        $address = $this->getOrCreatePostalAddress($location);
+
+        $address->setPostalCode($postal_code);
+
+        $location->setAddress($address);
+
+        return $this->setJobLocation($location);
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        $location = $this->getJobLocation();
+
+        if ($location) {
+            $address = $location->getAddress();
+
+            if ($address) {
+                return $address->getAddressCountry();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     *
+     * @return $this
+     */
+    public function setCountry($country)
+    {
+        $location = $this->getOrCreateJobLocation();
+
+        $address = $this->getOrCreatePostalAddress($location);
+
+        $address->setAddressCountry($country);
 
         $location->setAddress($address);
 
@@ -258,11 +362,7 @@ class Job extends JobPosting
      */
     public function setTelephone($telephone)
     {
-        $location = $this->getJobLocation();
-
-        if (!$location) {
-            $location = new Place;
-        }
+        $location = $this->getOrCreateJobLocation();
 
         $location->setTelephone($telephone);
 
@@ -305,8 +405,6 @@ class Job extends JobPosting
         $this->location = $location;
 
         return $this;
-
-        //return $this->setJobLocation($location);
     }
 
     /**
@@ -413,5 +511,27 @@ class Job extends JobPosting
     public function getType()
     {
         return $this->type;
+    }
+
+    private function getOrCreateJobLocation()
+    {
+        $location = $this->getJobLocation();
+
+        if (!$location) {
+            $location = new Place;
+        }
+
+        return $location;
+    }
+
+    private function getOrCreatePostalAddress($location)
+    {
+        $address = $location->getAddress();
+
+        if (!$address) {
+            $address = new PostalAddress;
+        }
+
+        return $address;
     }
 }
