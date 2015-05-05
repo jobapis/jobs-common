@@ -22,6 +22,10 @@ class Organization extends Thing
      */
     protected $email;
     /**
+     * @var string An associated logo.
+     */
+    protected $logo;
+    /**
      * @var string The telephone number.
      */
     protected $telephone;
@@ -72,6 +76,30 @@ class Organization extends Thing
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Sets logo.
+     *
+     * @param string $logo
+     *
+     * @return $this
+     */
+    public function setLogo($logo)
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    /**
+     * Gets logo.
+     *
+     * @return string
+     */
+    public function getLogo()
+    {
+        return $this->logo;
     }
 
     /**

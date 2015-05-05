@@ -45,6 +45,7 @@ types:
     properties:
       address: { range: "PostalAddress"}
       email: { range: "Text"}
+      logo: { range: "Text" }
       telephone: { range: "Text"}
   Place:
     properties:

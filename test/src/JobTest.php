@@ -1,6 +1,9 @@
 <?php namespace JobBrander\Jobs\Client\Test;
 
 use JobBrander\Jobs\Client\Job;
+use JobBrander\Jobs\Client\Schema\Entity\Organization;
+use JobBrander\Jobs\Client\Schema\Entity\Place;
+use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
 
 /**
  *  Uses PHPUnit to test methods and properties set in
@@ -118,6 +121,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $input = 'SourceName';
         $this->job->setSource($input);
         $this->assertEquals($input, $this->job->source);
+        $this->assertEquals($input, $this->job->getSource());
     }
 
     public function testSetUrl()
@@ -125,6 +129,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $input = 'http://www.example.com/job-listing-url';
         $this->job->setUrl($input);
         $this->assertEquals($input, $this->job->url);
+        $this->assertEquals($input, $this->job->getUrl());
     }
 
     public function testSetQuery()
@@ -132,6 +137,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $input = 'engineering';
         $this->job->setQuery($input);
         $this->assertEquals($input, $this->job->query);
+        $this->assertEquals($input, $this->job->getQuery());
     }
 
     public function testSetType()
@@ -139,6 +145,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $input = 'part-time';
         $this->job->setType($input);
         $this->assertEquals($input, $this->job->type);
+        $this->assertEquals($input, $this->job->getType());
     }
 
     public function testSetStartDate()
@@ -178,6 +185,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $company = uniqid();
         $this->job->setCompany($company);
         $this->assertEquals($company, $this->job->company);
+        $this->assertEquals($company, $this->job->getCompanyName());
         $this->assertEquals($company, $this->job->getCompany());
     }
 
@@ -216,54 +224,96 @@ class JobTest extends \PHPUnit_Framework_TestCase
     public function testSetStreetAddress()
     {
         $address = uniqid();
-
         $this->job->setStreetAddress($address);
-
         $this->assertEquals($address, $this->job->getStreetAddress());
     }
 
     public function testSetCity()
     {
         $city = uniqid();
-
         $this->job->setCity($city);
-
         $this->assertEquals($city, $this->job->getCity());
     }
 
     public function testSetState()
     {
         $state = uniqid();
-
         $this->job->setState($state);
-
         $this->assertEquals($state, $this->job->getState());
     }
 
     public function testSetCountry()
     {
         $country = uniqid();
-
         $this->job->setCountry($country);
-
         $this->assertEquals($country, $this->job->getCountry());
     }
 
     public function testSetPostalCode()
     {
         $postal_code = uniqid();
-
         $this->job->setPostalCode($postal_code);
-
         $this->assertEquals($postal_code, $this->job->getPostalCode());
     }
 
     public function testSetTelephone()
     {
         $telephone = uniqid();
-
         $this->job->setTelephone($telephone);
-
         $this->assertEquals($telephone, $this->job->getTelephone());
     }
+
+    public function testSetCompanyName()
+    {
+        $company_name = uniqid();
+        $this->job->setCompanyName($company_name);
+        $this->assertEquals($company_name, $this->job->getCompanyName());
+    }
+
+    public function testSetCompanyDescription()
+    {
+        $description = uniqid();
+        $this->job->setCompanyDescription($description);
+        $this->assertEquals($description, $this->job->getCompanyDescription());
+    }
+
+    public function testSetCompanyEmail()
+    {
+        $email = uniqid();
+        $this->job->setCompanyEmail($email);
+        $this->assertEquals($email, $this->job->getCompanyEmail());
+    }
+
+    public function testSetCompanyLogo()
+    {
+        $logo = 'http://www.example.com/'.uniqid();
+        $this->job->setCompanyLogo($logo);
+        $this->assertEquals($logo, $this->job->getCompanyLogo());
+    }
+
+    public function testSetCompanyUrl()
+    {
+        $url = 'http://www.example.com/'.uniqid();
+        $this->job->setCompanyUrl($url);
+        $this->assertEquals($url, $this->job->getCompanyUrl());
+    }
+
+    public function testReturnNullForUnsetProperties()
+    {
+        $this->assertEquals(null, $this->job->getTelephone());
+
+        $this->assertEquals(null, $this->job->getCompanyName());
+        $this->assertEquals(null, $this->job->getCompanyDescription());
+        $this->assertEquals(null, $this->job->getCompanyLogo());
+        $this->assertEquals(null, $this->job->getCompanyEmail());
+        $this->assertEquals(null, $this->job->getCompanyUrl());
+
+        $this->job->setJobLocation(new Place);
+        $this->assertEquals(null, $this->job->getStreetAddress());
+        $this->assertEquals(null, $this->job->getCity());
+        $this->assertEquals(null, $this->job->getState());
+        $this->assertEquals(null, $this->job->getPostalCode());
+        $this->assertEquals(null, $this->job->getCountry());
+    }
+
 }

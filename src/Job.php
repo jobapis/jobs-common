@@ -1,6 +1,7 @@
 <?php namespace JobBrander\Jobs\Client;
 
 use JobBrander\Jobs\Client\Schema\Entity\JobPosting;
+use JobBrander\Jobs\Client\Schema\Entity\Organization;
 use JobBrander\Jobs\Client\Schema\Entity\Place;
 use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
 
@@ -370,6 +371,180 @@ class Job extends JobPosting
     }
 
     /**
+     * Get hiring organization name
+     *
+     * @return string
+     */
+    public function getCompanyName()
+    {
+        $company = $this->getHiringOrganization();
+
+        if ($company) {
+            return $company->getName();
+        }
+
+        return null;
+    }
+
+    /**
+     * Set hiring organization name
+     *
+     * @param string $company_name
+     *
+     * @return $this
+     */
+    public function setCompanyName($company_name)
+    {
+        $company = $this->getOrCreateHiringOrganization();
+
+        $company->setName($company_name);
+
+        return $this->setHiringOrganization($company);
+    }
+
+    /**
+     * Get hiring organization description
+     *
+     * @return string
+     */
+    public function getCompanyDescription()
+    {
+        $company = $this->getHiringOrganization();
+
+        if ($company) {
+            return $company->getDescription();
+        }
+
+        return null;
+    }
+
+    /**
+     * Set hiring organization description
+     *
+     * @param string $company_name
+     *
+     * @return $this
+     */
+    public function setCompanyDescription($description)
+    {
+        $company = $this->getOrCreateHiringOrganization();
+
+        $company->setDescription($description);
+
+        return $this->setHiringOrganization($company);
+    }
+
+    /**
+     * Get hiring organization logo
+     *
+     * @return string
+     */
+    public function getCompanyLogo()
+    {
+        $company = $this->getHiringOrganization();
+
+        if ($company) {
+            return $company->getLogo();
+        }
+
+        return null;
+    }
+
+    /**
+     * Set hiring organization logo url
+     *
+     * @param string $logo (image url)
+     *
+     * @return $this
+     */
+    public function setCompanyLogo($logo)
+    {
+        $company = $this->getOrCreateHiringOrganization();
+
+        $company->setLogo($logo);
+
+        return $this->setHiringOrganization($company);
+    }
+
+    /**
+     * Get hiring organization email
+     *
+     * @return string
+     */
+    public function getCompanyEmail()
+    {
+        $company = $this->getHiringOrganization();
+
+        if ($company) {
+            return $company->getEmail();
+        }
+
+        return null;
+    }
+
+    /**
+     * Set hiring organization email
+     *
+     * @param string $company_name
+     *
+     * @return $this
+     */
+    public function setCompanyEmail($email)
+    {
+        $company = $this->getOrCreateHiringOrganization();
+
+        $company->setEmail($email);
+
+        return $this->setHiringOrganization($company);
+    }
+
+    /**
+     * Get hiring organization url
+     *
+     * @return string
+     */
+    public function getCompanyUrl()
+    {
+        $company = $this->getHiringOrganization();
+
+        if ($company) {
+            return $company->getUrl();
+        }
+
+        return null;
+    }
+
+    /**
+     * Set hiring organization url
+     *
+     * @param string $url
+     *
+     * @return $this
+     */
+    public function setCompanyUrl($url)
+    {
+        $company = $this->getOrCreateHiringOrganization();
+
+        $company->setUrl($url);
+
+        return $this->setHiringOrganization($company);
+    }
+
+    /**
+     * Set company (simple)
+     *
+     * @param string $company
+     *
+     * @return $this
+     */
+    public function setCompany($company)
+    {
+        $this->company = $company;
+
+        return $this->setCompanyName($company);
+    }
+
+    /**
      * Set minimum salary
      *
      * @param float $salary
@@ -533,5 +708,16 @@ class Job extends JobPosting
         }
 
         return $address;
+    }
+
+    private function getOrCreateHiringOrganization()
+    {
+        $company = $this->getHiringOrganization();
+
+        if (!$company) {
+            $company = new Organization;
+        }
+
+        return $company;
     }
 }
