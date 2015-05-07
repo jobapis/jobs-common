@@ -54,7 +54,9 @@ class JobPosting extends Thing
      */
     protected $jobLocation;
     /**
-     * @var string Category or categories describing the job. Use BLS O*NET-SOC taxonomy: http://www.onetcenter.org/taxonomy.html. Ideally includes textual label and formal code, with the property repeated for each applicable value.
+     * @var string Category or categories describing the job. Use BLS O*NET-SOC
+     * taxonomy: http://www.onetcenter.org/taxonomy.html. Ideally includes
+     * textual label and formal code, with the property repeated for each applicable value.
      */
     protected $occupationalCategory;
     /**
@@ -66,7 +68,8 @@ class JobPosting extends Thing
      */
     protected $responsibilities;
     /**
-     * @var string The currency (coded using ISO 4217, http://en.wikipedia.org/wiki/ISO_4217 ) used for the main salary information in this job posting or for this employee.
+     * @var string The currency (coded using ISO 4217, http://en.wikipedia.org/wiki/ISO_4217 )
+     * used for the main salary information in this job posting or for this employee.
      */
     protected $salaryCurrency;
     /**
@@ -74,7 +77,8 @@ class JobPosting extends Thing
      */
     protected $skills;
     /**
-     * @var string Any special commitments associated with this job posting. Valid entries include VeteranCommit, MilitarySpouseCommit, etc.
+     * @var string Any special commitments associated with this job posting.
+     * Valid entries include VeteranCommit, MilitarySpouseCommit, etc.
      */
     protected $specialCommitments;
     /**
