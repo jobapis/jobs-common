@@ -145,37 +145,26 @@ class Job extends JobPosting
      */
     public function getStreetAddress()
     {
-        $location = $this->getJobLocation();
+        $location = $this->getOrCreateJobLocation();
 
-        if ($location) {
-            $address = $location->getAddress();
-
-            if ($address) {
-                return $address->getStreetAddress();
-            }
-        }
-
-        return null;
+        return $this->getOrCreatePostalAddress($location)
+            ->getStreetAddress();
     }
 
     /**
      * Set street address
      *
-     * @param string $street_address
+     * @param string $streetAddress
      *
      * @return $this
      */
-    public function setStreetAddress($street_address)
+    public function setStreetAddress($streetAddress)
     {
-        $location = $this->getOrCreateJobLocation();
+        if (preg_match('/po box/', strtolower($streetAddress))) {
+            $this->updateAddressAttribute('postOfficeBoxNumber', $streetAddress);
+        }
 
-        $address = $this->getOrCreatePostalAddress($location);
-
-        $address->setStreetAddress($street_address);
-
-        $location->setAddress($address);
-
-        return $this->setJobLocation($location);
+        return $this->updateAddressAttribute('streetAddress', $streetAddress);
     }
 
     /**
@@ -185,17 +174,10 @@ class Job extends JobPosting
      */
     public function getCity()
     {
-        $location = $this->getJobLocation();
+        $location = $this->getOrCreateJobLocation();
 
-        if ($location) {
-            $address = $location->getAddress();
-
-            if ($address) {
-                return $address->getAddressLocality();
-            }
-        }
-
-        return null;
+        return $this->getOrCreatePostalAddress($location)
+            ->getAddressLocality();
     }
 
     /**
@@ -207,15 +189,7 @@ class Job extends JobPosting
      */
     public function setCity($city)
     {
-        $location = $this->getOrCreateJobLocation();
-
-        $address = $this->getOrCreatePostalAddress($location);
-
-        $address->setAddressLocality($city);
-
-        $location->setAddress($address);
-
-        return $this->setJobLocation($location);
+        return $this->updateAddressAttribute('addressLocality', $city);
     }
 
     /**
@@ -225,17 +199,10 @@ class Job extends JobPosting
      */
     public function getState()
     {
-        $location = $this->getJobLocation();
+        $location = $this->getOrCreateJobLocation();
 
-        if ($location) {
-            $address = $location->getAddress();
-
-            if ($address) {
-                return $address->getAddressRegion();
-            }
-        }
-
-        return null;
+        return $this->getOrCreatePostalAddress($location)
+            ->getAddressRegion();
     }
 
     /**
@@ -247,15 +214,7 @@ class Job extends JobPosting
      */
     public function setState($state)
     {
-        $location = $this->getOrCreateJobLocation();
-
-        $address = $this->getOrCreatePostalAddress($location);
-
-        $address->setAddressRegion($state);
-
-        $location->setAddress($address);
-
-        return $this->setJobLocation($location);
+        return $this->updateAddressAttribute('addressRegion', $state);
     }
 
     /**
@@ -265,37 +224,22 @@ class Job extends JobPosting
      */
     public function getPostalCode()
     {
-        $location = $this->getJobLocation();
+        $location = $this->getOrCreateJobLocation();
 
-        if ($location) {
-            $address = $location->getAddress();
-
-            if ($address) {
-                return $address->getPostalCode();
-            }
-        }
-
-        return null;
+        return $this->getOrCreatePostalAddress($location)
+            ->getPostalCode();
     }
 
     /**
      * Set postal code
      *
-     * @param string $postal_code
+     * @param string $postalCode
      *
      * @return $this
      */
-    public function setPostalCode($postal_code)
+    public function setPostalCode($postalCode)
     {
-        $location = $this->getOrCreateJobLocation();
-
-        $address = $this->getOrCreatePostalAddress($location);
-
-        $address->setPostalCode($postal_code);
-
-        $location->setAddress($address);
-
-        return $this->setJobLocation($location);
+        return $this->updateAddressAttribute('postalCode', $postalCode);
     }
 
     /**
@@ -305,17 +249,10 @@ class Job extends JobPosting
      */
     public function getCountry()
     {
-        $location = $this->getJobLocation();
+        $location = $this->getOrCreateJobLocation();
 
-        if ($location) {
-            $address = $location->getAddress();
-
-            if ($address) {
-                return $address->getAddressCountry();
-            }
-        }
-
-        return null;
+        return $this->getOrCreatePostalAddress($location)
+            ->getAddressCountry();
     }
 
     /**
@@ -327,15 +264,7 @@ class Job extends JobPosting
      */
     public function setCountry($country)
     {
-        $location = $this->getOrCreateJobLocation();
-
-        $address = $this->getOrCreatePostalAddress($location);
-
-        $address->setAddressCountry($country);
-
-        $location->setAddress($address);
-
-        return $this->setJobLocation($location);
+        return $this->updateAddressAttribute('addressCountry', $country);
     }
 
     /**
@@ -345,13 +274,9 @@ class Job extends JobPosting
      */
     public function getTelephone()
     {
-        $location = $this->getJobLocation();
+        $location = $this->getOrCreateJobLocation();
 
-        if ($location) {
-            return $location->getTelephone();
-        }
-
-        return null;
+        return $location->getTelephone();
     }
 
     /**
@@ -363,9 +288,12 @@ class Job extends JobPosting
      */
     public function setTelephone($telephone)
     {
-        $location = $this->getOrCreateJobLocation();
+        $organization = $this->getOrCreateHiringOrganization()
+            ->setTelephone($telephone);
+        $location = $this->getOrCreateJobLocation()
+            ->setTelephone($telephone);
 
-        $location->setTelephone($telephone);
+        $this->setHiringOrganization($organization);
 
         return $this->setJobLocation($location);
     }
@@ -377,27 +305,23 @@ class Job extends JobPosting
      */
     public function getCompanyName()
     {
-        $company = $this->getHiringOrganization();
+        $company = $this->getOrCreateHiringOrganization();
 
-        if ($company) {
-            return $company->getName();
-        }
-
-        return null;
+        return $company->getName();
     }
 
     /**
      * Set hiring organization name
      *
-     * @param string $company_name
+     * @param string $companyName
      *
      * @return $this
      */
-    public function setCompanyName($company_name)
+    public function setCompanyName($companyName)
     {
         $company = $this->getOrCreateHiringOrganization();
 
-        $company->setName($company_name);
+        $company->setName($companyName);
 
         return $this->setHiringOrganization($company);
     }
@@ -409,19 +333,15 @@ class Job extends JobPosting
      */
     public function getCompanyDescription()
     {
-        $company = $this->getHiringOrganization();
+        $company = $this->getOrCreateHiringOrganization();
 
-        if ($company) {
-            return $company->getDescription();
-        }
-
-        return null;
+        return $company->getDescription();
     }
 
     /**
      * Set hiring organization description
      *
-     * @param string $company_name
+     * @param string $description
      *
      * @return $this
      */
@@ -441,13 +361,9 @@ class Job extends JobPosting
      */
     public function getCompanyLogo()
     {
-        $company = $this->getHiringOrganization();
+        $company = $this->getOrCreateHiringOrganization();
 
-        if ($company) {
-            return $company->getLogo();
-        }
-
-        return null;
+        return $company->getLogo();
     }
 
     /**
@@ -473,19 +389,15 @@ class Job extends JobPosting
      */
     public function getCompanyEmail()
     {
-        $company = $this->getHiringOrganization();
+        $company = $this->getOrCreateHiringOrganization();
 
-        if ($company) {
-            return $company->getEmail();
-        }
-
-        return null;
+        return $company->getEmail();
     }
 
     /**
      * Set hiring organization email
      *
-     * @param string $company_name
+     * @param string $email
      *
      * @return $this
      */
@@ -505,13 +417,9 @@ class Job extends JobPosting
      */
     public function getCompanyUrl()
     {
-        $company = $this->getHiringOrganization();
+        $company = $this->getOrCreateHiringOrganization();
 
-        if ($company) {
-            return $company->getUrl();
-        }
-
-        return null;
+        return $company->getUrl();
     }
 
     /**
@@ -688,9 +596,29 @@ class Job extends JobPosting
         return $this->type;
     }
 
+    /**
+     * Gets hiringOrganization.
+     *
+     * @return Organization
+     */
+    public function getHiringOrganization()
+    {
+        return $this->getOrCreateHiringOrganization();
+    }
+
+    /**
+     * Gets jobLocation.
+     *
+     * @return Place
+     */
+    public function getJobLocation()
+    {
+        return $this->getOrCreateJobLocation();
+    }
+
     private function getOrCreateJobLocation()
     {
-        $location = $this->getJobLocation();
+        $location = parent::getJobLocation();
 
         if (!$location) {
             $location = new Place;
@@ -712,12 +640,41 @@ class Job extends JobPosting
 
     private function getOrCreateHiringOrganization()
     {
-        $company = $this->getHiringOrganization();
+        $company = parent::getHiringOrganization();
 
         if (!$company) {
             $company = new Organization;
         }
 
         return $company;
+    }
+
+    /**
+     * Attempt to update commonly shared address information
+     *
+     * @param  string $attribute
+     * @param  string $value
+     *
+     * @return $this
+     */
+    private function updateAddressAttribute($attribute, $value)
+    {
+        $organization = $this->getOrCreateHiringOrganization();
+        $location = $this->getOrCreateJobLocation();
+        $address = $this->getOrCreatePostalAddress($location);
+
+        $setMethod = 'set'.ucfirst($attribute);
+
+        if (method_exists($address, $setMethod)) {
+            $address->$setMethod($value);
+        }
+
+        $organization->setAddress($address);
+        $location->setAddress($address);
+
+        $this->setHiringOrganization($organization);
+        $this->setJobLocation($location);
+
+        return $this;
     }
 }

@@ -107,6 +107,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $input = 'test title';
         $this->job->setTitle($input);
         $this->assertEquals($input, $this->job->title);
+        $this->assertEquals($input, $this->job->getTitle());
     }
 
     public function testSetDescription()
@@ -170,6 +171,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->job->setMinimumSalary($input);
         $this->assertEquals($input, $this->job->minimumSalary);
         $this->assertEquals($input, $this->job->getMinimumSalary());
+        $this->assertEquals($input, $this->job->getBaseSalary());
     }
 
     public function testSetMaximumSalary()
@@ -226,6 +228,21 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $address = uniqid();
         $this->job->setStreetAddress($address);
         $this->assertEquals($address, $this->job->getStreetAddress());
+        $this->assertEquals($address, $this->job->getHiringOrganization()->getAddress()->getStreetAddress());
+        $this->assertNull($this->job->getHiringOrganization()->getAddress()->getPostOfficeBoxNumber());
+        $this->assertEquals($address, $this->job->getJobLocation()->getAddress()->getStreetAddress());
+        $this->assertNull($this->job->getJobLocation()->getAddress()->getPostOfficeBoxNumber());
+    }
+
+    public function testSetStreetAddressAddsPOBox()
+    {
+        $address = uniqid().'PO Box';
+        $this->job->setStreetAddress($address);
+        $this->assertEquals($address, $this->job->getStreetAddress());
+        $this->assertEquals($address, $this->job->getHiringOrganization()->getAddress()->getStreetAddress());
+        $this->assertEquals($address, $this->job->getHiringOrganization()->getAddress()->getPostOfficeBoxNumber());
+        $this->assertEquals($address, $this->job->getJobLocation()->getAddress()->getStreetAddress());
+        $this->assertEquals($address, $this->job->getJobLocation()->getAddress()->getPostOfficeBoxNumber());
     }
 
     public function testSetCity()
@@ -233,6 +250,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $city = uniqid();
         $this->job->setCity($city);
         $this->assertEquals($city, $this->job->getCity());
+        $this->assertEquals($city, $this->job->getHiringOrganization()->getAddress()->getAddressLocality());
+        $this->assertEquals($city, $this->job->getJobLocation()->getAddress()->getAddressLocality());
     }
 
     public function testSetState()
@@ -240,6 +259,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $state = uniqid();
         $this->job->setState($state);
         $this->assertEquals($state, $this->job->getState());
+        $this->assertEquals($state, $this->job->getHiringOrganization()->getAddress()->getAddressRegion());
+        $this->assertEquals($state, $this->job->getJobLocation()->getAddress()->getAddressRegion());
     }
 
     public function testSetCountry()
@@ -247,6 +268,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $country = uniqid();
         $this->job->setCountry($country);
         $this->assertEquals($country, $this->job->getCountry());
+        $this->assertEquals($country, $this->job->getHiringOrganization()->getAddress()->getAddressCountry());
+        $this->assertEquals($country, $this->job->getJobLocation()->getAddress()->getAddressCountry());
     }
 
     public function testSetPostalCode()
@@ -254,6 +277,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $postal_code = uniqid();
         $this->job->setPostalCode($postal_code);
         $this->assertEquals($postal_code, $this->job->getPostalCode());
+        $this->assertEquals($postal_code, $this->job->getHiringOrganization()->getAddress()->getPostalCode());
+        $this->assertEquals($postal_code, $this->job->getJobLocation()->getAddress()->getPostalCode());
     }
 
     public function testSetTelephone()
@@ -261,6 +286,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $telephone = uniqid();
         $this->job->setTelephone($telephone);
         $this->assertEquals($telephone, $this->job->getTelephone());
+        $this->assertEquals($telephone, $this->job->getHiringOrganization()->getTelephone());
+        $this->assertEquals($telephone, $this->job->getJobLocation()->getTelephone());
     }
 
     public function testSetCompanyName()
@@ -296,6 +323,29 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $url = 'http://www.example.com/'.uniqid();
         $this->job->setCompanyUrl($url);
         $this->assertEquals($url, $this->job->getCompanyUrl());
+    }
+
+    public function testSetDatePosted()
+    {
+        $date = new \DateTime;
+        $this->job->setDatePosted($date);
+        $this->assertEquals($date, $this->job->getDatePosted());
+    }
+
+    public function testBenignTextValues()
+    {
+        $attributes = [
+            'alternateName', 'benefits', 'educationRequirements', 'employmentType',
+            'experienceRequirements', 'incentives', 'occupationalCategory',
+            'qualifications', 'responsibilities', 'salaryCurrency', 'skills',
+            'specialCommitments', 'title', 'workHours'
+        ];
+
+        array_walk($attributes, function ($attribute) {
+            $value = uniqid();
+            $this->job->{'set'.ucfirst($attribute)}($value);
+            $this->assertEquals($value, $this->job->{'get'.ucfirst($attribute)}());
+        });
     }
 
     public function testReturnNullForUnsetProperties()
