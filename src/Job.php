@@ -293,9 +293,8 @@ class Job extends JobPosting
         $location = $this->getOrCreateJobLocation()
             ->setTelephone($telephone);
 
-        $this->setHiringOrganization($organization);
-
-        return $this->setJobLocation($location);
+        return $this->setHiringOrganization($organization)
+            ->setJobLocation($location);
     }
 
     /**
