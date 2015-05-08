@@ -1,6 +1,24 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 0.3.2 - 2015-05-08
+
+### Added
+- Support for Schema.org Job Posting element
+- Methods to add Schema.org Hiring Organization and Location to jobs
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Nothing
+
+### Removed
+- Nothing
+
+### Security
+- Nothing
+
 ## 0.3.1 - 2015-05-02
 
 ### Added
