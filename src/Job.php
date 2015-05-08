@@ -615,6 +615,11 @@ class Job extends JobPosting
         return $this->getOrCreateJobLocation();
     }
 
+    /**
+     * Gets jobLocation if it exists or creates if it doesn't
+     *
+     * @return Place
+     */
     private function getOrCreateJobLocation()
     {
         $location = parent::getJobLocation();
@@ -626,7 +631,14 @@ class Job extends JobPosting
         return $location;
     }
 
-    private function getOrCreatePostalAddress($location)
+    /**
+     * Gets address from location if it exists or creates if it doesn't
+     *
+     * @param Place $location
+     *
+     * @return PostalAddress
+     */
+    private function getOrCreatePostalAddress(Place $location)
     {
         $address = $location->getAddress();
 
@@ -637,6 +649,11 @@ class Job extends JobPosting
         return $address;
     }
 
+    /**
+     * Gets hiring orgif it exists or creates if it doesn't
+     *
+     * @return Organization
+     */
     private function getOrCreateHiringOrganization()
     {
         $company = parent::getHiringOrganization();

@@ -350,20 +350,20 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
     public function testReturnNullForUnsetProperties()
     {
-        $this->assertEquals(null, $this->job->getTelephone());
+        $this->assertNull($this->job->getTelephone());
 
-        $this->assertEquals(null, $this->job->getCompanyName());
-        $this->assertEquals(null, $this->job->getCompanyDescription());
-        $this->assertEquals(null, $this->job->getCompanyLogo());
-        $this->assertEquals(null, $this->job->getCompanyEmail());
-        $this->assertEquals(null, $this->job->getCompanyUrl());
+        $this->assertNull($this->job->getCompanyName());
+        $this->assertNull($this->job->getCompanyDescription());
+        $this->assertNull($this->job->getCompanyLogo());
+        $this->assertNull($this->job->getCompanyEmail());
+        $this->assertNull($this->job->getCompanyUrl());
 
         $this->job->setJobLocation(new Place);
-        $this->assertEquals(null, $this->job->getStreetAddress());
-        $this->assertEquals(null, $this->job->getCity());
-        $this->assertEquals(null, $this->job->getState());
-        $this->assertEquals(null, $this->job->getPostalCode());
-        $this->assertEquals(null, $this->job->getCountry());
+        $this->assertNull($this->job->getStreetAddress());
+        $this->assertNull($this->job->getCity());
+        $this->assertNull($this->job->getState());
+        $this->assertNull($this->job->getPostalCode());
+        $this->assertNull($this->job->getCountry());
     }
 
 }
