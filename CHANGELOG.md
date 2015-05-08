@@ -1,14 +1,15 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
-## 0.3.2 - 2015-05-08
+## 0.4.2 - 2015-05-08
 
 ### Added
 - Support for Schema.org Job Posting element
 - Methods to add Schema.org Hiring Organization and Location to jobs
+- Add sourceId attribute to job
 
 ### Deprecated
-- Nothing
+- Job id attribute
 
 ### Fixed
 - Nothing
