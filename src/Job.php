@@ -721,6 +721,12 @@ class Job extends JobPosting
      */
     private function convertCurrency($amount)
     {
+        $amount = preg_replace('/[^\\d.]+/', '', $amount);
+
+        if (is_numeric($amount)) {
+            return (float) $amount;
+        }
+
         return null;
     }
 }

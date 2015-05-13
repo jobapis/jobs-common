@@ -191,6 +191,50 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result, $this->job->getBaseSalary());
     }
 
+    public function testSetBaseSalaryWithOnlyNumbersAndDecimal()
+    {
+        $input = '100000.00';
+        $result = 100000.00;
+        $this->job->setBaseSalary($input);
+        $this->assertEquals($result, $this->job->baseSalary);
+        $this->assertEquals($result, $this->job->getBaseSalary());
+    }
+
+    public function testSetBaseSalaryWithOnlyNumbersAndMisplacedDecimal()
+    {
+        $input = '100.00000';
+        $result = 100.00;
+        $this->job->setBaseSalary($input);
+        $this->assertEquals($result, $this->job->baseSalary);
+        $this->assertEquals($result, $this->job->getBaseSalary());
+    }
+
+    public function testSetBaseSalaryWithCommas()
+    {
+        $input = '100,000';
+        $result = 100000.00;
+        $this->job->setBaseSalary($input);
+        $this->assertEquals($result, $this->job->baseSalary);
+        $this->assertEquals($result, $this->job->getBaseSalary());
+    }
+
+    public function testSetBaseSalaryWithCurrencySymbol()
+    {
+        $input = '$100000';
+        $result = 100000.00;
+        $this->job->setBaseSalary($input);
+        $this->assertEquals($result, $this->job->baseSalary);
+        $this->assertEquals($result, $this->job->getBaseSalary());
+    }
+
+    public function testSetBaseSalaryWithoutNumbers()
+    {
+        $input = 'i like turtles.';
+        $this->job->setBaseSalary($input);
+        $this->assertNull($this->job->baseSalary);
+        $this->assertNull($this->job->getBaseSalary());
+    }
+
     public function testSetCompany()
     {
         $company = uniqid();
