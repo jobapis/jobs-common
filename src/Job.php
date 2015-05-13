@@ -149,7 +149,7 @@ class Job extends JobPosting
      */
     public function setDatePostedAsString($datePosted)
     {
-        if (strtotime($datePosted) !== FALSE) {
+        if (strtotime($datePosted) !== false) {
             $datePosted = new DateTime($datePosted);
 
             $this->setDatePosted($datePosted);
