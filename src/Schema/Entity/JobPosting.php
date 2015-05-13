@@ -141,7 +141,7 @@ class JobPosting extends Thing
     /**
      * Sets datePosted.
      *
-     * @param \DateTime $datePosted
+     * @param mixed $datePosted
      *
      * @return $this
      */
