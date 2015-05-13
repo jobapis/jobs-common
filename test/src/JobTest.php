@@ -182,6 +182,15 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($input, $this->job->getMaximumSalary());
     }
 
+    public function testSetBaseSalaryWithOnlyNumbers()
+    {
+        $input = '100000';
+        $result = 100000.00;
+        $this->job->setBaseSalary($input);
+        $this->assertEquals($result, $this->job->baseSalary);
+        $this->assertEquals($result, $this->job->getBaseSalary());
+    }
+
     public function testSetCompany()
     {
         $company = uniqid();
