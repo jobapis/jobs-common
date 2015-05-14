@@ -161,6 +161,24 @@ class Job extends JobPosting
     }
 
     /**
+     * Sets baseSalary.
+     *
+     * @param float $baseSalary
+     *
+     * @return $this
+     */
+    public function setBaseSalary($baseSalary)
+    {
+        $baseSalary = $this->convertCurrency($baseSalary);
+
+        if ($baseSalary) {
+            parent::setBaseSalary($baseSalary);
+        }
+
+        return $this;
+    }
+
+    /**
      * Get street address
      *
      * @return string
@@ -714,5 +732,23 @@ class Job extends JobPosting
         $this->setJobLocation($location);
 
         return $this;
+    }
+
+    /**
+     * Attempt to convert currency to float
+     *
+     * @param  mixed $amount
+     *
+     * @return float|null
+     */
+    private function convertCurrency($amount)
+    {
+        $amount = preg_replace('/[^\\d.]+/', '', $amount);
+
+        if (is_numeric($amount)) {
+            return (float) $amount;
+        }
+
+        return null;
     }
 }
