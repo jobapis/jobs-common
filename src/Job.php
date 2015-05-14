@@ -1,5 +1,7 @@
 <?php namespace JobBrander\Jobs\Client;
 
+use \DateTime;
+use JobBrander\Jobs\Client\Exceptions\InvalidFormatException;
 use JobBrander\Jobs\Client\Schema\Entity\JobPosting;
 use JobBrander\Jobs\Client\Schema\Entity\Organization;
 use JobBrander\Jobs\Client\Schema\Entity\Place;
@@ -136,6 +138,26 @@ class Job extends JobPosting
         array_walk($attributes, function ($value, $key) {
             $this->{$key} = $value;
         });
+    }
+
+    /**
+     * Sets datePosted.
+     *
+     * @param string $datePosted
+     *
+     * @return $this
+     */
+    public function setDatePostedAsString($datePosted)
+    {
+        if (strtotime($datePosted) !== false) {
+            $datePosted = new DateTime($datePosted);
+
+            $this->setDatePosted($datePosted);
+        } else {
+            throw new InvalidFormatException;
+        }
+
+        return $this;
     }
 
     /**

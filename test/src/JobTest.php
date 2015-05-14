@@ -325,11 +325,26 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($url, $this->job->getCompanyUrl());
     }
 
-    public function testSetDatePosted()
+    public function testSetDatePostedWithValidDateTime()
     {
         $date = new \DateTime;
         $this->job->setDatePosted($date);
         $this->assertEquals($date, $this->job->getDatePosted());
+    }
+
+    public function testSetDatePostedAsStringWithValidDateTimeString()
+    {
+        $date = '2015-05-01';
+        $this->job->setDatePostedAsString($date);
+    }
+
+    /**
+     * @expectedException JobBrander\Jobs\Client\Exceptions\InvalidFormatException
+     */
+    public function testSetDatePostedAsStringWithoutValidDateTimeString()
+    {
+        $date = 'i like turtles';
+        $this->job->setDatePostedAsString($date);
     }
 
     public function testBenignTextValues()
