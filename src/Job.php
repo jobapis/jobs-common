@@ -199,6 +199,54 @@ class Job extends JobPosting
     }
 
     /**
+     * Sets javascriptAction.
+     *
+     * @param string $javascriptAction
+     *
+     * @return $this
+     */
+    public function setJavascriptAction($action)
+    {
+        $this->javascriptAction = $action;
+
+        return $this;
+    }
+
+    /**
+     * Get javascriptAction.
+     *
+     * @return string $javascriptAction
+     */
+    public function getJavascriptAction()
+    {
+        return $this->javascriptAction;
+    }
+
+    /**
+     * Sets javascriptFunction.
+     *
+     * @param string $javascriptFunction
+     *
+     * @return $this
+     */
+    public function setJavascriptFunction($function)
+    {
+        $this->javascriptFunction = $function;
+
+        return $this;
+    }
+
+    /**
+     * Get javascriptFunction.
+     *
+     * @return string $javascriptFunction
+     */
+    public function getJavascriptFunction()
+    {
+        return $this->javascriptFunction;
+    }
+
+    /**
      * Get street address
      *
      * @return string
