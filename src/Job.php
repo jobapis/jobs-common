@@ -8,7 +8,7 @@ use JobBrander\Jobs\Client\Schema\Entity\Place;
 use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
 
 /**
- * @method Job getId()
+ * @method Job getSourceId()
  * @method Job getTitle()
  * @method Job getDescription()
  * @method Job getSource()
@@ -22,7 +22,7 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method Job getEndDate()
  * @method Job getMinimumSalary()
  * @method Job getMaximumSalary()
- * @method Job setId($value)
+ * @method Job setSourceId($value)
  * @method Job setTitle($value)
  * @method Job setDescription($value)
  * @method Job setSource($value)
@@ -150,7 +150,14 @@ class Job extends JobPosting
         return $this;
     }
 
-    public function setOccupationalCategory($code, $title)
+    /**
+     * Sets occupationalCategory with code and title as input
+     *
+     * @param float $occupationalCategory
+     *
+     * @return $this
+     */
+    public function setOccupationalCategoryWithCodeAndTitle($code, $title)
     {
         if ($code && $title) {
             parent::setOccupationalCategory($code . ' - ' . $title);

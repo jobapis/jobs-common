@@ -384,6 +384,14 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->job->setDatePostedAsString($date);
     }
 
+    public function testSetOccupationalCategoryWithCodeAndTitle()
+    {
+        $code = rand(1, 20) . '-' . rand(1000, 9999);
+        $title = uniqid();
+        $this->job->setOccupationalCategoryWithCodeAndTitle($code, $title);
+        $this->assertEquals($code . ' - ' . $title, $this->job->getOccupationalCategory());
+    }
+
     public function testBenignTextValues()
     {
         $attributes = [
