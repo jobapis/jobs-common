@@ -659,7 +659,7 @@ class Job extends JobPosting
     /**
      * Sets sourceId.
      *
-     * @param int $sourceId
+     * @param string $sourceId
      *
      * @return $this
      */
@@ -673,7 +673,7 @@ class Job extends JobPosting
     /**
      * Gets sourceId.
      *
-     * @return int
+     * @return string
      */
     public function getSourceId()
     {
