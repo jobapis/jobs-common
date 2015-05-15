@@ -175,7 +175,7 @@ class Job extends JobPosting
     public function setOccupationalCategoryWithCodeAndTitle($code, $title)
     {
         if ($code && $title) {
-            parent::setOccupationalCategory($code . ' - ' . $title);
+            $this->setOccupationalCategory($code . ' - ' . $title);
         }
 
         return $this;
