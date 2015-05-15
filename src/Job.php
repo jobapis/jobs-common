@@ -202,7 +202,7 @@ class Job extends JobPosting
     /**
      * Sets javascriptAction.
      *
-     * @param string $javascriptAction
+     * @param string $action
      *
      * @return $this
      */
@@ -216,7 +216,7 @@ class Job extends JobPosting
     /**
      * Get javascriptAction.
      *
-     * @return string $javascriptAction
+     * @return string
      */
     public function getJavascriptAction()
     {
@@ -226,7 +226,7 @@ class Job extends JobPosting
     /**
      * Sets javascriptFunction.
      *
-     * @param string $javascriptFunction
+     * @param string $function
      *
      * @return $this
      */
@@ -240,7 +240,7 @@ class Job extends JobPosting
     /**
      * Get javascriptFunction.
      *
-     * @return string $javascriptFunction
+     * @return string
      */
     public function getJavascriptFunction()
     {
@@ -563,7 +563,7 @@ class Job extends JobPosting
     /**
      * Set minimum salary
      *
-     * @param float $salary
+     * @param mixed $salary
      *
      * @return $this
      */
