@@ -35,8 +35,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
             'title' => $title
         ]);
 
-        $this->assertEquals($sourceId, $job->sourceId);
-        $this->assertEquals($title, $job->title);
+        $this->assertEquals($sourceId, $job->getSourceId());
+        $this->assertEquals($title, $job->getTitle());
     }
 
     public function testItCanCheckIfExistingPropertyIsset()
@@ -258,22 +258,6 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->job->setIndustry($industry);
         $this->assertEquals($industry, $this->job->industry);
         $this->assertEquals($industry, $this->job->getIndustry());
-    }
-
-    public function testSetCodes()
-    {
-        $codes = [uniqid()];
-        $this->job->setCodes($codes);
-        $this->assertEquals($codes, $this->job->codes);
-        $this->assertEquals($codes, $this->job->getCodes());
-    }
-
-    public function testAddCodes()
-    {
-        $code = uniqid();
-        $this->job->addCodes($code);
-        $this->assertContains($code, $this->job->codes);
-        $this->assertContains($code, $this->job->getCodes());
     }
 
     public function testSetStreetAddress()

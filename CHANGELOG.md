@@ -4,6 +4,25 @@ All Notable changes to `jobs-common` will be documented in this file
 ## 0.4.1 - 2015-05-14
 
 ### Added
+- setOccupationalCategory method to help add standardized code/category as
+specified by schema.org Job Posting
+-
+
+### Deprecated
+- "codes" attribute removed
+
+### Fixed
+- Nothing
+
+### Removed
+- Nothing
+
+### Security
+- Nothing
+
+## 0.4.1 - 2015-05-14
+
+### Added
 - Helper function to set date from string
 - Convert strings in base salary to currency format
 
@@ -70,7 +89,7 @@ All Notable changes to `jobs-common` will be documented in this file
 ### Deprecated
 - Job Companies
 - Job Industries
-- Job Locations 
+- Job Locations
 - Job Dates
 
 ### Fixed

@@ -8,7 +8,6 @@ use JobBrander\Jobs\Client\Schema\Entity\Place;
 use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
 
 /**
- * @method Job addCodes($value)
  * @method Job getId()
  * @method Job getTitle()
  * @method Job getDescription()
@@ -23,7 +22,6 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method Job getEndDate()
  * @method Job getMinimumSalary()
  * @method Job getMaximumSalary()
- * @method Job getCodes()
  * @method Job setId($value)
  * @method Job setTitle($value)
  * @method Job setDescription($value)
@@ -38,7 +36,6 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method Job setCompany($value)
  * @method Job setLocation($value)
  * @method Job setIndustry($value)
- * @method Job setCodes($value)
  */
 class Job extends JobPosting
 {
@@ -122,13 +119,6 @@ class Job extends JobPosting
     protected $industry;
 
     /**
-     * Job Codes
-     *
-     * @var array
-     */
-    protected $codes = [];
-
-    /**
      * Create new job
      *
      * @param array $attributes
@@ -155,6 +145,15 @@ class Job extends JobPosting
             $this->setDatePosted($datePosted);
         } else {
             throw new InvalidFormatException;
+        }
+
+        return $this;
+    }
+
+    public function setOccupationalCategory($code, $title)
+    {
+        if ($code && $title) {
+            parent::setOccupationalCategory($code . ' - ' . $title);
         }
 
         return $this;
