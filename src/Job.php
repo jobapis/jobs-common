@@ -167,7 +167,8 @@ class Job extends JobPosting
     /**
      * Sets occupationalCategory with code and title as input
      *
-     * @param string $occupationalCategory
+     * @param string $code
+     * @param string $title
      *
      * @return $this
      */
