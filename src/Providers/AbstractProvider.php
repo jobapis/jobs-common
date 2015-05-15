@@ -141,7 +141,7 @@ abstract class AbstractProvider
 
         array_map(function ($item) use ($collection) {
             $job = $this->createJobObject($item);
-            $job->setQuery($this->keyword)
+            $job->setQuery($this->getKeyword())
                 ->setSource($this->getSource());
             $collection->add($job);
         }, $listings);

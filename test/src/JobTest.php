@@ -44,7 +44,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $key = 'sourceId';
         $value = uniqid();
 
-        $this->job->{$key} = $value;
+        $this->job->{'set'.ucfirst($key)}($value);
         $result = isset($this->job->{$key});
 
         $this->assertTrue($result);
@@ -55,7 +55,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $key = 'sourceId';
         $value = uniqid();
 
-        $this->job->{$key} = $value;
+        $this->job->{'set'.ucfirst($key)}($value);
         $result = $this->job->{$key};
 
         $this->assertEquals($value, $result);
@@ -79,17 +79,6 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $key = uniqid();
 
         $this->job->{$key};
-    }
-
-    /**
-     * @expectedException OutOfRangeException
-     */
-    public function testItCanNotSetNonExistentProperty()
-    {
-        $key = uniqid();
-        $value = $key;
-
-        $this->job->{$key} = $value;
     }
 
     public function testSetSourceId()
