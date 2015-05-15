@@ -1,6 +1,28 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 0.5.0 - 2015-05-15
+
+### Added
+- setOccupationalCategory method to help add standardized code/category as
+specified by schema.org Job Posting
+- Attributes javascriptAction and javascriptFunction replace codes
+array attribute
+
+### Deprecated
+- "codes" attribute removed
+- AddToArray in trait (no more arrays exist in job attributes)
+- IsAdderMethod because no more adders
+
+### Fixed
+- Nothing
+
+### Removed
+- Nothing
+
+### Security
+- Nothing
+
 ## 0.4.1 - 2015-05-14
 
 ### Added
@@ -70,7 +92,7 @@ All Notable changes to `jobs-common` will be documented in this file
 ### Deprecated
 - Job Companies
 - Job Industries
-- Job Locations 
+- Job Locations
 - Job Dates
 
 ### Fixed

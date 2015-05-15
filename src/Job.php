@@ -8,8 +8,7 @@ use JobBrander\Jobs\Client\Schema\Entity\Place;
 use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
 
 /**
- * @method Job addCodes($value)
- * @method Job getId()
+ * @method Job getSourceId()
  * @method Job getTitle()
  * @method Job getDescription()
  * @method Job getSource()
@@ -23,8 +22,7 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method Job getEndDate()
  * @method Job getMinimumSalary()
  * @method Job getMaximumSalary()
- * @method Job getCodes()
- * @method Job setId($value)
+ * @method Job setSourceId($value)
  * @method Job setTitle($value)
  * @method Job setDescription($value)
  * @method Job setSource($value)
@@ -38,7 +36,6 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method Job setCompany($value)
  * @method Job setLocation($value)
  * @method Job setIndustry($value)
- * @method Job setCodes($value)
  */
 class Job extends JobPosting
 {
@@ -57,6 +54,20 @@ class Job extends JobPosting
      * @var string
      */
     protected $sourceId;
+
+    /**
+     * Javascript Action
+     *
+     * @var string
+     */
+    protected $javascriptAction;
+
+    /**
+     * Javascript Function
+     *
+     * @var string
+     */
+    protected $javascriptFunction;
 
     /**
      * Job Query
@@ -122,13 +133,6 @@ class Job extends JobPosting
     protected $industry;
 
     /**
-     * Job Codes
-     *
-     * @var array
-     */
-    protected $codes = [];
-
-    /**
      * Create new job
      *
      * @param array $attributes
@@ -161,6 +165,22 @@ class Job extends JobPosting
     }
 
     /**
+     * Sets occupationalCategory with code and title as input
+     *
+     * @param string $occupationalCategory
+     *
+     * @return $this
+     */
+    public function setOccupationalCategoryWithCodeAndTitle($code, $title)
+    {
+        if ($code && $title) {
+            parent::setOccupationalCategory($code . ' - ' . $title);
+        }
+
+        return $this;
+    }
+
+    /**
      * Sets baseSalary.
      *
      * @param float $baseSalary
@@ -176,6 +196,54 @@ class Job extends JobPosting
         }
 
         return $this;
+    }
+
+    /**
+     * Sets javascriptAction.
+     *
+     * @param string $javascriptAction
+     *
+     * @return $this
+     */
+    public function setJavascriptAction($action)
+    {
+        $this->javascriptAction = $action;
+
+        return $this;
+    }
+
+    /**
+     * Get javascriptAction.
+     *
+     * @return string $javascriptAction
+     */
+    public function getJavascriptAction()
+    {
+        return $this->javascriptAction;
+    }
+
+    /**
+     * Sets javascriptFunction.
+     *
+     * @param string $javascriptFunction
+     *
+     * @return $this
+     */
+    public function setJavascriptFunction($function)
+    {
+        $this->javascriptFunction = $function;
+
+        return $this;
+    }
+
+    /**
+     * Get javascriptFunction.
+     *
+     * @return string $javascriptFunction
+     */
+    public function getJavascriptFunction()
+    {
+        return $this->javascriptFunction;
     }
 
     /**

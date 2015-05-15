@@ -35,8 +35,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
             'title' => $title
         ]);
 
-        $this->assertEquals($sourceId, $job->sourceId);
-        $this->assertEquals($title, $job->title);
+        $this->assertEquals($sourceId, $job->getSourceId());
+        $this->assertEquals($title, $job->getTitle());
     }
 
     public function testItCanCheckIfExistingPropertyIsset()
@@ -108,6 +108,22 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->job->setTitle($input);
         $this->assertEquals($input, $this->job->title);
         $this->assertEquals($input, $this->job->getTitle());
+    }
+
+    public function testSetJavascriptAction()
+    {
+        $input = 'onclick';
+        $this->job->setJavascriptAction($input);
+        $this->assertEquals($input, $this->job->javascriptAction);
+        $this->assertEquals($input, $this->job->getJavascriptAction());
+    }
+
+    public function testSetJavascriptFunction()
+    {
+        $input = 'doJob(' . uniqid() . ')';
+        $this->job->setJavascriptFunction($input);
+        $this->assertEquals($input, $this->job->javascriptFunction);
+        $this->assertEquals($input, $this->job->getJavascriptFunction());
     }
 
     public function testSetDescription()
@@ -260,22 +276,6 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($industry, $this->job->getIndustry());
     }
 
-    public function testSetCodes()
-    {
-        $codes = [uniqid()];
-        $this->job->setCodes($codes);
-        $this->assertEquals($codes, $this->job->codes);
-        $this->assertEquals($codes, $this->job->getCodes());
-    }
-
-    public function testAddCodes()
-    {
-        $code = uniqid();
-        $this->job->addCodes($code);
-        $this->assertContains($code, $this->job->codes);
-        $this->assertContains($code, $this->job->getCodes());
-    }
-
     public function testSetStreetAddress()
     {
         $address = uniqid();
@@ -398,6 +398,14 @@ class JobTest extends \PHPUnit_Framework_TestCase
     {
         $date = 'i like turtles';
         $this->job->setDatePostedAsString($date);
+    }
+
+    public function testSetOccupationalCategoryWithCodeAndTitle()
+    {
+        $code = rand(1, 20) . '-' . rand(1000, 9999);
+        $title = uniqid();
+        $this->job->setOccupationalCategoryWithCodeAndTitle($code, $title);
+        $this->assertEquals($code . ' - ' . $title, $this->job->getOccupationalCategory());
     }
 
     public function testBenignTextValues()
