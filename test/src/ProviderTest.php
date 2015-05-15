@@ -55,7 +55,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $job->shouldReceive('setQuery')->with($keyword)->times($jobs_count)->andReturnSelf();
         $job->shouldReceive('setSource')->with($source)->times($jobs_count)->andReturnSelf();
 
-        $this->client->keyword = $keyword;
+        $this->client->shouldReceive('getKeyword')->andReturn($keyword);
         $this->client->shouldReceive('createJobObject')->times($jobs_count)->andReturn($job);
         $this->client->shouldReceive('getFormat')->andReturn($format);
         $this->client->shouldReceive('getSource')->andReturn($source);

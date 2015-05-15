@@ -24,27 +24,6 @@ trait AttributeTrait
     }
 
     /**
-     * Magic method to set protected property, if exists
-     *
-     * @param  string $property
-     * @param  mixed $value
-     *
-     * @return mixed
-     * @throws OutOfRangeException
-     */
-    public function __set($property, $value)
-    {
-        if (!property_exists($this, $property)) {
-            throw new \OutOfRangeException(sprintf(
-                '%s does not contain a property by the name of "%s"',
-                __CLASS__,
-                $property
-            ));
-        }
-        $this->$property = $value;
-    }
-
-    /**
      * Magic method to check if property is set
      *
      * @param  string $name
