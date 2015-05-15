@@ -56,6 +56,20 @@ class Job extends JobPosting
     protected $sourceId;
 
     /**
+     * Javascript Action
+     *
+     * @var string
+     */
+    protected $javascriptAction;
+
+    /**
+     * Javascript Function
+     *
+     * @var string
+     */
+    protected $javascriptFunction;
+
+    /**
      * Job Query
      *
      * @var string
@@ -153,7 +167,7 @@ class Job extends JobPosting
     /**
      * Sets occupationalCategory with code and title as input
      *
-     * @param float $occupationalCategory
+     * @param string $occupationalCategory
      *
      * @return $this
      */

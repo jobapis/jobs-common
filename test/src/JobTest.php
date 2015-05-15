@@ -110,6 +110,22 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($input, $this->job->getTitle());
     }
 
+    public function testSetJavascriptAction()
+    {
+        $input = 'onclick';
+        $this->job->setJavascriptAction($input);
+        $this->assertEquals($input, $this->job->javascriptAction);
+        $this->assertEquals($input, $this->job->getJavascriptAction());
+    }
+
+    public function testSetJavascriptFunction()
+    {
+        $input = 'doJob(' . uniqid() . ')';
+        $this->job->setJavascriptFunction($input);
+        $this->assertEquals($input, $this->job->javascriptFunction);
+        $this->assertEquals($input, $this->job->getJavascriptFunction());
+    }
+
     public function testSetDescription()
     {
         $input = 'Test job listing description';
