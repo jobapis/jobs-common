@@ -709,8 +709,12 @@ class Job extends JobPosting
      *
      * @return Organization
      */
-    public function getHiringOrganization()
+    public function getHiringOrganization($parent = false)
     {
+        if ($parent) {
+            return parent::getHiringOrganization();
+        }
+
         return $this->getOrCreateHiringOrganization();
     }
 
@@ -719,8 +723,12 @@ class Job extends JobPosting
      *
      * @return Place
      */
-    public function getJobLocation()
+    public function getJobLocation($parent = false)
     {
+        if ($parent) {
+            return parent::getJobLocation();
+        }
+
         return $this->getOrCreateJobLocation();
     }
 
@@ -731,7 +739,7 @@ class Job extends JobPosting
      */
     private function getOrCreateJobLocation()
     {
-        $location = parent::getJobLocation();
+        $location = $this->getJobLocation(true);
 
         if (!$location) {
             $location = new Place;
@@ -765,7 +773,7 @@ class Job extends JobPosting
      */
     private function getOrCreateHiringOrganization()
     {
-        $company = parent::getHiringOrganization();
+        $company = $this->getHiringOrganization(true);
 
         if (!$company) {
             $company = new Organization;
