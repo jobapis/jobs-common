@@ -431,4 +431,63 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->job->getCountry());
     }
 
+    public function testItCanBeSerializedAsJson()
+    {
+        $value = uniqid();
+
+        $this->job->setAlternateName($value);
+        $this->job->setBaseSalary($value);
+        $this->job->setBenefits($value);
+        $this->job->setCity($value);
+        $this->job->setCompany($value);
+        $this->job->setCompanyDescription($value);
+        $this->job->setCompanyEmail($value);
+        $this->job->setCompanyLogo($value);
+        $this->job->setCompanyName($value);
+        $this->job->setCompanyUrl($value);
+        $this->job->setCountry($value);
+        //$this->job->setDatePosted($value);
+        //$this->job->setDatePostedAsString($value);
+        $this->job->setDescription($value);
+        $this->job->setEducationRequirements($value);
+        $this->job->setEmploymentType($value);
+        $this->job->setEndDate($value);
+        $this->job->setExperienceRequirements($value);
+        //$this->job->setHiringOrganization($value);
+        $this->job->setIncentives($value);
+        $this->job->setIndustry($value);
+        $this->job->setJavascriptAction($value);
+        $this->job->setJavascriptFunction($value);
+        //$this->job->setJobLocation($value);
+        $this->job->setLocation($value);
+        $this->job->setMaximumSalary($value);
+        $this->job->setMinimumSalary($value);
+        $this->job->setName($value);
+        $this->job->setOccupationalCategory($value);
+        $this->job->setOccupationalCategoryWithCodeAndTitle($value, $value);
+        $this->job->setPostalCode($value);
+        $this->job->setQualifications($value);
+        $this->job->setQuery($value);
+        $this->job->setResponsibilities($value);
+        $this->job->setSalaryCurrency($value);
+        $this->job->setSkills($value);
+        $this->job->setSource($value);
+        $this->job->setSourceId($value);
+        $this->job->setSpecialCommitments($value);
+        $this->job->setStartDate($value);
+        $this->job->setState($value);
+        $this->job->setStreetAddress($value);
+        $this->job->setTelephone($value);
+        $this->job->setTitle($value);
+        $this->job->setType($value);
+        $this->job->setUrl($value);
+        $this->job->setWorkHours($value);
+
+        $jsonEncode = json_encode($this->job);
+        $toJson = $this->job->toJson();
+
+        $this->assertEquals($jsonEncode, $toJson);
+
+        print_r($jsonEncode);
+    }
 }

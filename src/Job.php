@@ -1,6 +1,7 @@
 <?php namespace JobBrander\Jobs\Client;
 
 use \DateTime;
+use \JsonSerializable;
 use JobBrander\Jobs\Client\Exceptions\InvalidFormatException;
 use JobBrander\Jobs\Client\Schema\Entity\JobPosting;
 use JobBrander\Jobs\Client\Schema\Entity\Organization;
@@ -8,36 +9,101 @@ use JobBrander\Jobs\Client\Schema\Entity\Place;
 use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
 
 /**
- * @method Job getSourceId()
- * @method Job getTitle()
- * @method Job getDescription()
- * @method Job getSource()
- * @method Job getUrl()
- * @method Job getQuery()
- * @method Job getType()
- * @method Job getCompany()
- * @method Job getLocation()
- * @method Job getIndustry()
- * @method Job getStartDate()
- * @method Job getEndDate()
- * @method Job getMinimumSalary()
- * @method Job getMaximumSalary()
- * @method Job setSourceId($value)
- * @method Job setTitle($value)
- * @method Job setDescription($value)
- * @method Job setSource($value)
- * @method Job setUrl($value)
- * @method Job setQuery($value)
- * @method Job setType($value)
- * @method Job setStartDate($value)
- * @method Job setEndDate($value)
- * @method Job setMinimumSalary($value)
- * @method Job setMaximumSalary($value)
+ * @method string getAlternateName()
+ * @method float getBaseSalary()
+ * @method string getBenefits()
+ * @method string getCity()
+ * @method string getCompany()
+ * @method string getCompanyDescription()
+ * @method string getCompanyEmail()
+ * @method string getCompanyLogo()
+ * @method string getCompanyName()
+ * @method string getCompanyUrl()
+ * @method string getCountry()
+ * @method \DateTime getDatePosted()
+ * @method string getDescription()
+ * @method string getEducationRequirements()
+ * @method string getEmploymentType()
+ * @method string getEndDate()
+ * @method string getExperienceRequirements()
+ * @method Organization getHiringOrganization()
+ * @method string getIncentives()
+ * @method string getIndustry()
+ * @method string getJavascriptAction()
+ * @method string getJavascriptFunction()
+ * @method Place getJobLocation()
+ * @method string getLocation()
+ * @method string getOccupationalCategory()
+ * @method string getName()
+ * @method string getMaximumSalary()
+ * @method string getMinimumSalary()
+ * @method string getPostalCode()
+ * @method string getQualifications()
+ * @method string getQuery()
+ * @method string getResponsibilities()
+ * @method string getSalaryCurrency()
+ * @method string getSkills()
+ * @method string getSource()
+ * @method string getSourceId()
+ * @method string getSpecialCommitments()
+ * @method string getStartDate()
+ * @method string getState()
+ * @method string getStreetAddress()
+ * @method string getTelephone()
+ * @method string getTitle()
+ * @method string getType()
+ * @method string getUrl()
+ * @method string getWorkHours()
+ *
+ * @method Job setAlternateName($value)
+ * @method Job setBaseSalary($value)
+ * @method Job setBenefits($value)
+ * @method Job setCity($value)
  * @method Job setCompany($value)
- * @method Job setLocation($value)
+ * @method Job setCompanyDescription($value)
+ * @method Job setCompanyEmail($value)
+ * @method Job setCompanyLogo($value)
+ * @method Job setCompanyName($value)
+ * @method Job setCompanyUrl($value)
+ * @method Job setCountry($value)
+ * @method Job setDatePosted($value)
+ * @method Job setDatePostedAsString($value)
+ * @method Job setDescription($value)
+ * @method Job setEducationRequirements($value)
+ * @method Job setEmploymentType($value)
+ * @method Job setEndDate($value)
+ * @method Job setExperienceRequirements($value)
+ * @method Job setHiringOrganization($value)
+ * @method Job setIncentives($value)
  * @method Job setIndustry($value)
+ * @method Job setJavascriptAction($action)
+ * @method Job setJavascriptFunction($function)
+ * @method Job setJobLocation($value)
+ * @method Job setLocation($value)
+ * @method Job setMaximumSalary($value)
+ * @method Job setMinimumSalary($value)
+ * @method Job setName($value)
+ * @method Job setOccupationalCategory($value)
+ * @method Job setOccupationalCategoryWithCodeAndTitle($code, $title)
+ * @method Job setPostalCode($value)
+ * @method Job setQualifications($value)
+ * @method Job setQuery($value)
+ * @method Job setResponsibilities($value)
+ * @method Job setSalaryCurrency($value)
+ * @method Job setSkills($value)
+ * @method Job setSource($value)
+ * @method Job setSourceId($value)
+ * @method Job setSpecialCommitments($value)
+ * @method Job setStartDate($value)
+ * @method Job setState($value)
+ * @method Job setStreetAddress($value)
+ * @method Job setTelephone($value)
+ * @method Job setTitle($value)
+ * @method Job setType($value)
+ * @method Job setUrl($value)
+ * @method Job setWorkHours($value)
  */
-class Job extends JobPosting
+class Job extends JobPosting implements JsonSerializable
 {
     use AttributeTrait;
 
@@ -827,5 +893,66 @@ class Job extends JobPosting
         }
 
         return null;
+    }
+
+    /**
+     * Allow class to be serialized with json_encode
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $location = $this->getOrCreateJobLocation();
+        $organization = $this->getOrCreateHiringOrganization();
+        $address = $this->getOrCreatePostalAddress($location);
+
+        return [
+            "@context" => "http://schema.org",
+            "@type" => "JobPosting",
+            "baseSalary" => $this->getBaseSalary(),
+            "benefits" => $this->getBenefits(),
+            "datePosted" => date("Y-m-d", $this->getDatePosted()),
+            "description" => $this->getDescription(),
+            "educationRequirements" => $this->getEducationRequirements(),
+            "employmentType" => $this->getEmploymentType(),
+            "experienceRequirements" => $this->getExperienceRequirements(),
+            "hiringOrganization" => [
+                "@type" => "Organization",
+                "address" => [
+                    "@type" => "PostalAddress",
+                    "addressLocality" => $address->getAddressLocality(),
+                    "addressRegion" => $address->getAddressRegion()
+                ],
+                "telephone" => $organization->getTelephone()
+            ],
+            "incentives" => $this->getIncentives(),
+            "industry" => $this->getIndustry(),
+            "jobLocation" => [
+                "@type" => "Place",
+                "address" => [
+                    "@type" => "PostalAddress",
+                    "addressLocality" => $address->getAddressLocality(),
+                    "addressRegion" => $address->getAddressRegion()
+                ]
+            ],
+            "occupationalCategory" => $this->getOccupationalCategory(),
+            "qualifications" => $this->getQualifications(),
+            "responsibilities" => $this->getResponsibilities(),
+            "salaryCurrency" => $this->getSalaryCurrency(),
+            "skills" => $this->getSkills(),
+            "specialCommitments" => $this->getSpecialCommitments(),
+            "title" => $this->getTitle(),
+            "workHours" => $this->getWorkHours()
+        ];
+    }
+
+    /**
+     * Serialize class as json
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this);
     }
 }
