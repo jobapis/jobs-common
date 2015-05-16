@@ -20,7 +20,7 @@ class JobPosting extends Thing
     /**
      * @var string Description of benefits associated with the job.
      */
-    protected $benefits;
+    protected $jobBenefits;
     /**
      * @var \DateTime Publication date for the job posting.
      */
@@ -44,7 +44,7 @@ class JobPosting extends Thing
     /**
      * @var string Description of bonus and commission compensation aspects of the job.
      */
-    protected $incentives;
+    protected $incentiveCompensation;
     /**
      * @var string The industry associated with the job position.
      */
@@ -54,9 +54,7 @@ class JobPosting extends Thing
      */
     protected $jobLocation;
     /**
-     * @var string Category or categories describing the job. Use BLS O*NET-SOC
-     * taxonomy: http://www.onetcenter.org/taxonomy.html. Ideally includes
-     * textual label and formal code, with the property repeated for each applicable value.
+     * @var string Category or categories describing the job. Use BLS O*NET-SOC taxonomy: http://www.onetcenter.org/taxonomy.html. Ideally includes textual label and formal code, with the property repeated for each applicable value.
      */
     protected $occupationalCategory;
     /**
@@ -68,8 +66,7 @@ class JobPosting extends Thing
      */
     protected $responsibilities;
     /**
-     * @var string The currency (coded using ISO 4217, http://en.wikipedia.org/wiki/ISO_4217 )
-     * used for the main salary information in this job posting or for this employee.
+     * @var string The currency (coded using ISO 4217, http://en.wikipedia.org/wiki/ISO_4217 ) used for the main salary information in this job posting or for this employee.
      */
     protected $salaryCurrency;
     /**
@@ -77,8 +74,7 @@ class JobPosting extends Thing
      */
     protected $skills;
     /**
-     * @var string Any special commitments associated with this job posting.
-     * Valid entries include VeteranCommit, MilitarySpouseCommit, etc.
+     * @var string Any special commitments associated with this job posting. Valid entries include VeteranCommit, MilitarySpouseCommit, etc.
      */
     protected $specialCommitments;
     /**
@@ -115,33 +111,33 @@ class JobPosting extends Thing
     }
 
     /**
-     * Sets benefits.
+     * Sets jobBenefits.
      *
-     * @param string $benefits
+     * @param string $jobBenefits
      *
      * @return $this
      */
-    public function setBenefits($benefits)
+    public function setJobBenefits($jobBenefits)
     {
-        $this->benefits = $benefits;
+        $this->jobBenefits = $jobBenefits;
 
         return $this;
     }
 
     /**
-     * Gets benefits.
+     * Gets jobBenefits.
      *
      * @return string
      */
-    public function getBenefits()
+    public function getJobBenefits()
     {
-        return $this->benefits;
+        return $this->jobBenefits;
     }
 
     /**
      * Sets datePosted.
      *
-     * @param mixed $datePosted
+     * @param \DateTime $datePosted
      *
      * @return $this
      */
@@ -259,27 +255,27 @@ class JobPosting extends Thing
     }
 
     /**
-     * Sets incentives.
+     * Sets incentiveCompensation.
      *
-     * @param string $incentives
+     * @param string $incentiveCompensation
      *
      * @return $this
      */
-    public function setIncentives($incentives)
+    public function setIncentiveCompensation($incentiveCompensation)
     {
-        $this->incentives = $incentives;
+        $this->incentiveCompensation = $incentiveCompensation;
 
         return $this;
     }
 
     /**
-     * Gets incentives.
+     * Gets incentiveCompensation.
      *
      * @return string
      */
-    public function getIncentives()
+    public function getIncentiveCompensation()
     {
-        return $this->incentives;
+        return $this->incentiveCompensation;
     }
 
     /**

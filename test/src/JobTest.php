@@ -400,8 +400,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
     public function testBenignTextValues()
     {
         $attributes = [
-            'alternateName', 'benefits', 'educationRequirements', 'employmentType',
-            'experienceRequirements', 'incentives', 'occupationalCategory',
+            'alternateName', 'jobBenefits', 'educationRequirements', 'employmentType',
+            'experienceRequirements', 'incentiveCompensation', 'occupationalCategory',
             'qualifications', 'responsibilities', 'salaryCurrency', 'skills',
             'specialCommitments', 'title', 'workHours'
         ];

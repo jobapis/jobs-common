@@ -11,6 +11,6 @@ namespace JobBrander\Jobs\Client\Schema\Entity;
  *
  * @see http://schema.org/Text Documentation on Schema.org
  */
-class Text extends DataType
+class Text
 {
 }

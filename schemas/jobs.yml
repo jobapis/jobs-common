@@ -24,13 +24,13 @@ types:
     parent: Thing
     properties:
       baseSalary: { range: "Number"}
-      benefits: { range: "Text"}
+      jobBenefits: { range: "Text"}
       datePosted: { range: "Date"}
       educationRequirements: { range: "Text"}
       employmentType: { range: "Text"}
       experienceRequirements: { range: "Text"}
       hiringOrganization: { range: "Organization"}
-      incentives: { range: "Text"}
+      incentiveCompensation: { range: "Text"}
       industry: { range: "Text"}
       jobLocation: { range: "Place"}
       occupationalCategory: { range: "Text"}
