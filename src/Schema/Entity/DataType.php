@@ -11,6 +11,6 @@ namespace JobBrander\Jobs\Client\Schema\Entity;
  *
  * @see http://schema.org/DataType Documentation on Schema.org
  */
-class DataType extends class
- {
- }
+abstract class DataType
+{
+}
