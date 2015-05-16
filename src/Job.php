@@ -237,8 +237,12 @@ class Job extends JobPosting
      *
      * @return Organization
      */
-    public function getHiringOrganization()
+    public function getHiringOrganization($parent = false)
     {
+        if ($parent) {
+            return parent::getHiringOrganization();
+        }
+
         return $this->getOrCreateHiringOrganization();
     }
 
@@ -247,8 +251,12 @@ class Job extends JobPosting
      *
      * @return Place
      */
-    public function getJobLocation()
+    public function getJobLocation($parent = false)
     {
+        if ($parent) {
+            return parent::getJobLocation();
+        }
+
         return $this->getOrCreateJobLocation();
     }
 
@@ -308,7 +316,7 @@ class Job extends JobPosting
     /**
      * Gets sourceId.
      *
-     * @return int
+     * @return string
      */
     public function getSourceId()
     {
@@ -538,7 +546,7 @@ class Job extends JobPosting
     /**
      * Set minimum salary
      *
-     * @param float $salary
+     * @param mixed $salary
      *
      * @return $this
      */
@@ -552,14 +560,15 @@ class Job extends JobPosting
     /**
      * Sets occupationalCategory with code and title as input
      *
-     * @param string $occupationalCategory
+     * @param string $code
+     * @param string $title
      *
      * @return $this
      */
     public function setOccupationalCategoryWithCodeAndTitle($code, $title)
     {
         if ($code && $title) {
-            parent::setOccupationalCategory($code . ' - ' . $title);
+            $this->setOccupationalCategory($code . ' - ' . $title);
         }
 
         return $this;
@@ -608,7 +617,7 @@ class Job extends JobPosting
     /**
      * Sets sourceId.
      *
-     * @param int $sourceId
+     * @param string $sourceId
      *
      * @return $this
      */
@@ -706,7 +715,7 @@ class Job extends JobPosting
      */
     private function getOrCreateHiringOrganization()
     {
-        $company = parent::getHiringOrganization();
+        $company = $this->getHiringOrganization(true);
 
         if (!$company) {
             $company = new Organization;
@@ -722,7 +731,7 @@ class Job extends JobPosting
      */
     private function getOrCreateJobLocation()
     {
-        $location = parent::getJobLocation();
+        $location = $this->getJobLocation(true);
 
         if (!$location) {
             $location = new Place;

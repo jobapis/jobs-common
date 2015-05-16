@@ -4,6 +4,9 @@ use GuzzleHttp\Client as HttpClient;
 use JobBrander\Jobs\Client\AttributeTrait;
 use JobBrander\Jobs\Client\Collection;
 
+/**
+ * @method string getKeyword()
+ * */
 abstract class AbstractProvider
 {
     use AttributeTrait;
