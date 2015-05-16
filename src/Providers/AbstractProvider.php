@@ -5,7 +5,7 @@ use JobBrander\Jobs\Client\AttributeTrait;
 use JobBrander\Jobs\Client\Collection;
 
 /**
- * @method AbstractProvider getKeyword()
+ * @method string getKeyword()
  * */
 abstract class AbstractProvider
 {
