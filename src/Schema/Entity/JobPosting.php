@@ -20,7 +20,7 @@ class JobPosting extends Thing
     /**
      * @var string Description of benefits associated with the job.
      */
-    protected $benefits;
+    protected $jobBenefits;
     /**
      * @var \DateTime Publication date for the job posting.
      */
@@ -30,7 +30,8 @@ class JobPosting extends Thing
      */
     protected $educationRequirements;
     /**
-     * @var string Type of employment (e.g. full-time, part-time, contract, temporary, seasonal, internship).
+     * @var string Type of employment (e.g. full-time, part-time, contract,
+     * temporary, seasonal, internship).
      */
     protected $employmentType;
     /**
@@ -44,7 +45,7 @@ class JobPosting extends Thing
     /**
      * @var string Description of bonus and commission compensation aspects of the job.
      */
-    protected $incentives;
+    protected $incentiveCompensation;
     /**
      * @var string The industry associated with the job position.
      */
@@ -115,33 +116,33 @@ class JobPosting extends Thing
     }
 
     /**
-     * Sets benefits.
+     * Sets jobBenefits.
      *
-     * @param string $benefits
+     * @param string $jobBenefits
      *
      * @return $this
      */
-    public function setBenefits($benefits)
+    public function setJobBenefits($jobBenefits)
     {
-        $this->benefits = $benefits;
+        $this->jobBenefits = $jobBenefits;
 
         return $this;
     }
 
     /**
-     * Gets benefits.
+     * Gets jobBenefits.
      *
      * @return string
      */
-    public function getBenefits()
+    public function getJobBenefits()
     {
-        return $this->benefits;
+        return $this->jobBenefits;
     }
 
     /**
      * Sets datePosted.
      *
-     * @param mixed $datePosted
+     * @param \DateTime $datePosted
      *
      * @return $this
      */
@@ -259,27 +260,27 @@ class JobPosting extends Thing
     }
 
     /**
-     * Sets incentives.
+     * Sets incentiveCompensation.
      *
-     * @param string $incentives
+     * @param string $incentiveCompensation
      *
      * @return $this
      */
-    public function setIncentives($incentives)
+    public function setIncentiveCompensation($incentiveCompensation)
     {
-        $this->incentives = $incentives;
+        $this->incentiveCompensation = $incentiveCompensation;
 
         return $this;
     }
 
     /**
-     * Gets incentives.
+     * Gets incentiveCompensation.
      *
      * @return string
      */
-    public function getIncentives()
+    public function getIncentiveCompensation()
     {
-        return $this->incentives;
+        return $this->incentiveCompensation;
     }
 
     /**

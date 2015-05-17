@@ -1,6 +1,26 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 0.5.1 - 2015-05-15
+
+### Added
+- Support for Schema.org [2.0 release](http://blog.schema.org/2015/05/schema.html)
+- Added "jobBenefits" attribute to JobPosting class
+- Added "incentiveCompensation" attribute to JobPosting class
+
+### Deprecated
+- Removed "benefits" attribute from JobPosting class
+- Removed "incentives" attribute from JobPosting class
+
+### Fixed
+- Nothing
+
+### Removed
+- Nothing
+
+### Security
+- Nothing
+
 ## 0.5.0 - 2015-05-15
 
 ### Added

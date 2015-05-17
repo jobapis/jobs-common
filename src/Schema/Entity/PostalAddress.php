@@ -14,8 +14,8 @@ namespace JobBrander\Jobs\Client\Schema\Entity;
 class PostalAddress
 {
     /**
-     * @var string The country. For example, USA. You can also provide the
-     * two-letter [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
+     * @var string The country. For example, USA. You can also provide the two-letter
+     * [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1).
      */
     protected $addressCountry;
     /**
