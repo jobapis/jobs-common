@@ -441,11 +441,13 @@ class Job extends JobPosting implements JsonSerializable
     /**
      * Allow class to be serialized with json_encode
      *
+     * @param  boolean $useStrict
+     *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize($useStrict = false)
     {
-        return $this->serialize();
+        return $this->serialize($useStrict);
     }
 
     // Setters
@@ -768,11 +770,13 @@ class Job extends JobPosting implements JsonSerializable
     /**
      * Serialize class as json
      *
+     * @param  boolean $useStrict
+     *
      * @return string
      */
-    public function toJson()
+    public function toJson($useStrict = false)
     {
-        return json_encode($this);
+        return json_encode($this->jsonSerialize($useStrict));
     }
 
     // Private Methods
