@@ -11,7 +11,6 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
 /**
  * @method string getAlternateName()
  * @method float getBaseSalary()
- * @method string getBenefits()
  * @method string getCity()
  * @method string getCompany()
  * @method string getCompanyDescription()
@@ -27,10 +26,11 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method string getEndDate()
  * @method string getExperienceRequirements()
  * @method Organization getHiringOrganization()
- * @method string getIncentives()
+ * @method string getIncentiveCompensation()
  * @method string getIndustry()
  * @method string getJavascriptAction()
  * @method string getJavascriptFunction()
+ * @method string getJobBenefits()
  * @method Place getJobLocation()
  * @method string getLocation()
  * @method string getOccupationalCategory()
@@ -54,10 +54,9 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method string getType()
  * @method string getUrl()
  * @method string getWorkHours()
- *
+ * @method array jsonSerialize()
  * @method Job setAlternateName($value)
  * @method Job setBaseSalary($value)
- * @method Job setBenefits($value)
  * @method Job setCity($value)
  * @method Job setCompany($value)
  * @method Job setCompanyDescription($value)
@@ -74,10 +73,11 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method Job setEndDate($value)
  * @method Job setExperienceRequirements($value)
  * @method Job setHiringOrganization($value)
- * @method Job setIncentives($value)
+ * @method Job getIncentiveCompensation($value)
  * @method Job setIndustry($value)
  * @method Job setJavascriptAction($action)
  * @method Job setJavascriptFunction($function)
+ * @method Job setJobBenefits($value)
  * @method Job setJobLocation($value)
  * @method Job setLocation($value)
  * @method Job setMaximumSalary($value)
@@ -102,10 +102,11 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method Job setType($value)
  * @method Job setUrl($value)
  * @method Job setWorkHours($value)
+ * @method string toJson()
  */
 class Job extends JobPosting implements JsonSerializable
 {
-    use AttributeTrait;
+    use AttributeTrait, JsonLinkedDataTrait;
 
     /**
      * Job Company
@@ -444,48 +445,7 @@ class Job extends JobPosting implements JsonSerializable
      */
     public function jsonSerialize()
     {
-        $location = $this->getOrCreateJobLocation();
-        $organization = $this->getOrCreateHiringOrganization();
-        $address = $this->getOrCreatePostalAddress($location);
-
-        return [
-            "@context" => "http://schema.org",
-            "@type" => "JobPosting",
-            "baseSalary" => $this->getBaseSalary(),
-            "benefits" => $this->getBenefits(),
-            "datePosted" => date("Y-m-d", $this->getDatePosted()),
-            "description" => $this->getDescription(),
-            "educationRequirements" => $this->getEducationRequirements(),
-            "employmentType" => $this->getEmploymentType(),
-            "experienceRequirements" => $this->getExperienceRequirements(),
-            "hiringOrganization" => [
-                "@type" => "Organization",
-                "address" => [
-                    "@type" => "PostalAddress",
-                    "addressLocality" => $address->getAddressLocality(),
-                    "addressRegion" => $address->getAddressRegion()
-                ],
-                "telephone" => $organization->getTelephone()
-            ],
-            "incentives" => $this->getIncentives(),
-            "industry" => $this->getIndustry(),
-            "jobLocation" => [
-                "@type" => "Place",
-                "address" => [
-                    "@type" => "PostalAddress",
-                    "addressLocality" => $address->getAddressLocality(),
-                    "addressRegion" => $address->getAddressRegion()
-                ]
-            ],
-            "occupationalCategory" => $this->getOccupationalCategory(),
-            "qualifications" => $this->getQualifications(),
-            "responsibilities" => $this->getResponsibilities(),
-            "salaryCurrency" => $this->getSalaryCurrency(),
-            "skills" => $this->getSkills(),
-            "specialCommitments" => $this->getSpecialCommitments(),
-            "title" => $this->getTitle(),
-            "workHours" => $this->getWorkHours()
-        ];
+        return $this->serialize();
     }
 
     // Setters

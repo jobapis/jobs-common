@@ -434,10 +434,11 @@ class JobTest extends \PHPUnit_Framework_TestCase
     public function testItCanBeSerializedAsJson()
     {
         $value = uniqid();
+        $date = new \DateTime();
+        $poBox = 'PO Box '.$value;
 
         $this->job->setAlternateName($value);
         $this->job->setBaseSalary($value);
-        $this->job->setBenefits($value);
         $this->job->setCity($value);
         $this->job->setCompany($value);
         $this->job->setCompanyDescription($value);
@@ -446,19 +447,17 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->job->setCompanyName($value);
         $this->job->setCompanyUrl($value);
         $this->job->setCountry($value);
-        //$this->job->setDatePosted($value);
-        //$this->job->setDatePostedAsString($value);
+        $this->job->setDatePosted($date);
         $this->job->setDescription($value);
         $this->job->setEducationRequirements($value);
         $this->job->setEmploymentType($value);
         $this->job->setEndDate($value);
         $this->job->setExperienceRequirements($value);
-        //$this->job->setHiringOrganization($value);
-        $this->job->setIncentives($value);
+        $this->job->setIncentiveCompensation($value);
         $this->job->setIndustry($value);
         $this->job->setJavascriptAction($value);
         $this->job->setJavascriptFunction($value);
-        //$this->job->setJobLocation($value);
+        $this->job->setJobBenefits($value);
         $this->job->setLocation($value);
         $this->job->setMaximumSalary($value);
         $this->job->setMinimumSalary($value);
@@ -476,7 +475,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->job->setSpecialCommitments($value);
         $this->job->setStartDate($value);
         $this->job->setState($value);
-        $this->job->setStreetAddress($value);
+        $this->job->setStreetAddress($poBox);
         $this->job->setTelephone($value);
         $this->job->setTitle($value);
         $this->job->setType($value);
@@ -487,7 +486,5 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $toJson = $this->job->toJson();
 
         $this->assertEquals($jsonEncode, $toJson);
-
-        print_r($jsonEncode);
     }
 }
