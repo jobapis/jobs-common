@@ -20,7 +20,6 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method Job getSourceId()
  * @method Job getStartDate()
  * @method Job getTitle()
- * @method Job getType()
  * @method Job getUrl()
  * @method Job setCompany($value)
  * @method Job setDescription($value)
@@ -34,7 +33,6 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method Job setSourceId($value)
  * @method Job setStartDate($value)
  * @method Job setTitle($value)
- * @method Job setType($value)
  * @method Job setUrl($value)
  */
 class Job extends JobPosting
@@ -124,13 +122,6 @@ class Job extends JobPosting
      * @var string
      */
     protected $startDate;
-
-    /**
-     * Job Type
-     *
-     * @var string
-     */
-    protected $type;
 
     /**
      * Create new job
@@ -359,16 +350,6 @@ class Job extends JobPosting
         $location = $this->getOrCreateJobLocation();
 
         return $location->getTelephone();
-    }
-
-    /**
-     * Gets type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
     }
 
     // Setters
@@ -672,20 +653,6 @@ class Job extends JobPosting
 
         return $this->setHiringOrganization($organization)
             ->setJobLocation($location);
-    }
-
-    /**
-     * Sets type.
-     *
-     * @param string $type
-     *
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
     }
 
     // Private Methods

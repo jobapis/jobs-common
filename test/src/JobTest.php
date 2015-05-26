@@ -146,14 +146,6 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($input, $this->job->getQuery());
     }
 
-    public function testSetType()
-    {
-        $input = 'part-time';
-        $this->job->setType($input);
-        $this->assertEquals($input, $this->job->type);
-        $this->assertEquals($input, $this->job->getType());
-    }
-
     public function testSetStartDate()
     {
         $input = '10-13-1988';
