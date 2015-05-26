@@ -1,6 +1,20 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 0.6.0 - 2015-05-26
+
+### Added
+- Nothing
+
+### Deprecated
+- "type" attribute from Job class (use employmentType from now on)
+
+### Fixed
+- Support for XML feeds
+
+### Security
+- Nothing
+
 ## 0.5.1 - 2015-05-15
 
 ### Added
