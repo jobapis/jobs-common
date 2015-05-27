@@ -125,6 +125,7 @@ abstract class AbstractProvider
         $response = $client->{$verb}($url, $options);
 
         $payload = $response->{$this->getFormat()}();
+        $payload = json_decode(json_encode($payload), true);
 
         $listings = $this->getRawListings($payload);
 

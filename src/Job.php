@@ -99,7 +99,6 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method Job setStreetAddress($value)
  * @method Job setTelephone($value)
  * @method Job setTitle($value)
- * @method Job setType($value)
  * @method Job setUrl($value)
  * @method Job setWorkHours($value)
  * @method string toJson()
@@ -197,13 +196,6 @@ class Job extends JobPosting implements JsonSerializable
      * @var string
      */
     protected $startDate;
-
-    /**
-     * Job Type
-     *
-     * @var string
-     */
-    protected $type;
 
     /**
      * Create new job
