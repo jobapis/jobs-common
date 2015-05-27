@@ -51,7 +51,6 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method string getStreetAddress()
  * @method string getTelephone()
  * @method string getTitle()
- * @method string getType()
  * @method string getUrl()
  * @method string getWorkHours()
  * @method array jsonSerialize()
@@ -427,16 +426,6 @@ class Job extends JobPosting implements JsonSerializable
     }
 
     /**
-     * Gets type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Allow class to be serialized with json_encode
      *
      * @param  string $serializeSetting
@@ -749,20 +738,6 @@ class Job extends JobPosting implements JsonSerializable
 
         return $this->setHiringOrganization($organization)
             ->setJobLocation($location);
-    }
-
-    /**
-     * Sets type.
-     *
-     * @param string $type
-     *
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
     }
 
     /**
