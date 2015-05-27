@@ -1,6 +1,20 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 0.6.1 - 2015-05-27
+
+### Added
+- Nothing
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Guzzle upgrade to v.6 was breaking our XML feeds, so I downgraded to require v.5.x
+
+### Security
+- Nothing
+
 ## 0.6.0 - 2015-05-26
 
 ### Added
