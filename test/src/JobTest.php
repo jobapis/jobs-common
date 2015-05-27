@@ -521,7 +521,6 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->job->setStreetAddress($poBox);
         $this->job->setTelephone($value);
         $this->job->setTitle($value);
-        $this->job->setType($value);
         $this->job->setUrl($value);
         $this->job->setWorkHours($value);
 
@@ -641,7 +640,6 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->job->setSpecialCommitments($special);
         $this->job->setStartDate($date);
         $this->job->setTitle($title);
-        $this->job->setType($type);
         $this->job->setUrl($url);
         $this->job->setWorkHours($work_hours);
 
@@ -675,7 +673,6 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($special, $toObj->specialCommitments);
         $this->assertEquals($date->format('Y-m-d'), $toObj->startDate);
         $this->assertEquals($title, $toObj->title);
-        $this->assertEquals($type, $toObj->type);
         $this->assertEquals($url, $toObj->url);
         $this->assertEquals($work_hours, $toObj->workHours);
     }

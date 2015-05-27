@@ -443,7 +443,7 @@ class Job extends JobPosting implements JsonSerializable
      *
      * @return array
      */
-    public function jsonSerialize($serializeSetting = null)
+    public function jsonSerialize($serializeSetting = self::SERIALIZE_STANDARD)
     {
         return $this->serialize($serializeSetting);
     }
@@ -772,7 +772,7 @@ class Job extends JobPosting implements JsonSerializable
      *
      * @return string
      */
-    public function toJson($serializeSetting = null)
+    public function toJson($serializeSetting = self::SERIALIZE_STANDARD)
     {
         return json_encode($this->jsonSerialize($serializeSetting));
     }
