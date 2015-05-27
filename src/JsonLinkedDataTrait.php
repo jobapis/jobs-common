@@ -54,7 +54,6 @@ trait JsonLinkedDataTrait
             $name = $property->getName();
             $value = $property->getValue($object);
             if ($property->class != Job::class || !$this->settingIsCoreSchema($serializeSetting)) {
-
                 if (!is_object($value)) {
                     $array[$name] = $value;
                 } else {
@@ -67,7 +66,6 @@ trait JsonLinkedDataTrait
                         );
                     }
                 }
-
             }
         }
 
