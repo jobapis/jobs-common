@@ -53,7 +53,7 @@ trait JsonLinkedDataTrait
             $property->setAccessible(true);
             $name = $property->getName();
             $value = $property->getValue($object);
-            if ($property->class != Job::class || !$this->settingIsCoreSchema($serializeSetting)) {
+            if ($property->class != 'JobBrander\Jobs\Client\Job' || !$this->settingIsCoreSchema($serializeSetting)) {
                 if (!is_object($value)) {
                     $array[$name] = $value;
                 } else {

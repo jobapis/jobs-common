@@ -464,7 +464,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $job = $this->fillJobWithData();
         $ref = new \ReflectionClass($job);
         $properties = array_filter($ref->getProperties(), function ($property) {
-            return $property->class != Job::class;
+            return $property->class != 'JobBrander\Jobs\Client\Job';
         });
 
         $toJson = $job->toJson(Job::SERIALIZE_CORE_SCHEMA_LD);
