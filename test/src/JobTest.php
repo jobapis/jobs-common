@@ -431,7 +431,58 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->job->getCountry());
     }
 
-    public function testItCanBeSerializedAsJson()
+    public function testItCanJsonEncode()
+    {
+        $job = $this->fillJobWithData();
+
+        $jsonEncode = json_encode($job);
+        $toJson = $job->toJson();
+
+        $this->assertEquals($jsonEncode, $toJson);
+    }
+
+    public function testItCanSerializeWithAllPropertiesByDefault()
+    {
+        $job = $this->fillJobWithData();
+        $ref = new \ReflectionClass($job);
+        $properties = $ref->getProperties();
+
+        $toJson = $job->toJson();
+        $json = json_decode($toJson, true);
+
+        $this->assertNotContains('@context', array_keys($json));
+        $this->assertEquals(count($properties), count($json));
+    }
+
+    public function testItCanSerializeWithAllPropertiesAndLinkedDataContexts()
+    {
+        $job = $this->fillJobWithData();
+        $ref = new \ReflectionClass($job);
+        $properties = $ref->getProperties();
+
+        $toJson = $job->toJson(Job::SERIALIZE_STANDARD_LD);
+        $json = json_decode($toJson, true);
+
+        $this->assertContains('@context', array_keys($json));
+        $this->assertEquals((count($properties) + 2), count($json));
+    }
+
+    public function testItCanSerializeWithCorePropertiesAndLinkedDataContexts()
+    {
+        $job = $this->fillJobWithData();
+        $ref = new \ReflectionClass($job);
+        $properties = array_filter($ref->getProperties(), function ($property) {
+            return $property->class != Job::class;
+        });
+
+        $toJson = $job->toJson(Job::SERIALIZE_CORE_SCHEMA_LD);
+        $json = json_decode($toJson, true);
+
+        $this->assertContains('@context', array_keys($json));
+        $this->assertEquals((count($properties) + 2), count($json));
+    }
+
+    private function fillJobWithData()
     {
         $value = uniqid();
         $date = new \DateTime();
@@ -482,9 +533,6 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->job->setUrl($value);
         $this->job->setWorkHours($value);
 
-        $jsonEncode = json_encode($this->job);
-        $toJson = $this->job->toJson();
-
-        $this->assertEquals($jsonEncode, $toJson);
+        return $this->job;
     }
 }

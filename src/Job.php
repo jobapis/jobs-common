@@ -108,6 +108,12 @@ class Job extends JobPosting implements JsonSerializable
 {
     use AttributeTrait, JsonLinkedDataTrait;
 
+    const SERIALIZE_STANDARD = "serialize-standard";
+
+    const SERIALIZE_STANDARD_LD = "serialize-standard-ld";
+
+    const SERIALIZE_CORE_SCHEMA_LD = "serialize-core-schema-ld";
+
     /**
      * Job Company
      *
@@ -441,13 +447,13 @@ class Job extends JobPosting implements JsonSerializable
     /**
      * Allow class to be serialized with json_encode
      *
-     * @param  boolean $useStrict
+     * @param  string $serializeSetting
      *
      * @return array
      */
-    public function jsonSerialize($useStrict = false)
+    public function jsonSerialize($serializeSetting = null)
     {
-        return $this->serialize($useStrict);
+        return $this->serialize($serializeSetting);
     }
 
     // Setters
@@ -770,13 +776,13 @@ class Job extends JobPosting implements JsonSerializable
     /**
      * Serialize class as json
      *
-     * @param  boolean $useStrict
+     * @param  string $serializeSetting
      *
      * @return string
      */
-    public function toJson($useStrict = false)
+    public function toJson($serializeSetting = null)
     {
-        return json_encode($this->jsonSerialize($useStrict));
+        return json_encode($this->jsonSerialize($serializeSetting));
     }
 
     // Private Methods
