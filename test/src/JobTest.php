@@ -423,4 +423,103 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->job->getCountry());
     }
 
+    public function testItCanJsonEncode()
+    {
+        $attributes = $this->getJobAttributes();
+
+        $job = new Job($attributes);
+        $job->setCompanyName($attributes['company']);
+
+        $jsonEncode = json_encode($job);
+        $toJson = $job->toJson();
+
+        $this->assertEquals($jsonEncode, $toJson);
+
+        foreach ($attributes as $key => $value) {
+            $this->assertEquals($value, $job->{$key});
+        }
+
+    }
+
+    public function testItCanSerializeWithAllPropertiesByDefault()
+    {
+        $attributes = $this->getJobAttributes();
+        $job = new Job($attributes);
+        $ref = new \ReflectionClass($job);
+        $properties = $ref->getProperties();
+
+        $toJson = $job->toJson();
+        $json = json_decode($toJson, true);
+
+        $this->assertNotContains('@context', array_keys($json));
+        $this->assertEquals(count($properties), count($json));
+    }
+
+    public function testItCanSerializeWithAllPropertiesAndLinkedDataContexts()
+    {
+        $attributes = $this->getJobAttributes();
+        $job = new Job($attributes);
+        $ref = new \ReflectionClass($job);
+        $properties = $ref->getProperties();
+
+        $toJson = $job->toJson(Job::SERIALIZE_STANDARD_LD);
+        $json = json_decode($toJson, true);
+
+        $this->assertContains('@context', array_keys($json));
+        $this->assertEquals((count($properties) + 2), count($json));
+    }
+
+    public function testItCanSerializeWithCorePropertiesAndLinkedDataContexts()
+    {
+        $attributes = $this->getJobAttributes();
+        $job = new Job($attributes);
+        $ref = new \ReflectionClass($job);
+        $properties = array_filter($ref->getProperties(), function ($property) {
+            return $property->class != 'JobBrander\Jobs\Client\Job';
+        });
+
+        $toJson = $job->toJson(Job::SERIALIZE_CORE_SCHEMA_LD);
+        $json = json_decode($toJson, true);
+
+        $this->assertContains('@context', array_keys($json));
+        $this->assertEquals((count($properties) + 2), count($json));
+    }
+
+    private function getJobAttributes()
+    {
+        $attributes = [
+            'alternateName' => uniqid(),
+            'baseSalary' => rand(10, 1000),
+            'datePosted' => new \DateTime(),
+            'description' => uniqid(),
+            'educationRequirements' => uniqid(),
+            'employmentType' => uniqid(),
+            'endDate' => uniqid(),
+            'experienceRequirements' => uniqid(),
+            'incentiveCompensation' => uniqid(),
+            'industry' => uniqid(),
+            'javascriptAction' => uniqid(),
+            'javascriptFunction' => uniqid(),
+            'jobBenefits' => uniqid(),
+            'maximumSalary' => uniqid(),
+            'minimumSalary' => uniqid(),
+            'name' => uniqid(),
+            'occupationalCategory' => uniqid(),
+            'qualifications' => uniqid(),
+            'query' => uniqid(),
+            'responsibilities' => uniqid(),
+            'salaryCurrency' => uniqid(),
+            'skills' => uniqid(),
+            'source' => uniqid(),
+            'sourceId' => uniqid(),
+            'specialCommitments' => uniqid(),
+            'startDate' => new \DateTime(),
+            'title' => uniqid(),
+            'url' => uniqid(),
+            'workHours' => uniqid(),
+            'company' => uniqid(),
+            'location' => uniqid(),
+        ];
+        return $attributes;
+    }
 }

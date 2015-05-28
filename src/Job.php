@@ -1,6 +1,7 @@
 <?php namespace JobBrander\Jobs\Client;
 
 use \DateTime;
+use \JsonSerializable;
 use JobBrander\Jobs\Client\Exceptions\InvalidFormatException;
 use JobBrander\Jobs\Client\Schema\Entity\JobPosting;
 use JobBrander\Jobs\Client\Schema\Entity\Organization;
@@ -8,36 +9,108 @@ use JobBrander\Jobs\Client\Schema\Entity\Place;
 use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
 
 /**
- * @method Job getCompany()
- * @method Job getDescription()
- * @method Job getEndDate()
- * @method Job getIndustry()
- * @method Job getLocation()
- * @method Job getMaximumSalary()
- * @method Job getMinimumSalary()
- * @method Job getQuery()
- * @method Job getSource()
- * @method Job getSourceId()
- * @method Job getStartDate()
- * @method Job getTitle()
- * @method Job getUrl()
+ * @method string getAlternateName()
+ * @method float getBaseSalary()
+ * @method string getCity()
+ * @method string getCompany()
+ * @method string getCompanyDescription()
+ * @method string getCompanyEmail()
+ * @method string getCompanyLogo()
+ * @method string getCompanyName()
+ * @method string getCompanyUrl()
+ * @method string getCountry()
+ * @method \DateTime getDatePosted()
+ * @method string getDescription()
+ * @method string getEducationRequirements()
+ * @method string getEmploymentType()
+ * @method string getEndDate()
+ * @method string getExperienceRequirements()
+ * @method Organization getHiringOrganization()
+ * @method string getIncentiveCompensation()
+ * @method string getIndustry()
+ * @method string getJavascriptAction()
+ * @method string getJavascriptFunction()
+ * @method string getJobBenefits()
+ * @method Place getJobLocation()
+ * @method string getLocation()
+ * @method string getOccupationalCategory()
+ * @method string getName()
+ * @method string getMaximumSalary()
+ * @method string getMinimumSalary()
+ * @method string getPostalCode()
+ * @method string getQualifications()
+ * @method string getQuery()
+ * @method string getResponsibilities()
+ * @method string getSalaryCurrency()
+ * @method string getSkills()
+ * @method string getSource()
+ * @method string getSourceId()
+ * @method string getSpecialCommitments()
+ * @method string getStartDate()
+ * @method string getState()
+ * @method string getStreetAddress()
+ * @method string getTelephone()
+ * @method string getTitle()
+ * @method string getUrl()
+ * @method string getWorkHours()
+ * @method array jsonSerialize()
+ * @method Job setAlternateName($value)
+ * @method Job setBaseSalary($value)
+ * @method Job setCity($value)
  * @method Job setCompany($value)
+ * @method Job setCompanyDescription($value)
+ * @method Job setCompanyEmail($value)
+ * @method Job setCompanyLogo($value)
+ * @method Job setCompanyName($value)
+ * @method Job setCompanyUrl($value)
+ * @method Job setCountry($value)
+ * @method Job setDatePosted($value)
+ * @method Job setDatePostedAsString($value)
  * @method Job setDescription($value)
+ * @method Job setEducationRequirements($value)
+ * @method Job setEmploymentType($value)
  * @method Job setEndDate($value)
+ * @method Job setExperienceRequirements($value)
+ * @method Job setHiringOrganization($value)
+ * @method Job getIncentiveCompensation($value)
  * @method Job setIndustry($value)
+ * @method Job setJavascriptAction($action)
+ * @method Job setJavascriptFunction($function)
+ * @method Job setJobBenefits($value)
+ * @method Job setJobLocation($value)
  * @method Job setLocation($value)
  * @method Job setMaximumSalary($value)
  * @method Job setMinimumSalary($value)
+ * @method Job setName($value)
+ * @method Job setOccupationalCategory($value)
+ * @method Job setOccupationalCategoryWithCodeAndTitle($code, $title)
+ * @method Job setPostalCode($value)
+ * @method Job setQualifications($value)
  * @method Job setQuery($value)
+ * @method Job setResponsibilities($value)
+ * @method Job setSalaryCurrency($value)
+ * @method Job setSkills($value)
  * @method Job setSource($value)
  * @method Job setSourceId($value)
+ * @method Job setSpecialCommitments($value)
  * @method Job setStartDate($value)
+ * @method Job setState($value)
+ * @method Job setStreetAddress($value)
+ * @method Job setTelephone($value)
  * @method Job setTitle($value)
  * @method Job setUrl($value)
+ * @method Job setWorkHours($value)
+ * @method string toJson()
  */
-class Job extends JobPosting
+class Job extends JobPosting implements JsonSerializable
 {
-    use AttributeTrait;
+    use AttributeTrait, JsonLinkedDataTrait;
+
+    const SERIALIZE_STANDARD = "serialize-standard";
+
+    const SERIALIZE_STANDARD_LD = "serialize-standard-ld";
+
+    const SERIALIZE_CORE_SCHEMA_LD = "serialize-core-schema-ld";
 
     /**
      * Job Company
@@ -352,6 +425,18 @@ class Job extends JobPosting
         return $location->getTelephone();
     }
 
+    /**
+     * Allow class to be serialized with json_encode
+     *
+     * @param  string $serializeSetting
+     *
+     * @return array
+     */
+    public function jsonSerialize($serializeSetting = self::SERIALIZE_STANDARD)
+    {
+        return $this->serialize($serializeSetting);
+    }
+
     // Setters
 
     /**
@@ -653,6 +738,18 @@ class Job extends JobPosting
 
         return $this->setHiringOrganization($organization)
             ->setJobLocation($location);
+    }
+
+    /**
+     * Serialize class as json
+     *
+     * @param  string $serializeSetting
+     *
+     * @return string
+     */
+    public function toJson($serializeSetting = self::SERIALIZE_STANDARD)
+    {
+        return json_encode($this->jsonSerialize($serializeSetting));
     }
 
     // Private Methods
