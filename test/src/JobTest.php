@@ -425,17 +425,26 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
     public function testItCanJsonEncode()
     {
-        $job = $this->fillJobWithData();
+        $attributes = $this->getJobAttributes();
+
+        $job = new Job($attributes);
+        $job->setCompanyName($attributes['company']);
 
         $jsonEncode = json_encode($job);
         $toJson = $job->toJson();
 
         $this->assertEquals($jsonEncode, $toJson);
+
+        foreach ($attributes as $key => $value) {
+            $this->assertEquals($value, $job->{$key});
+        }
+
     }
 
     public function testItCanSerializeWithAllPropertiesByDefault()
     {
-        $job = $this->fillJobWithData();
+        $attributes = $this->getJobAttributes();
+        $job = new Job($attributes);
         $ref = new \ReflectionClass($job);
         $properties = $ref->getProperties();
 
@@ -448,7 +457,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
     public function testItCanSerializeWithAllPropertiesAndLinkedDataContexts()
     {
-        $job = $this->fillJobWithData();
+        $attributes = $this->getJobAttributes();
+        $job = new Job($attributes);
         $ref = new \ReflectionClass($job);
         $properties = $ref->getProperties();
 
@@ -461,7 +471,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
     public function testItCanSerializeWithCorePropertiesAndLinkedDataContexts()
     {
-        $job = $this->fillJobWithData();
+        $attributes = $this->getJobAttributes();
+        $job = new Job($attributes);
         $ref = new \ReflectionClass($job);
         $properties = array_filter($ref->getProperties(), function ($property) {
             return $property->class != 'JobBrander\Jobs\Client\Job';
@@ -474,206 +485,41 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals((count($properties) + 2), count($json));
     }
 
-    private function fillJobWithData()
+    private function getJobAttributes()
     {
-        $value = uniqid();
-        $date = new \DateTime();
-        $poBox = 'PO Box '.$value;
-
-        $this->job->setAlternateName($value);
-        $this->job->setBaseSalary($value);
-        $this->job->setCity($value);
-        $this->job->setCompany($value);
-        $this->job->setCompanyDescription($value);
-        $this->job->setCompanyEmail($value);
-        $this->job->setCompanyLogo($value);
-        $this->job->setCompanyName($value);
-        $this->job->setCompanyUrl($value);
-        $this->job->setCountry($value);
-        $this->job->setDatePosted($date);
-        $this->job->setDescription($value);
-        $this->job->setEducationRequirements($value);
-        $this->job->setEmploymentType($value);
-        $this->job->setEndDate($value);
-        $this->job->setExperienceRequirements($value);
-        $this->job->setIncentiveCompensation($value);
-        $this->job->setIndustry($value);
-        $this->job->setJavascriptAction($value);
-        $this->job->setJavascriptFunction($value);
-        $this->job->setJobBenefits($value);
-        $this->job->setLocation($value);
-        $this->job->setMaximumSalary($value);
-        $this->job->setMinimumSalary($value);
-        $this->job->setName($value);
-        $this->job->setOccupationalCategory($value);
-        $this->job->setOccupationalCategoryWithCodeAndTitle($value, $value);
-        $this->job->setPostalCode($value);
-        $this->job->setQualifications($value);
-        $this->job->setQuery($value);
-        $this->job->setResponsibilities($value);
-        $this->job->setSalaryCurrency($value);
-        $this->job->setSkills($value);
-        $this->job->setSource($value);
-        $this->job->setSourceId($value);
-        $this->job->setSpecialCommitments($value);
-        $this->job->setStartDate($value);
-        $this->job->setState($value);
-        $this->job->setStreetAddress($poBox);
-        $this->job->setTelephone($value);
-        $this->job->setTitle($value);
-        $this->job->setUrl($value);
-        $this->job->setWorkHours($value);
-
-        return $this->job;
-    }
-
-    public function testItSerializesCompanyData()
-    {
-        $name = uniqid();
-        $description = uniqid();
-        $email = uniqid();
-        $logo = uniqid();
-        $url = uniqid();
-
-        $this->job->setCompany($name);
-        $this->job->setCompanyDescription($description);
-        $this->job->setCompanyEmail($email);
-        $this->job->setCompanyLogo($logo);
-        $this->job->setCompanyName($name);
-        $this->job->setCompanyUrl($url);
-
-        $toJson = $this->job->toJson();
-        $toObj = json_decode($toJson);
-
-        $this->assertEquals($name, $toObj->company);
-        $this->assertEquals($description, $toObj->hiringOrganization->description);
-        $this->assertEquals($email, $toObj->hiringOrganization->email);
-        $this->assertEquals($logo, $toObj->hiringOrganization->logo);
-        $this->assertEquals($name, $toObj->hiringOrganization->name);
-        $this->assertEquals($url, $toObj->hiringOrganization->url);
-    }
-
-    public function testItSerializesLocationData()
-    {
-        $city = uniqid();
-        $country = uniqid();
-        $location = uniqid();
-        $postal_code = uniqid();
-        $state = uniqid();
-        $address = uniqid();
-        $telephone = uniqid();
-
-        $this->job->setCity($city);
-        $this->job->setCountry($country);
-        $this->job->setLocation($location);
-        $this->job->setPostalCode($postal_code);
-        $this->job->setState($state);
-        $this->job->setStreetAddress($address);
-        $this->job->setTelephone($telephone);
-
-        $toJson = $this->job->toJson();
-        $toObj = json_decode($toJson);
-
-        $this->assertEquals($location, $toObj->location);
-        $this->assertEquals($city, $toObj->jobLocation->address->addressLocality);
-        $this->assertEquals($country, $toObj->jobLocation->address->addressCountry);
-        $this->assertEquals($postal_code, $toObj->jobLocation->address->postalCode);
-        $this->assertEquals($state, $toObj->jobLocation->address->addressRegion);
-        $this->assertEquals($address, $toObj->jobLocation->address->streetAddress);
-        $this->assertEquals($telephone, $toObj->jobLocation->telephone);
-    }
-
-    public function testItSerializesJobData()
-    {
-        $alt_name = uniqid();
-        $base_salary = rand(10, 1000);
-        $date = new \DateTime();
-        $description = uniqid();
-        $education = uniqid();
-        $employment_type = uniqid();
-        $experience = uniqid();
-        $incentive_comp = uniqid();
-        $industry = uniqid();
-        $js_action = uniqid();
-        $js_function = uniqid();
-        $job_benefits = uniqid();
-        $max_salary = uniqid();
-        $name = uniqid();
-        $occupational_cat = uniqid();
-        $qualifications = uniqid();
-        $query = uniqid();
-        $responsibilities = uniqid();
-        $salary_currency = uniqid();
-        $skills = uniqid();
-        $source = uniqid();
-        $sourceId = uniqid();
-        $special = uniqid();
-        $title = uniqid();
-        $type = uniqid();
-        $url = uniqid();
-        $work_hours = uniqid();
-
-        $this->job->setAlternateName($alt_name);
-        $this->job->setBaseSalary($base_salary);
-        $this->job->setDatePosted($date);
-        $this->job->setDescription($description);
-        $this->job->setEducationRequirements($education);
-        $this->job->setEmploymentType($employment_type);
-        $this->job->setEndDate($date);
-        $this->job->setExperienceRequirements($experience);
-        $this->job->setIncentiveCompensation($incentive_comp);
-        $this->job->setIndustry($industry);
-        $this->job->setJavascriptAction($js_action);
-        $this->job->setJavascriptFunction($js_function);
-        $this->job->setJobBenefits($job_benefits);
-        $this->job->setMaximumSalary($max_salary);
-        $this->job->setMinimumSalary($base_salary);
-        $this->job->setName($name);
-        $this->job->setOccupationalCategory($occupational_cat);
-        $this->job->setQualifications($qualifications);
-        $this->job->setQuery($query);
-        $this->job->setResponsibilities($responsibilities);
-        $this->job->setSalaryCurrency($salary_currency);
-        $this->job->setSkills($skills);
-        $this->job->setSource($source);
-        $this->job->setSourceId($sourceId);
-        $this->job->setSpecialCommitments($special);
-        $this->job->setStartDate($date);
-        $this->job->setTitle($title);
-        $this->job->setUrl($url);
-        $this->job->setWorkHours($work_hours);
-
-        $toJson = $this->job->toJson();
-        $toObj = json_decode($toJson);
-
-        $this->assertEquals($alt_name, $toObj->alternateName);
-        $this->assertEquals($base_salary, $toObj->baseSalary);
-        $this->assertEquals($date->format('Y-m-d'), $toObj->datePosted);
-        $this->assertEquals($description, $toObj->description);
-        $this->assertEquals($education, $toObj->educationRequirements);
-        $this->assertEquals($employment_type, $toObj->employmentType);
-        $this->assertEquals($date->format('Y-m-d'), $toObj->endDate);
-        $this->assertEquals($experience, $toObj->experienceRequirements);
-        $this->assertEquals($incentive_comp, $toObj->incentiveCompensation);
-        $this->assertEquals($industry, $toObj->industry);
-        $this->assertEquals($js_action, $toObj->javascriptAction);
-        $this->assertEquals($js_function, $toObj->javascriptFunction);
-        $this->assertEquals($job_benefits, $toObj->jobBenefits);
-        $this->assertEquals($max_salary, $toObj->maximumSalary);
-        $this->assertEquals($base_salary, $toObj->minimumSalary);
-        $this->assertEquals($name, $toObj->name);
-        $this->assertEquals($occupational_cat, $toObj->occupationalCategory);
-        $this->assertEquals($qualifications, $toObj->qualifications);
-        $this->assertEquals($query, $toObj->query);
-        $this->assertEquals($responsibilities, $toObj->responsibilities);
-        $this->assertEquals($salary_currency, $toObj->salaryCurrency);
-        $this->assertEquals($skills, $toObj->skills);
-        $this->assertEquals($source, $toObj->source);
-        $this->assertEquals($sourceId, $toObj->sourceId);
-        $this->assertEquals($special, $toObj->specialCommitments);
-        $this->assertEquals($date->format('Y-m-d'), $toObj->startDate);
-        $this->assertEquals($title, $toObj->title);
-        $this->assertEquals($url, $toObj->url);
-        $this->assertEquals($work_hours, $toObj->workHours);
+        $attributes = [
+            'alternateName' => uniqid(),
+            'baseSalary' => rand(10, 1000),
+            'datePosted' => new \DateTime(),
+            'description' => uniqid(),
+            'educationRequirements' => uniqid(),
+            'employmentType' => uniqid(),
+            'endDate' => uniqid(),
+            'experienceRequirements' => uniqid(),
+            'incentiveCompensation' => uniqid(),
+            'industry' => uniqid(),
+            'javascriptAction' => uniqid(),
+            'javascriptFunction' => uniqid(),
+            'jobBenefits' => uniqid(),
+            'maximumSalary' => uniqid(),
+            'minimumSalary' => uniqid(),
+            'name' => uniqid(),
+            'occupationalCategory' => uniqid(),
+            'qualifications' => uniqid(),
+            'query' => uniqid(),
+            'responsibilities' => uniqid(),
+            'salaryCurrency' => uniqid(),
+            'skills' => uniqid(),
+            'source' => uniqid(),
+            'sourceId' => uniqid(),
+            'specialCommitments' => uniqid(),
+            'startDate' => new \DateTime(),
+            'title' => uniqid(),
+            'url' => uniqid(),
+            'workHours' => uniqid(),
+            'company' => uniqid(),
+            'location' => uniqid(),
+        ];
+        return $attributes;
     }
 }
