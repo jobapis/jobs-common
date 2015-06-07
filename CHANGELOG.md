@@ -1,6 +1,20 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 0.7.0 - 2015-06-07
+
+### Added
+- Support for Guzzle v.6.0 in abstract provider
+
+### Deprecated
+- xml() and json() methods previously used in provider are no longer supported by Guzzle
+
+### Fixed
+- Nothing
+
+### Security
+- Nothing
+
 ## 0.6.1 - 2015-05-27
 
 ### Added

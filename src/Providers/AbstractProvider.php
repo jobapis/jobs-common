@@ -124,8 +124,9 @@ abstract class AbstractProvider
 
         $response = $client->{$verb}($url, $options);
 
-        $payload = $response->{$this->getFormat()}();
-        $payload = json_decode(json_encode($payload), true);
+        $body = (string) $response->getBody();
+
+        $payload = $this->parseAsFormat($body, $this->getFormat());
 
         $listings = $this->getRawListings($payload);
 
@@ -286,6 +287,72 @@ abstract class AbstractProvider
         }, $defaults);
 
         return $attributes;
+    }
+
+    /**
+     * Attempt to parse string as given format
+     *
+     * @param  string  $string
+     * @param  string  $format
+     *
+     * @return array
+     */
+    private function parseAsFormat($string, $format)
+    {
+        $method = 'parseAs'.ucfirst(strtolower($format));
+
+        if (method_exists($this, $method)) {
+            return $this->$method($string);
+        }
+
+        return [];
+    }
+
+    /**
+     * Attempt to parse as Json
+     *
+     * @param  string $string
+     *
+     * @return array
+     */
+    private function parseAsJson($string)
+    {
+        try {
+            $json = json_decode($string, true);
+
+            if (json_last_error() != JSON_ERROR_NONE) {
+                throw new \Exception;
+            }
+
+            return $json;
+        } catch (\Exception $e) {
+        }
+
+        return [];
+    }
+
+    /**
+     * Attempt to parse as XML
+     *
+     * @param  string $string
+     *
+     * @return array
+     */
+    private function parseAsXml($string)
+    {
+        try {
+            return json_decode(
+                json_encode(
+                    simplexml_load_string(
+                        $string
+                    )
+                ),
+                true
+            );
+        } catch (\Exception $e) {
+        }
+
+        return [];
     }
 
     /**
