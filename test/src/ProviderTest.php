@@ -151,41 +151,37 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testItCanGetJobsValidJson()
     {
-        $url = uniqid();
-        $verb = uniqid();
-        $path = uniqid();
-        $format = 'json';
-        $keyword = uniqid();
-        $source = uniqid();
-        $params = [uniqid()];
-        $jobs_count = rand(2,10);
-        $payload = [$path => []];
+        $provider = $this->getProviderAttributes();
 
-        for ($i = 0; $i < $jobs_count; $i++) {
-            array_push($payload[$path], ['title' => uniqid()]);
+        $payload = [$provider['path'] => []];
+
+        for ($i = 0; $i < $provider['jobs_count']; $i++) {
+            array_push($payload[$provider['path']], ['title' => uniqid()]);
         }
 
         $responseBody = json_encode($payload);
 
         $job = m::mock($this->jobClass);
-        $job->shouldReceive('setQuery')->with($keyword)->times($jobs_count)->andReturnSelf();
-        $job->shouldReceive('setSource')->with($source)->times($jobs_count)->andReturnSelf();
+        $job->shouldReceive('setQuery')->with($provider['keyword'])
+            ->times($provider['jobs_count'])->andReturnSelf();
+        $job->shouldReceive('setSource')->with($provider['source'])
+            ->times($provider['jobs_count'])->andReturnSelf();
 
-        $this->client->shouldReceive('getKeyword')->andReturn($keyword);
-        $this->client->shouldReceive('createJobObject')->times($jobs_count)->andReturn($job);
-        $this->client->shouldReceive('getFormat')->andReturn($format);
-        $this->client->shouldReceive('getSource')->andReturn($source);
-        $this->client->shouldReceive('getListingsPath')->andReturn($path);
-        $this->client->shouldReceive('getParameters')->andReturn($params);
-        $this->client->shouldReceive('getUrl')->andReturn($url);
-        $this->client->shouldReceive('getVerb')->andReturn($verb);
+        $this->client->shouldReceive('getKeyword')->andReturn($provider['keyword']);
+        $this->client->shouldReceive('createJobObject')->times($provider['jobs_count'])->andReturn($job);
+        $this->client->shouldReceive('getFormat')->andReturn($provider['format']);
+        $this->client->shouldReceive('getSource')->andReturn($provider['source']);
+        $this->client->shouldReceive('getListingsPath')->andReturn($provider['path']);
+        $this->client->shouldReceive('getParameters')->andReturn($provider['params']);
+        $this->client->shouldReceive('getUrl')->andReturn($provider['url']);
+        $this->client->shouldReceive('getVerb')->andReturn($provider['verb']);
 
         $response = m::mock('GuzzleHttp\Message\Response');
         $response->shouldReceive('getBody')->once()->andReturn($responseBody);
 
         $http = m::mock('GuzzleHttp\Client');
-        $http->shouldReceive(strtolower($verb))
-            ->with($url, $this->client->getHttpClientOptions())
+        $http->shouldReceive(strtolower($provider['verb']))
+            ->with($provider['url'], $this->client->getHttpClientOptions())
             ->once()
             ->andReturn($response);
         $this->client->setClient($http);
@@ -193,40 +189,36 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $results = $this->client->getJobs();
 
         $this->assertInstanceOf($this->collectionClass, $results);
-        $this->assertCount($jobs_count, $results);
+        $this->assertCount($provider['jobs_count'], $results);
     }
 
     public function testItCanNotGetJobsInvalidJson()
     {
-        $url = uniqid();
-        $verb = uniqid();
-        $path = '';
-        $format = 'json';
-        $keyword = uniqid();
-        $source = uniqid();
-        $params = [uniqid()];
-        $jobs_count = 0;
+        $provider = $this->getProviderAttributes([ 'path' => '', 'jobs_count' => 0 ]);
+
         $responseBody = uniqid();
 
         $job = m::mock($this->jobClass);
-        $job->shouldReceive('setQuery')->with($keyword)->times($jobs_count)->andReturnSelf();
-        $job->shouldReceive('setSource')->with($source)->times($jobs_count)->andReturnSelf();
+        $job->shouldReceive('setQuery')->with($provider['keyword'])
+            ->times($provider['jobs_count'])->andReturnSelf();
+        $job->shouldReceive('setSource')->with($provider['source'])
+            ->times($provider['jobs_count'])->andReturnSelf();
 
-        $this->client->shouldReceive('getKeyword')->andReturn($keyword);
-        $this->client->shouldReceive('createJobObject')->times($jobs_count)->andReturn($job);
-        $this->client->shouldReceive('getFormat')->andReturn($format);
-        $this->client->shouldReceive('getSource')->andReturn($source);
-        $this->client->shouldReceive('getListingsPath')->andReturn($path);
-        $this->client->shouldReceive('getParameters')->andReturn($params);
-        $this->client->shouldReceive('getUrl')->andReturn($url);
-        $this->client->shouldReceive('getVerb')->andReturn($verb);
+        $this->client->shouldReceive('getKeyword')->andReturn($provider['keyword']);
+        $this->client->shouldReceive('createJobObject')->times($provider['jobs_count'])->andReturn($job);
+        $this->client->shouldReceive('getFormat')->andReturn($provider['format']);
+        $this->client->shouldReceive('getSource')->andReturn($provider['source']);
+        $this->client->shouldReceive('getListingsPath')->andReturn($provider['path']);
+        $this->client->shouldReceive('getParameters')->andReturn($provider['params']);
+        $this->client->shouldReceive('getUrl')->andReturn($provider['url']);
+        $this->client->shouldReceive('getVerb')->andReturn($provider['verb']);
 
         $response = m::mock('GuzzleHttp\Message\Response');
         $response->shouldReceive('getBody')->once()->andReturn($responseBody);
 
         $http = m::mock('GuzzleHttp\Client');
-        $http->shouldReceive(strtolower($verb))
-            ->with($url, $this->client->getHttpClientOptions())
+        $http->shouldReceive(strtolower($provider['verb']))
+            ->with($provider['url'], $this->client->getHttpClientOptions())
             ->once()
             ->andReturn($response);
         $this->client->setClient($http);
@@ -234,50 +226,49 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $results = $this->client->getJobs();
 
         $this->assertInstanceOf($this->collectionClass, $results);
-        $this->assertCount($jobs_count, $results);
+        $this->assertCount($provider['jobs_count'], $results);
     }
 
     public function testItCanGetJobsValidXml()
     {
-        $url = uniqid();
-        $verb = uniqid();
-        $path = 'a'.uniqid();
-        $format = 'xml';
-        $keyword = uniqid();
-        $source = uniqid();
-        $params = [uniqid()];
-        $jobs_count = rand(2,10);
-        $payload = [$path => []];
+        $provider = $this->getProviderAttributes([
+            'path' => 'a'.uniqid(), 'format' => 'xml'
+        ]);
+
+        $payload = [$provider['path'] => []];
 
         $responseBody = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><Root>";
 
-        for ($i = 0; $i < $jobs_count; $i++) {
+        for ($i = 0; $i < $provider['jobs_count']; $i++) {
             $title = uniqid();
-            array_push($payload[$path], ['title' => $title]);
+            $path = $provider['path'];
+            array_push($payload[$provider['path']], ['title' => $title]);
             $responseBody .= "<$path><title>$title</title></$path>";
         }
 
         $responseBody .= "</Root>";
 
         $job = m::mock($this->jobClass);
-        $job->shouldReceive('setQuery')->with($keyword)->times($jobs_count)->andReturnSelf();
-        $job->shouldReceive('setSource')->with($source)->times($jobs_count)->andReturnSelf();
+        $job->shouldReceive('setQuery')->with($provider['keyword'])
+            ->times($provider['jobs_count'])->andReturnSelf();
+        $job->shouldReceive('setSource')->with($provider['source'])
+            ->times($provider['jobs_count'])->andReturnSelf();
 
-        $this->client->shouldReceive('getKeyword')->andReturn($keyword);
-        $this->client->shouldReceive('createJobObject')->times($jobs_count)->andReturn($job);
-        $this->client->shouldReceive('getFormat')->andReturn($format);
-        $this->client->shouldReceive('getSource')->andReturn($source);
-        $this->client->shouldReceive('getListingsPath')->andReturn($path);
-        $this->client->shouldReceive('getParameters')->andReturn($params);
-        $this->client->shouldReceive('getUrl')->andReturn($url);
-        $this->client->shouldReceive('getVerb')->andReturn($verb);
+        $this->client->shouldReceive('getKeyword')->andReturn($provider['keyword']);
+        $this->client->shouldReceive('createJobObject')->times($provider['jobs_count'])->andReturn($job);
+        $this->client->shouldReceive('getFormat')->andReturn($provider['format']);
+        $this->client->shouldReceive('getSource')->andReturn($provider['source']);
+        $this->client->shouldReceive('getListingsPath')->andReturn($provider['path']);
+        $this->client->shouldReceive('getParameters')->andReturn($provider['params']);
+        $this->client->shouldReceive('getUrl')->andReturn($provider['url']);
+        $this->client->shouldReceive('getVerb')->andReturn($provider['verb']);
 
         $response = m::mock('GuzzleHttp\Message\Response');
         $response->shouldReceive('getBody')->once()->andReturn($responseBody);
 
         $http = m::mock('GuzzleHttp\Client');
-        $http->shouldReceive(strtolower($verb))
-            ->with($url, $this->client->getHttpClientOptions())
+        $http->shouldReceive(strtolower($provider['verb']))
+            ->with($provider['url'], $this->client->getHttpClientOptions())
             ->once()
             ->andReturn($response);
         $this->client->setClient($http);
@@ -285,40 +276,37 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $results = $this->client->getJobs();
 
         $this->assertInstanceOf($this->collectionClass, $results);
-        $this->assertCount($jobs_count, $results);
+        $this->assertCount($provider['jobs_count'], $results);
     }
 
     public function testItCanNotGetJobsInvalidXml()
     {
-        $url = uniqid();
-        $verb = uniqid();
-        $path = '';
-        $format = 'xml';
-        $keyword = uniqid();
-        $source = uniqid();
-        $params = [uniqid()];
-        $jobs_count = 0;
+        $provider = $this->getProviderAttributes([
+            'path' => '', 'format' => 'xml', 'jobs_count' => 0
+        ]);
         $responseBody = uniqid();
 
         $job = m::mock($this->jobClass);
-        $job->shouldReceive('setQuery')->with($keyword)->times($jobs_count)->andReturnSelf();
-        $job->shouldReceive('setSource')->with($source)->times($jobs_count)->andReturnSelf();
+        $job->shouldReceive('setQuery')->with($provider['keyword'])
+            ->times($provider['jobs_count'])->andReturnSelf();
+        $job->shouldReceive('setSource')->with($provider['source'])
+            ->times($provider['jobs_count'])->andReturnSelf();
 
-        $this->client->shouldReceive('getKeyword')->andReturn($keyword);
-        $this->client->shouldReceive('createJobObject')->times($jobs_count)->andReturn($job);
-        $this->client->shouldReceive('getFormat')->andReturn($format);
-        $this->client->shouldReceive('getSource')->andReturn($source);
-        $this->client->shouldReceive('getListingsPath')->andReturn($path);
-        $this->client->shouldReceive('getParameters')->andReturn($params);
-        $this->client->shouldReceive('getUrl')->andReturn($url);
-        $this->client->shouldReceive('getVerb')->andReturn($verb);
+        $this->client->shouldReceive('getKeyword')->andReturn($provider['keyword']);
+        $this->client->shouldReceive('createJobObject')->times($provider['jobs_count'])->andReturn($job);
+        $this->client->shouldReceive('getFormat')->andReturn($provider['format']);
+        $this->client->shouldReceive('getSource')->andReturn($provider['source']);
+        $this->client->shouldReceive('getListingsPath')->andReturn($provider['path']);
+        $this->client->shouldReceive('getParameters')->andReturn($provider['params']);
+        $this->client->shouldReceive('getUrl')->andReturn($provider['url']);
+        $this->client->shouldReceive('getVerb')->andReturn($provider['verb']);
 
         $response = m::mock('GuzzleHttp\Message\Response');
         $response->shouldReceive('getBody')->once()->andReturn($responseBody);
 
         $http = m::mock('GuzzleHttp\Client');
-        $http->shouldReceive(strtolower($verb))
-            ->with($url, $this->client->getHttpClientOptions())
+        $http->shouldReceive(strtolower($provider['verb']))
+            ->with($provider['url'], $this->client->getHttpClientOptions())
             ->once()
             ->andReturn($response);
         $this->client->setClient($http);
@@ -326,40 +314,37 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $results = $this->client->getJobs();
 
         $this->assertInstanceOf($this->collectionClass, $results);
-        $this->assertCount($jobs_count, $results);
+        $this->assertCount($provider['jobs_count'], $results);
     }
 
     public function testItCanNotGetJobsInvalidFormat()
     {
-        $url = uniqid();
-        $verb = uniqid();
-        $path = '';
-        $format = uniqid();
-        $keyword = uniqid();
-        $source = uniqid();
-        $params = [uniqid()];
-        $jobs_count = 0;
+        $provider = $this->getProviderAttributes([
+            'path' => '', 'format' => uniqid(), 'jobs_count' => 0
+        ]);
         $responseBody = uniqid();
 
         $job = m::mock($this->jobClass);
-        $job->shouldReceive('setQuery')->with($keyword)->times($jobs_count)->andReturnSelf();
-        $job->shouldReceive('setSource')->with($source)->times($jobs_count)->andReturnSelf();
+        $job->shouldReceive('setQuery')->with($provider['keyword'])
+            ->times($provider['jobs_count'])->andReturnSelf();
+        $job->shouldReceive('setSource')->with($provider['source'])
+            ->times($provider['jobs_count'])->andReturnSelf();
 
-        $this->client->shouldReceive('getKeyword')->andReturn($keyword);
-        $this->client->shouldReceive('createJobObject')->times($jobs_count)->andReturn($job);
-        $this->client->shouldReceive('getFormat')->andReturn($format);
-        $this->client->shouldReceive('getSource')->andReturn($source);
-        $this->client->shouldReceive('getListingsPath')->andReturn($path);
-        $this->client->shouldReceive('getParameters')->andReturn($params);
-        $this->client->shouldReceive('getUrl')->andReturn($url);
-        $this->client->shouldReceive('getVerb')->andReturn($verb);
+        $this->client->shouldReceive('getKeyword')->andReturn($provider['keyword']);
+        $this->client->shouldReceive('createJobObject')->times($provider['jobs_count'])->andReturn($job);
+        $this->client->shouldReceive('getFormat')->andReturn($provider['format']);
+        $this->client->shouldReceive('getSource')->andReturn($provider['source']);
+        $this->client->shouldReceive('getListingsPath')->andReturn($provider['path']);
+        $this->client->shouldReceive('getParameters')->andReturn($provider['params']);
+        $this->client->shouldReceive('getUrl')->andReturn($provider['url']);
+        $this->client->shouldReceive('getVerb')->andReturn($provider['verb']);
 
         $response = m::mock('GuzzleHttp\Message\Response');
         $response->shouldReceive('getBody')->once()->andReturn($responseBody);
 
         $http = m::mock('GuzzleHttp\Client');
-        $http->shouldReceive(strtolower($verb))
-            ->with($url, $this->client->getHttpClientOptions())
+        $http->shouldReceive(strtolower($provider['verb']))
+            ->with($provider['url'], $this->client->getHttpClientOptions())
             ->once()
             ->andReturn($response);
         $this->client->setClient($http);
@@ -367,6 +352,21 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $results = $this->client->getJobs();
 
         $this->assertInstanceOf($this->collectionClass, $results);
-        $this->assertCount($jobs_count, $results);
+        $this->assertCount($provider['jobs_count'], $results);
+    }
+
+    private function getProviderAttributes($attributes = [])
+    {
+        $defaults = [
+            'url' => uniqid(),
+            'verb' => uniqid(),
+            'path' => uniqid(),
+            'format' => 'json',
+            'keyword' => uniqid(),
+            'source' => uniqid(),
+            'params' => [uniqid()],
+            'jobs_count' => rand(2,10),
+        ];
+        return array_replace($defaults, $attributes);
     }
 }
