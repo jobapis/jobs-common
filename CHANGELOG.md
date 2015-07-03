@@ -1,6 +1,20 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 1.0.0 - 2015-07-03
+
+### Added
+- Version 1.0.0 Release
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Nothing
+
+### Security
+- Nothing
+
 ## 0.7.0 - 2015-06-07
 
 ### Added
