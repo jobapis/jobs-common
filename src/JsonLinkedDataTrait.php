@@ -1,5 +1,9 @@
 <?php namespace JobBrander\Jobs\Client;
 
+use Closure;
+use ReflectionClass;
+use ReflectionProperty;
+
 trait JsonLinkedDataTrait
 {
     /**
@@ -40,7 +44,7 @@ trait JsonLinkedDataTrait
      */
     private function createSerializedArrayFromObject($object, $serializeSetting)
     {
-        $ref = new \ReflectionClass($object);
+        $ref = new ReflectionClass($object);
         $properties = $ref->getProperties();
 
         $array = [];
@@ -49,24 +53,63 @@ trait JsonLinkedDataTrait
             $array["@type"] = $ref->getShortName();
         }
 
-        foreach ($properties as $property) {
-            $property->setAccessible(true);
-            $name = $property->getName();
-            $value = $property->getValue($object);
-            if ($property->class != 'JobBrander\Jobs\Client\Job' || !$this->settingIsCoreSchema($serializeSetting)) {
-                if (!is_object($value)) {
-                    $array[$name] = $value;
-                } else {
-                    if ($value instanceof \DateTime) {
-                        $array[$name] = date_format($value, 'Y-m-d');
-                    } else {
-                        $array[$name] = $this->createSerializedArrayFromObject(
-                            $value,
-                            $serializeSetting
-                        );
-                    }
-                }
+        $process = function ($property) use (&$array, $object, $serializeSetting) {
+            if ($this->includeGivenProperty($property, $serializeSetting)) {
+                $property->setAccessible(true);
+                $name = $property->getName();
+                $value = $property->getValue($object);
+
+                $recursion = function ($value) use ($serializeSetting) {
+                    return call_user_func_array(
+                        [$this, 'createSerializedArrayFromObject'],
+                        [$value, $serializeSetting]
+                    );
+                };
+
+                $array = call_user_func_array(
+                    [$this, 'mergeWithArray'],
+                    [$array, $name, $value, $recursion]
+                );
             }
+        };
+
+        array_map($process, $properties);
+
+        return $array;
+    }
+
+    /**
+     * Check if given property should be included in serialization
+     *
+     * @param  ReflectionProperty  $property
+     * @param  string              $serializeSetting
+     *
+     * @return boolean
+     */
+    private function includeGivenProperty(ReflectionProperty $property, $serializeSetting)
+    {
+        return $property->class != Job::class
+            || !$this->settingIsCoreSchema($serializeSetting);
+    }
+
+    /**
+     * Attempt to merge a value with an existing array
+     *
+     * @param  array   $array
+     * @param  string  $name
+     * @param  mixed   $value
+     * @param  Closure $recursion
+     *
+     * @return array
+     */
+    private function mergeWithArray(array $array, $name, $value, Closure $recursion)
+    {
+        if (!is_object($value)) {
+            $array[$name] = $value;
+        } elseif ($value instanceof \DateTime) {
+            $array[$name] = date_format($value, 'Y-m-d');
+        } else {
+            $array[$name] = $recursion($value);
         }
 
         return $array;
