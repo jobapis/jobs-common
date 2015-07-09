@@ -120,3 +120,5 @@ Please see [CONTRIBUTING](https://github.com/jobbrander/jobs-common/blob/master/
 ## License
 
 The Apache 2.0. Please see [License File](https://github.com/jobbrander/jobs-common/blob/master/LICENSE) for more information.
+
+:)
