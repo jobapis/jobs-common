@@ -128,7 +128,7 @@ abstract class AbstractProvider
 
         $payload = $this->parseAsFormat($body, $this->getFormat());
 
-        $listings = $this->getRawListings($payload);
+        $listings = is_array($payload) ? $this->getRawListings($payload) : [];
 
         return $this->getJobsCollectionFromListings($listings);
     }
