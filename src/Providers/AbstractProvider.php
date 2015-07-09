@@ -326,6 +326,7 @@ abstract class AbstractProvider
 
             return $json;
         } catch (\Exception $e) {
+            // Ignore malformed json.
         }
 
         return [];
@@ -350,6 +351,7 @@ abstract class AbstractProvider
                 true
             );
         } catch (\Exception $e) {
+            // Ignore malformed xml.
         }
 
         return [];
