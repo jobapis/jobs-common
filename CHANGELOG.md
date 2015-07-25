@@ -1,6 +1,20 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 1.0.1 - 2015-07-25
+
+### Added
+- `LIBXML_NOCDATA` parameter to XML parser in provider to support CDATA fields
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Nothing
+
+### Security
+- Nothing
+
 ## 1.0.0 - 2015-07-03
 
 ### Added
