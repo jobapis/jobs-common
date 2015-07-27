@@ -1,6 +1,20 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 1.0.2 - 2015-07-27
+
+### Added
+- Remove allowed failures from test suite
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Nothing
+
+### Security
+- Nothing
+
 ## 1.0.1 - 2015-07-25
 
 ### Added
