@@ -243,7 +243,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
             $title = uniqid();
             $path = $provider['path'];
             array_push($payload[$provider['path']], ['title' => $title]);
-            $responseBody .= "<$path><title>$title</title></$path>";
+            $responseBody .= "<$path><title><![CDATA[$title]]></title></$path>";
         }
 
         $responseBody .= "</Root>";
