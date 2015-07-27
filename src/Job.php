@@ -284,6 +284,16 @@ class Job extends JobPosting implements JsonSerializable
     }
 
     /**
+     * Get core schema types
+     *
+     * @return array
+     */
+    public function getCoreSchemaTypes()
+    {
+        return [self::SERIALIZE_CORE_SCHEMA_LD];
+    }
+
+    /**
      * Get country
      *
      * @return string
@@ -322,6 +332,16 @@ class Job extends JobPosting implements JsonSerializable
         }
 
         return $this->getOrCreateJobLocation();
+    }
+
+    /**
+     * Get linked data schema types
+     *
+     * @return array
+     */
+    public function getLinkedDataSchemaTypes()
+    {
+        return [self::SERIALIZE_STANDARD_LD, self::SERIALIZE_CORE_SCHEMA_LD];
     }
 
     /**

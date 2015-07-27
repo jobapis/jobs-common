@@ -13,7 +13,7 @@ trait JsonLinkedDataTrait
      *
      * @return array
      */
-    protected function serialize($serializeSetting = self::SERIALIZE_STANDARD)
+    protected function serialize($serializeSetting)
     {
         $array = [];
 
@@ -116,6 +116,13 @@ trait JsonLinkedDataTrait
     }
 
     /**
+     * Get core schema types
+     *
+     * @return array
+     */
+    abstract public function getCoreSchemaTypes();
+
+    /**
      * Check if setting indicates if only core schema should be included
      *
      * @param  string $setting
@@ -124,8 +131,17 @@ trait JsonLinkedDataTrait
      */
     private function settingIsCoreSchema($setting)
     {
-        return in_array($setting, [self::SERIALIZE_CORE_SCHEMA_LD]);
+        $coreTypes = $this->getCoreSchemaTypes();
+
+        return in_array($setting, $coreTypes);
     }
+
+    /**
+     * Get linked data schema types
+     *
+     * @return array
+     */
+    abstract public function getLinkedDataSchemaTypes();
 
     /**
      * Check if setting indicates if Linked Data support should be provided
@@ -136,6 +152,8 @@ trait JsonLinkedDataTrait
      */
     private function settingIsLinkedData($setting)
     {
-        return in_array($setting, [self::SERIALIZE_STANDARD_LD, self::SERIALIZE_CORE_SCHEMA_LD]);
+        $linkedDataTypes = $this->getLinkedDataSchemaTypes();
+
+        return in_array($setting, $linkedDataTypes);
     }
 }
