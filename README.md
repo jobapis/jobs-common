@@ -49,6 +49,7 @@ Gateway | Composer Package | Maintainer
 [Jobs2Careers](https://github.com/JobBrander/jobs-jobs2careers) | jobbrander/jobs-jobs2careers| [Karl Hughes](https://github.com/karllhughes)
 [JuJu](https://github.com/JobBrander/jobs-juju) | jobbrander/jobs-juju| [Karl Hughes](https://github.com/karllhughes)
 [SimplyHired](https://github.com/JobBrander/jobs-simplyhired) | jobbrander/jobs-simplyhired| [Karl Hughes](https://github.com/karllhughes)
+[Careercast](https://github.com/JobBrander/jobs-careercast) | jobbrander/jobs-careercast| [Karl Hughes](https://github.com/karllhughes)
 
 ### Third party providers
 
