@@ -1,6 +1,21 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 1.0.3 - 2015-08-05
+
+### Added
+- Implemented the getParameters method in abstract provider
+- Location Parser helper method
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Nothing
+
+### Security
+- Nothing
+
 ## 1.0.2 - 2015-07-27
 
 ### Added
