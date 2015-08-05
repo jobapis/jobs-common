@@ -360,6 +360,17 @@ abstract class AbstractProvider
     }
 
     /**
+     * Parse location string into components.
+     *
+     * @param string $location
+     * @return  array
+     **/
+    public static function parseLocation($location, $separator = ', ')
+    {
+        return explode($separator, $location);
+    }
+
+    /**
      * Sets http client
      *
      * @param HttpClient $client
