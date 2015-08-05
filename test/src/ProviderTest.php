@@ -355,6 +355,31 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertCount($provider['jobs_count'], $results);
     }
 
+    public function testItCanParseLocationWithoutSeparator()
+    {
+        $seg1 = uniqid();
+        $seg2 = uniqid();
+        $string = $seg1.', '.$seg2;
+
+        $results = $this->client->parseLocation($string);
+
+        $this->assertEquals($seg1, $results[0]);
+        $this->assertEquals($seg2, $results[1]);
+    }
+
+    public function testItCanParseLocationWithSeparator()
+    {
+        $seg1 = uniqid();
+        $seg2 = uniqid();
+        $seperator = uniqid();
+        $string = $seg1.$seperator.$seg2;
+
+        $results = $this->client->parseLocation($string, $seperator);
+
+        $this->assertEquals($seg1, $results[0]);
+        $this->assertEquals($seg2, $results[1]);
+    }
+
     private function getProviderAttributes($attributes = [])
     {
         $defaults = [
