@@ -166,7 +166,10 @@ abstract class AbstractProvider
      *
      * @return  array
      */
-    abstract public function getParameters();
+    public function getParameters()
+    {
+        return [];
+    }
 
     /**
      * Get raw listings from payload

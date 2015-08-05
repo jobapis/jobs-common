@@ -15,6 +15,13 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
             ->shouldAllowMockingProtectedMethods();
     }
 
+    public function testGetParameters()
+    {
+        $parameters = $this->client->getParameters();
+
+        $this->assertEquals([], $parameters);
+    }
+
     public function testItPopulatesExistingAttributeswhenBuilt()
     {
         $attributes = [

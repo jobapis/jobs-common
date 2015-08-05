@@ -77,7 +77,6 @@ If you are working with a job listing service not supported out-of-the-box or by
 abstract public function createJobObject($payload);
 abstract public function getFormat();
 abstract public function getListingsPath();
-abstract public function getParameters();
 abstract public function getUrl();
 abstract public function getVerb();
 ```
