@@ -50,6 +50,7 @@ Gateway | Composer Package | Maintainer
 [JuJu](https://github.com/JobBrander/jobs-juju) | jobbrander/jobs-juju| [Karl Hughes](https://github.com/karllhughes)
 [SimplyHired](https://github.com/JobBrander/jobs-simplyhired) | jobbrander/jobs-simplyhired| [Karl Hughes](https://github.com/karllhughes)
 [Careercast](https://github.com/JobBrander/jobs-careercast) | jobbrander/jobs-careercast| [Karl Hughes](https://github.com/karllhughes)
+[ZipRecruiter](https://github.com/JobBrander/jobs-ziprecruiter) | jobbrander/jobs-ziprecruiter| [Karl Hughes](https://github.com/karllhughes)
 
 ### Third party providers
 
