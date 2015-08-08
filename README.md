@@ -44,13 +44,13 @@ Gateway | Composer Package | Maintainer
 --- | --- | ---
 [Authentic Jobs](https://github.com/JobBrander/jobs-authenticjobs) | jobbrander/jobs-authenticjobs| [Steven Maguire](https://github.com/stevenmaguire)
 [CareerBuilder](https://github.com/JobBrander/jobs-careerbuilder) | jobbrander/jobs-careerbuilder| [Karl Hughes](https://github.com/karllhughes)
+[Careercast](https://github.com/JobBrander/jobs-careercast) | jobbrander/jobs-careercast| [Karl Hughes](https://github.com/karllhughes)
 [Dice](https://github.com/JobBrander/jobs-dice) | jobbrander/jobs-dice| [Karl Hughes](https://github.com/karllhughes)
 [Govt](https://github.com/JobBrander/jobs-govt) | jobbrander/jobs-govt| [Karl Hughes](https://github.com/karllhughes)
 [Indeed](https://github.com/JobBrander/jobs-indeed) | jobbrander/jobs-indeed| [Steven Maguire](https://github.com/stevenmaguire)
 [Jobs2Careers](https://github.com/JobBrander/jobs-jobs2careers) | jobbrander/jobs-jobs2careers| [Karl Hughes](https://github.com/karllhughes)
 [JuJu](https://github.com/JobBrander/jobs-juju) | jobbrander/jobs-juju| [Karl Hughes](https://github.com/karllhughes)
 [SimplyHired](https://github.com/JobBrander/jobs-simplyhired) | jobbrander/jobs-simplyhired| [Karl Hughes](https://github.com/karllhughes)
-[Careercast](https://github.com/JobBrander/jobs-careercast) | jobbrander/jobs-careercast| [Karl Hughes](https://github.com/karllhughes)
 [ZipRecruiter](https://github.com/JobBrander/jobs-ziprecruiter) | jobbrander/jobs-ziprecruiter| [Karl Hughes](https://github.com/karllhughes)
 
 ### Third party providers
