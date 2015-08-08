@@ -42,6 +42,7 @@ There are as many job listing services we plan to support officially.
 
 Gateway | Composer Package | Maintainer
 --- | --- | ---
+[Authentic Jobs](https://github.com/JobBrander/jobs-authenticjobs) | jobbrander/jobs-authenticjobs| [Steven Maguire](https://github.com/stevenmaguire)
 [CareerBuilder](https://github.com/JobBrander/jobs-careerbuilder) | jobbrander/jobs-careerbuilder| [Karl Hughes](https://github.com/karllhughes)
 [Dice](https://github.com/JobBrander/jobs-dice) | jobbrander/jobs-dice| [Karl Hughes](https://github.com/karllhughes)
 [Govt](https://github.com/JobBrander/jobs-govt) | jobbrander/jobs-govt| [Karl Hughes](https://github.com/karllhughes)
