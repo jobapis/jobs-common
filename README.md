@@ -46,6 +46,7 @@ Gateway | Composer Package | Maintainer
 [CareerBuilder](https://github.com/JobBrander/jobs-careerbuilder) | jobbrander/jobs-careerbuilder| [Karl Hughes](https://github.com/karllhughes)
 [Careercast](https://github.com/JobBrander/jobs-careercast) | jobbrander/jobs-careercast| [Karl Hughes](https://github.com/karllhughes)
 [Dice](https://github.com/JobBrander/jobs-dice) | jobbrander/jobs-dice| [Karl Hughes](https://github.com/karllhughes)
+[Elance](https://github.com/JobBrander/jobs-elance) | jobbrander/jobs-elance| [Steven Maguire](https://github.com/stevenmaguire)
 [Github Jobs](https://github.com/JobBrander/jobs-github) | jobbrander/jobs-github| [Steven Maguire](https://github.com/stevenmaguire)
 [Govt](https://github.com/JobBrander/jobs-govt) | jobbrander/jobs-govt| [Karl Hughes](https://github.com/karllhughes)
 [Indeed](https://github.com/JobBrander/jobs-indeed) | jobbrander/jobs-indeed| [Steven Maguire](https://github.com/stevenmaguire)
