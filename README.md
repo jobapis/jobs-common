@@ -51,6 +51,7 @@ Gateway | Composer Package | Maintainer
 [Govt](https://github.com/JobBrander/jobs-govt) | jobbrander/jobs-govt| [Karl Hughes](https://github.com/karllhughes)
 [Indeed](https://github.com/JobBrander/jobs-indeed) | jobbrander/jobs-indeed| [Steven Maguire](https://github.com/stevenmaguire)
 [Jobs2Careers](https://github.com/JobBrander/jobs-jobs2careers) | jobbrander/jobs-jobs2careers| [Karl Hughes](https://github.com/karllhughes)
+[Muse](https://github.com/JobBrander/jobs-muse) | jobbrander/jobs-muse| [Karl Hughes](https://github.com/karllhughes)
 [JuJu](https://github.com/JobBrander/jobs-juju) | jobbrander/jobs-juju| [Karl Hughes](https://github.com/karllhughes)
 [SimplyHired](https://github.com/JobBrander/jobs-simplyhired) | jobbrander/jobs-simplyhired| [Karl Hughes](https://github.com/karllhughes)
 [ZipRecruiter](https://github.com/JobBrander/jobs-ziprecruiter) | jobbrander/jobs-ziprecruiter| [Karl Hughes](https://github.com/karllhughes)
