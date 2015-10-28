@@ -485,6 +485,29 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals((count($properties) + 2), count($json));
     }
 
+    public function testItCanBeRepresentedAsArray()
+    {
+        $attributes = $this->getJobAttributes();
+        $address = new PostalAddress;
+        $hiringOrg = new Organization;
+        $jobLocation = new Place;
+        $hiringOrg->setAddress($address);
+        $jobLocation->setAddress($address);
+        $job = new Job($attributes);
+        $jobArray = $job->setHiringOrganization($hiringOrg)
+            ->setJobLocation($jobLocation)
+            ->toArray();
+
+        array_walk_recursive($attributes, function ($value, $key) use ($jobArray) {
+            $this->assertEquals($jobArray[$key], $value);
+        });
+
+        $this->assertEquals($hiringOrg->toArray(), $jobArray['hiringOrganization']);
+        $this->assertEquals($address->toArray(), $jobArray['hiringOrganization']['address']);
+        $this->assertEquals($jobLocation->toArray(), $jobArray['jobLocation']);
+        $this->assertEquals($address->toArray(), $jobArray['jobLocation']['address']);
+    }
+
     private function getJobAttributes()
     {
         $attributes = [

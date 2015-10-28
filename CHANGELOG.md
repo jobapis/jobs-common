@@ -1,6 +1,20 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 1.0.4 - 2015-10-28
+
+### Added
+- toArray method to Schema entities
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Nothing
+
+### Security
+- Nothing
+
 ## 1.0.3 - 2015-08-05
 
 ### Added
