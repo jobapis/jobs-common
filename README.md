@@ -1,4 +1,6 @@
-# Jobs Client
+# Jobs Common
+
+## Standardizing job board API clients
 
 [![Latest Version](https://img.shields.io/github/release/JobBrander/jobs-common.svg?style=flat-square)](https://github.com/JobBrander/jobs-common/releases)
 [![Software License](https://img.shields.io/badge/license-APACHE%202.0-brightgreen.svg?style=flat-square)](LICENSE.md)
@@ -7,7 +9,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/JobBrander/jobs-common.svg?style=flat-square)](https://scrutinizer-ci.com/g/JobBrander/jobs-common)
 [![Total Downloads](https://img.shields.io/packagist/dt/jobbrander/jobs-common.svg?style=flat-square)](https://packagist.org/packages/jobbrander/jobs-common)
 
-This package makes it simple to integrate your application with many of the job listing service providers in the world.
+This package makes it makes it easy to integrate job board APIs into your application. Whether you want to aggregate job board data, or supplement your site's job listings with listings from third party providers, or anything else you can dream up, this package (and the api clients listed below) can help.
 
 This package is compliant with [PSR-1][], [PSR-2][] and [PSR-4][]. If you notice compliance oversights, please send
 a patch via pull request.
@@ -32,13 +34,13 @@ The following versions of PHP are supported.
 
 ## Providers
 
-All providers must extend [AbstractProvider](https://github.com/JobBrander/jobs-common/blob/master/src/Provider/AbstractProvider.php), and implement the declared abstract methods.
+Each job board supported has a provider that must extend this package's [AbstractProvider](https://github.com/JobBrander/jobs-common/blob/master/src/Provider/AbstractProvider.php), and implement the declared abstract methods.
 
 The following providers are available:
 
 ### Official providers
 
-There are as many job listing services we plan to support officially.
+There are many job board services we support officially.
 
 Gateway | Composer Package | Maintainer
 --- | --- | ---
@@ -76,7 +78,7 @@ You should use your own username as the vendor prefix, and prepend `jobs-` to th
 
 #### Implementing your own provider
 
-If you are working with a job listing service not supported out-of-the-box or by an existing package, it is quite simple to implement your own. Simply extend `JobBrander\Jobs\Client\Providers\AbstractProvider` and implement the required abstract methods:
+If you are working with a job board service not supported out-of-the-box or by an existing package, it is quite simple to implement your own. Simply extend `JobBrander\Jobs\Client\Providers\AbstractProvider` and implement the required abstract methods:
 
 ```php
 abstract public function createJobObject($payload);
@@ -94,7 +96,6 @@ Each job object that is created will automatically set `source` and `query` base
 #### Make your provider official
 
 If you want to transfer your provider to the `jobbrander` GitHub organization and add it to the list of officially supported providers, please open a pull request on the jobbrander/jobs-common package. Before new providers will be accepted, they must have 100% unit test code coverage, and follow the conventions and code style used in other Jobs Client providers.
-
 
 ## Install
 
