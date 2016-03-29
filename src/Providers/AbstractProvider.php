@@ -76,7 +76,7 @@ abstract class AbstractProvider
     {
         $options = [];
         if (strtolower($this->getVerb()) != 'get') {
-            $options['body'] = $this->getParameters();
+            $options['body'] = $this->queryParams;
         }
 
         return $options;
@@ -170,6 +170,13 @@ abstract class AbstractProvider
 
         return $ref->getShortName();
     }
+
+    /**
+     * Get query string for client based on properties
+     *
+     * @return string
+     */
+    abstract public function getQueryString();
 
     /**
      * Get url
