@@ -12,47 +12,19 @@ abstract class AbstractProvider
     use AttributeTrait;
 
     /**
-     * City
+     * Map of setter methods to query parameters
      *
-     * @var string
+     * @var array
      */
-    protected $city = null;
+    protected $queryMap = [];
 
     /**
-     * Http client
+     * Query params
      *
-     * @var HttpClient
+     * @var array
      */
-    private $client;
-
-    /**
-     * Count
-     *
-     * @var integer
-     */
-    protected $count = 10;
-
-    /**
-     * Keyword
-     *
-     * @var string
-     */
-    protected $keyword = null;
-
-    /**
-     * Page
-     *
-     * @var integer
-     */
-    protected $page = 1;
-
-    /**
-     * State
-     *
-     * @var string
-     */
-    protected $state = null;
-
+    protected $queryParams = [];
+        
     /**
      * Create new client
      *
@@ -160,16 +132,6 @@ abstract class AbstractProvider
      * @return  string
      */
     abstract public function getListingsPath();
-
-    /**
-     * Get parameters
-     *
-     * @return  array
-     */
-    public function getParameters()
-    {
-        return [];
-    }
 
     /**
      * Get raw listings from payload
@@ -384,6 +346,22 @@ abstract class AbstractProvider
     {
         $this->client = $client;
 
+        return $this;
+    }
+
+    /**
+     * Attempts to update current query parameters.
+     *
+     * @param  string  $value
+     * @param  string  $key
+     *
+     * @return Careerbuilder
+     */
+    protected function updateQuery($value, $key)
+    {
+        if (array_key_exists($key, $this->queryParams)) {
+            $this->queryParams[$key] = $value;
+        }
         return $this;
     }
 }
