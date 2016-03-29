@@ -9,8 +9,6 @@ use JobBrander\Jobs\Client\Collection;
  * */
 abstract class AbstractProvider
 {
-    use AttributeTrait;
-
     /**
      * Map of setter methods to query parameters
      *
