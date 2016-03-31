@@ -208,28 +208,6 @@ class Job extends JobPosting implements JsonSerializable
         });
     }
 
-    /**
-     * Magic method to handle get and set methods for properties
-     *
-     * @param  string $method
-     * @param  array  $parameters
-     *
-     * @return mixed
-     * @throws BadMethodCallException
-     */
-    public function __call($method, $parameters)
-    {
-        $attribute = $this->getAttributeFromGetSetMethod($method);
-        $value = count($parameters) ? $parameters[0] : null;
-        if ($this->isSetterMethod($method)) {
-            $this->{$attribute} = $value;
-            return $this;
-        } elseif ($this->isGetterMethod($method)) {
-            return $this->{$attribute};
-        }
-        throw new \BadMethodCallException;
-    }
-
     // Getters
 
     /**

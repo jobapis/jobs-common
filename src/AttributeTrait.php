@@ -46,20 +46,14 @@ trait AttributeTrait
      */
     public function __call($method, $parameters)
     {
-        if (isset($this->queryMap[$method], $parameters[0])) {
-            $this->updateQuery($parameters[0], $this->queryMap[$method]);
-        }
         $attribute = $this->getAttributeFromGetSetMethod($method);
         $value = count($parameters) ? $parameters[0] : null;
-
         if ($this->isSetterMethod($method)) {
-            $this->queryParams[$attribute] = $value;
-
+            $this->{$attribute} = $value;
             return $this;
         } elseif ($this->isGetterMethod($method)) {
-            return $this->queryParams[$attribute];
+            return $this->{$attribute};
         }
-
         throw new \BadMethodCallException;
     }
 
