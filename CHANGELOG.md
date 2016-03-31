@@ -1,7 +1,7 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
-## 2.0.0alpha - 2016-03-31
+## 2.0.0-alpha - 2016-03-31
 
 ### Added
 - Initial release

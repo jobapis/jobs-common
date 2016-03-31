@@ -9,6 +9,13 @@ abstract class AbstractProvider
     use AttributeTrait;
 
     /**
+     * Base API Url
+     *
+     * @var string
+     */
+    protected $baseUrl;
+
+    /**
      * Map of setter methods to query parameters
      *
      * @var array
@@ -21,13 +28,6 @@ abstract class AbstractProvider
      * @var array
      */
     protected $queryParams = [];
-
-    /**
-     * Base API Url
-     *
-     * @var string
-     */
-    protected $baseUrl;
 
     /**
      * Create new client
