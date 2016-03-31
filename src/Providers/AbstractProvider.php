@@ -4,9 +4,6 @@ use GuzzleHttp\Client as HttpClient;
 use JobBrander\Jobs\Client\AttributeTrait;
 use JobBrander\Jobs\Client\Collection;
 
-/**
- * @method string getKeyword()
- * */
 abstract class AbstractProvider
 {
     use AttributeTrait;
@@ -24,7 +21,14 @@ abstract class AbstractProvider
      * @var array
      */
     protected $queryParams = [];
-        
+
+    /**
+     * Base API Url
+     *
+     * @var string
+     */
+    protected $baseUrl;
+
     /**
      * Create new client
      *
@@ -32,13 +36,20 @@ abstract class AbstractProvider
      */
     public function __construct($parameters = [])
     {
-        array_walk($parameters, function ($value, $key) {
-            if (property_exists($this, $key)) {
-                $this->{$key} = $value;
-            }
-        });
-
+        array_walk($parameters, [$this, 'updateQuery']);
         $this->setClient(new HttpClient);
+    }
+
+    /**
+     * Get property name from get and set method names
+     *
+     * @param  string $method
+     *
+     * @return string
+     */
+    private function getAttributeFromGetSetMethod($method)
+    {
+        return lcfirst(preg_replace('/[s|g]et|add/', '', $method));
     }
 
     /**
@@ -56,16 +67,6 @@ abstract class AbstractProvider
      * @return  string Currently only 'json' and 'xml' supported
      */
     abstract public function getFormat();
-
-    /**
-     * Get source attribution
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return $this->getShortName();
-    }
 
     /**
      * Get http client options based on current client
@@ -134,6 +135,13 @@ abstract class AbstractProvider
     abstract public function getListingsPath();
 
     /**
+     * Get keyword for search query
+     *
+     * @return string Should return the value of the parameter describing this query
+     */
+    abstract public function getKeyword();
+
+    /**
      * Get raw listings from payload
      *
      * @param  array $payload
@@ -172,6 +180,16 @@ abstract class AbstractProvider
     }
 
     /**
+     * Get source attribution
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return $this->getShortName();
+    }
+
+    /**
      * Get query string for client based on properties
      *
      * @return string
@@ -183,7 +201,10 @@ abstract class AbstractProvider
      *
      * @return  string
      */
-    abstract public function getUrl();
+    public function getUrl()
+    {
+        return $this->baseUrl.$this->getQueryString();
+    }
 
     /**
      * Navigate through a payload array looking for a particular index

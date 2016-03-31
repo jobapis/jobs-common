@@ -24,18 +24,6 @@ trait AttributeTrait
     }
 
     /**
-     * Magic method to check if property is set
-     *
-     * @param  string $name
-     *
-     * @return boolean
-     */
-    public function __isset($name)
-    {
-        return (property_exists($this, $name));
-    }
-
-    /**
      * Magic method to handle get and set methods for properties
      *
      * @param  string $method
@@ -46,15 +34,18 @@ trait AttributeTrait
      */
     public function __call($method, $parameters)
     {
+        if (isset($this->queryMap[$method], $parameters[0])) {
+            $this->updateQuery($parameters[0], $this->queryMap[$method]);
+        }
         $attribute = $this->getAttributeFromGetSetMethod($method);
         $value = count($parameters) ? $parameters[0] : null;
 
         if ($this->isSetterMethod($method)) {
-            $this->{$attribute} = $value;
+            $this->queryParams[$attribute] = $value;
 
             return $this;
         } elseif ($this->isGetterMethod($method)) {
-            return $this->{$attribute};
+            return $this->queryParams[$attribute];
         }
 
         throw new \BadMethodCallException;
