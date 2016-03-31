@@ -41,18 +41,6 @@ abstract class AbstractProvider
     }
 
     /**
-     * Get property name from get and set method names
-     *
-     * @param  string $method
-     *
-     * @return string
-     */
-    private function getAttributeFromGetSetMethod($method)
-    {
-        return lcfirst(preg_replace('/[s|g]et|add/', '', $method));
-    }
-
-    /**
      * Returns the standardized job object
      *
      * @param array|object $payload
@@ -383,7 +371,7 @@ abstract class AbstractProvider
      * @param  string  $value
      * @param  string  $key
      *
-     * @return Careerbuilder
+     * @return AbstractClient
      */
     protected function updateQuery($value, $key)
     {

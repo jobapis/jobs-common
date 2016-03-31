@@ -15,73 +15,6 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
             ->shouldAllowMockingProtectedMethods();
     }
 
-    public function testGetParameters()
-    {
-        $parameters = $this->client->getParameters();
-
-        $this->assertEquals([], $parameters);
-    }
-
-    public function testItPopulatesExistingAttributeswhenBuilt()
-    {
-        $attributes = [
-            'city' => uniqid(),
-            'count' => rand(),
-            'keyword' => uniqid(),
-            'page' => rand(),
-            'state' => uniqid(),
-        ];
-        $client = $this->client;
-        $reflectedClass = new \ReflectionClass($this->clientClass);
-        $constructor = $reflectedClass->getConstructor();
-
-        $constructor->invoke($client, $attributes);
-
-        array_walk($attributes, function ($value, $key) use ($client) {
-            $this->assertEquals($value, $client->{$key});
-        });
-    }
-
-    public function testDefaultCityIsNull()
-    {
-        $city = $this->client->city;
-
-        $this->assertNull($city);
-    }
-
-    public function testDefaultCountIsTen()
-    {
-        $default_count = 10;
-
-        $count = $this->client->count;
-
-        $this->assertEquals($default_count, $count);
-    }
-
-    public function testDefaultKeywordIsNull()
-    {
-        $keyword = $this->client->keyword;
-
-        $this->assertNull($keyword);
-    }
-
-    public function testDefaultPageIsOne()
-    {
-        $default_page = 1;
-
-        $page = $this->client->page;
-
-        $this->assertEquals($default_page, $page);
-    }
-
-    public function testDefaultStateIsNull()
-    {
-        $state = $this->client->state;
-
-        $this->assertNull($state);
-    }
-
-
     public function testItHttpClientOptionsEmptyWhenVerbIsGet()
     {
         $verb = 'GET';
@@ -95,9 +28,8 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     public function testItHttpClientOptionsIncludeBodyWhenVerbIsNotGet()
     {
         $verb = uniqid();
-        $params = [uniqid()];
+        $params = [];
         $this->client->shouldReceive('getVerb')->andReturn($verb);
-        $this->client->shouldReceive('getParameters')->andReturn($params);
 
         $client_options = $this->client->getHttpClientOptions();
 
@@ -401,4 +333,5 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         ];
         return array_replace($defaults, $attributes);
     }
+
 }

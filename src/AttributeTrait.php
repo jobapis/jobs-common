@@ -24,6 +24,18 @@ trait AttributeTrait
     }
 
     /**
+     * Magic method to check if property is set
+     *
+     * @param  string $name
+     *
+     * @return boolean
+     */
+    public function __isset($name)
+    {
+        return (property_exists($this, $name));
+    }
+
+    /**
      * Magic method to handle get and set methods for properties
      *
      * @param  string $method
