@@ -15,6 +15,13 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
             ->shouldAllowMockingProtectedMethods();
     }
 
+    public function testItCanGetQueryString()
+    {
+        $query = http_build_query($this->client->queryParams);
+
+        $this->assertEquals($query, $this->client->getQueryString());
+    }
+
     public function testItCanGetUrl()
     {
         $queryString = uniqid();
