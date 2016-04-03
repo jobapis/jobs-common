@@ -15,6 +15,18 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
             ->shouldAllowMockingProtectedMethods();
     }
 
+    public function testItCanGetUrl()
+    {
+        $queryString = uniqid();
+
+        $this->client->shouldReceive('getQueryString')
+            ->andReturn($queryString);
+
+        $url = $this->client->getUrl();
+
+        $this->assertEquals($this->client->baseUrl.$queryString, $url);
+    }
+
     public function testItHttpClientOptionsEmptyWhenVerbIsGet()
     {
         $verb = 'GET';
@@ -317,6 +329,16 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($seg1, $results[0]);
         $this->assertEquals($seg2, $results[1]);
+    }
+
+    public function testItCanUpdateQuery()
+    {
+        $value = uniqid();
+        $key = uniqid();
+
+        $results = $this->client->updateQuery($value, $key);
+
+        $this->assertInstanceOf($this->clientClass, $results);
     }
 
     private function getProviderAttributes($attributes = [])
