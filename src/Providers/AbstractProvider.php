@@ -210,7 +210,10 @@ abstract class AbstractProvider
      *
      * @return string
      */
-    abstract public function getQueryString();
+    public function getQueryString()
+    {
+        return http_build_query($this->queryParams);
+    }
 
     /**
      * Get url
