@@ -330,6 +330,15 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertCount($provider['jobs_count'], $results);
     }
 
+    /**
+     * @expectedException JobBrander\Jobs\Client\Exceptions\MissingParameterException
+     */
+    public function testItCanNotGetJobsRequiredAttributeMissing()
+    {
+        $this->client->shouldReceive('requiredParamsIncluded')->andReturn(false);
+        $results = $this->client->getJobs();
+    }
+
     public function testItCanParseLocationWithoutSeparator()
     {
         $seg1 = uniqid();

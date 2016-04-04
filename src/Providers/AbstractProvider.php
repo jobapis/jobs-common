@@ -3,6 +3,7 @@
 use GuzzleHttp\Client as HttpClient;
 use JobBrander\Jobs\Client\AttributeTrait;
 use JobBrander\Jobs\Client\Collection;
+use JobBrander\Jobs\Client\Exceptions\MissingParameterException;
 
 abstract class AbstractProvider
 {
@@ -28,6 +29,13 @@ abstract class AbstractProvider
      * @var array
      */
     protected $queryParams = [];
+
+    /**
+     * Required params
+     *
+     * @var array
+     */
+    protected $requiredParams = [];
 
     /**
      * Create new client
@@ -103,23 +111,28 @@ abstract class AbstractProvider
      * Makes the api call and returns a collection of job objects
      *
      * @return  JobBrander\Jobs\Client\Collection
+     * @throws MissingParameterException
      */
     public function getJobs()
     {
-        $client = $this->client;
-        $verb = strtolower($this->getVerb());
-        $url = $this->getUrl();
-        $options = $this->getHttpClientOptions();
+        if ($this->requiredParamsIncluded()) {
+            $client = $this->client;
+            $verb = strtolower($this->getVerb());
+            $url = $this->getUrl();
+            $options = $this->getHttpClientOptions();
 
-        $response = $client->{$verb}($url, $options);
+            $response = $client->{$verb}($url, $options);
 
-        $body = (string) $response->getBody();
+            $body = (string) $response->getBody();
 
-        $payload = $this->parseAsFormat($body, $this->getFormat());
+            $payload = $this->parseAsFormat($body, $this->getFormat());
 
-        $listings = is_array($payload) ? $this->getRawListings($payload) : [];
+            $listings = is_array($payload) ? $this->getRawListings($payload) : [];
 
-        return $this->getJobsCollectionFromListings($listings);
+            return $this->getJobsCollectionFromListings($listings);
+        } else {
+            throw new MissingParameterException("All Required parameters for this provider must be set");
+        }
     }
 
     /**
@@ -380,6 +393,21 @@ abstract class AbstractProvider
     public static function parseLocation($location, $separator = ', ')
     {
         return explode($separator, $location);
+    }
+
+    /**
+     * Determines if all required parameters have been set
+     *
+     * @return  bool
+     */
+    public function requiredParamsIncluded()
+    {
+        foreach ($this->requiredParams as $key => $value) {
+            if (!isset($this->queryParams[$key])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
