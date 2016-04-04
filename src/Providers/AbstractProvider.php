@@ -402,7 +402,7 @@ abstract class AbstractProvider
      */
     public function requiredParamsIncluded()
     {
-        foreach ($this->requiredParams as $key => $value) {
+        foreach ($this->requiredParams as $key) {
             if (!isset($this->queryParams[$key])) {
                 return false;
             }
