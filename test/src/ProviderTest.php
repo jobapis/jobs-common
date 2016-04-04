@@ -15,6 +15,23 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
             ->shouldAllowMockingProtectedMethods();
     }
 
+    public function testItPopulatesAttributeswhenBuilt()
+    {
+        $attributes = [
+            'city' => uniqid(),
+            'count' => rand(),
+            'keyword' => uniqid(),
+            'page' => rand(),
+            'state' => uniqid(),
+        ];
+        $client = $this->client;
+        $reflectedClass = new \ReflectionClass($this->clientClass);
+        $constructor = $reflectedClass->getConstructor();
+        $constructor->invoke($client, $attributes);
+
+        $this->assertEquals([], $client->queryParams);
+    }
+
     public function testItCanGetQueryString()
     {
         $query = http_build_query($this->client->queryParams);
