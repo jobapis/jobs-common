@@ -1,10 +1,11 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
-## 2.0.0-alpha - 2016-03-31
+## 2.0.0-alpha - 2016-04-04
 
 ### Added
-- Initial release
+- Required parameters
+- Inputs as query parameter array rather than attributes on the provider object
 
 ### Deprecated
 - Nothing
