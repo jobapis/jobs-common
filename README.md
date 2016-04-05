@@ -28,9 +28,7 @@ The following versions of PHP are supported.
 * HHVM
 
 ## Usage
-```php
-// Usage instructions
-```
+This package is not meant to be used on its own, but rather it is used by the providers listed below to access job board APIs and gather results in a standard data format.
 
 ## Providers
 
@@ -84,12 +82,11 @@ If you are working with a job board service not supported out-of-the-box or by a
 abstract public function createJobObject($payload);
 abstract public function getFormat();
 abstract public function getListingsPath();
-abstract public function getUrl();
+abstract public function getKeyword();
 abstract public function getVerb();
 ```
 
-Each of these abstract methods contain a docblock defining their expectations and typical behaviour. Once you have
-extended this class, you can simply follow the example above using your new `Provider`.
+Each of these abstract methods contain a docblock defining their expectations and typical behaviour. Once you have extended this class, you can simply follow the example above using your new `Provider`.
 
 Each job object that is created will automatically set `source` and `query` based on the criteria passed into the provider. If you would like to customize this `source` value, your provider must implement a `getSource` method that returns a string to identify your provider's source.
 
