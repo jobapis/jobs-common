@@ -1,11 +1,14 @@
 <?php namespace JobBrander\Jobs\Client\Providers;
 
 use GuzzleHttp\Client as HttpClient;
+use JobBrander\Jobs\Client\AttributeTrait;
 use JobBrander\Jobs\Client\Collection;
 use JobBrander\Jobs\Client\Exceptions\MissingParameterException;
 
 abstract class AbstractProvider
 {
+    use AttributeTrait;
+
     /**
      * Base API Url
      *
@@ -50,28 +53,6 @@ abstract class AbstractProvider
     {
         array_walk($parameters, [$this, 'updateQuery']);
         $this->setClient(new HttpClient);
-    }
-
-    /**
-     * Magic method to handle set methods for properties
-     *
-     * @param  string $name
-     * @param  mixed  $value
-     *
-     * @return mixed
-     * @throws BadMethodCallException
-     */
-    public function __set($name, $value)
-    {
-        $method = 'set'.ucfirst($name);
-        // If there's a special rule in the querymap for this value, use it
-        if (isset($this->queryMap[$method], $value)) {
-            return $this->updateQuery($value, $this->queryMap[$method]);
-        } elseif (array_key_exists($name, $this->queryParams)) {
-            return $this->updateQuery($value, $name);
-        }
-
-        throw new \BadMethodCallException;
     }
 
     /**
@@ -396,6 +377,7 @@ abstract class AbstractProvider
      * Parse location string into components.
      *
      * @param string $location
+     *
      * @return  array
      **/
     public static function parseLocation($location, $separator = ', ')
@@ -416,6 +398,27 @@ abstract class AbstractProvider
             }
         }
         return true;
+    }
+
+    /**
+     * Sets an attribute based on arbitrary method name and parameters
+     *
+     * @param string $method
+     * @param array $parameters
+     *
+     * @return  AbstractClient
+     */
+    private function setAttributeFromMethod($method, $parameters)
+    {
+        $attribute = $this->getAttributeFromGetSetMethod($method);
+        $value = count($parameters) ? $parameters[0] : null;
+        if (isset($this->queryMap[$method], $value)) {
+            // If there's a special rule in the querymap for this value, use it
+            return $this->updateQuery($value, $this->queryMap[$method]);
+        } elseif (array_key_exists($attribute, $this->queryParams)) {
+            // Otherwise, just set it
+            return $this->updateQuery($value, $attribute);
+        }
     }
 
     /**

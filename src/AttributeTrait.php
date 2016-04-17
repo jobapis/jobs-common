@@ -46,14 +46,12 @@ trait AttributeTrait
      */
     public function __call($method, $parameters)
     {
-        $attribute = $this->getAttributeFromGetSetMethod($method);
-        $value = count($parameters) ? $parameters[0] : null;
         if ($this->isSetterMethod($method)) {
-            $this->{$attribute} = $value;
-            return $this;
+            return $this->setAttributeValueFromMethod($method, $parameters);
         } elseif ($this->isGetterMethod($method)) {
-            return $this->{$attribute};
+            return $this->getAttributeValueFromMethod($method);
         }
+
         throw new \BadMethodCallException(sprintf(
             '%s does not contain a method by the name of "%s"',
             __CLASS__,
@@ -71,6 +69,19 @@ trait AttributeTrait
     private function getAttributeFromGetSetMethod($method)
     {
         return lcfirst(preg_replace('/[s|g]et|add/', '', $method));
+    }
+
+    /**
+     * Gets an attribute based on arbitrary method name
+     *
+     * @param string $method
+     *
+     * @return mixed
+     */
+    private function getAttributeValueFromMethod($method)
+    {
+        $attribute = $this->getAttributeFromGetSetMethod($method);
+        return $this->{$attribute};
     }
 
     /**
@@ -95,5 +106,21 @@ trait AttributeTrait
     private function isSetterMethod($method)
     {
         return substr($method, 0, 3) === "set";
+    }
+
+    /**
+     * Sets an attribute based on arbitrary method name and parameters
+     *
+     * @param string $method
+     * @param array $parameters
+     *
+     * @return object
+     */
+    private function setAttributeValueFromMethod($method, $parameters)
+    {
+        $attribute = $this->getAttributeFromGetSetMethod($method);
+        $value = count($parameters) ? $parameters[0] : null;
+        $this->{$attribute} = $value;
+        return $this;
     }
 }
