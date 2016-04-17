@@ -14,11 +14,13 @@ namespace JobBrander\Jobs\Client\Schema\Entity;
 class GeoCoordinates extends StructuredValue
 {
     /**
-     * @var string The latitude of a location. For example `37.42242` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
+     * @var string The latitude of a location. For example `37.42242`
+     ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
      */
     protected $latitude;
     /**
-     * @var string The longitude of a location. For example `-122.08585` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
+     * @var string The longitude of a location. For example `-122.08585`
+     ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).
      */
     protected $longitude;
 
