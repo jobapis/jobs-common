@@ -20,6 +20,12 @@ fieldVisibility: "protected"
 # The list of types and properties we want to use
 types:
   DataType:
+  GeoCoordinates:
+    parent: StructuredValue
+    properties:
+      latitude: { range: "Text"}
+      longitude: { range: "Text"}
+  Intangible:
   JobPosting:
     parent: Thing
     properties:
@@ -50,6 +56,7 @@ types:
   Place:
     properties:
       address: { range: "PostalAddress"}
+      geo: { range: "GeoCoordinates"}
       telephone: { range: "Text"}
   PostalAddress:
     # Disable the generation of the class hierarchy for this type
@@ -62,6 +69,7 @@ types:
       postOfficeBoxNumber: ~
       postalCode: ~
       streetAddress: ~
+  StructuredValue:
   Text:
   # Parent class of JobPosting
   Thing:

@@ -1,6 +1,7 @@
 <?php namespace JobBrander\Jobs\Client\Test;
 
 use JobBrander\Jobs\Client\Job;
+use JobBrander\Jobs\Client\Schema\Entity\GeoCoordinates;
 use JobBrander\Jobs\Client\Schema\Entity\Organization;
 use JobBrander\Jobs\Client\Schema\Entity\Place;
 use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
@@ -491,6 +492,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $address = new PostalAddress;
         $hiringOrg = new Organization;
         $jobLocation = new Place;
+        $geoCoordinates = new GeoCoordinates;
         $hiringOrg->setAddress($address);
         $jobLocation->setAddress($address);
         $job = new Job($attributes);

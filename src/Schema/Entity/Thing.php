@@ -134,13 +134,11 @@ abstract class Thing
     public function toArray()
     {
         $array = get_object_vars($this);
-
         array_walk($array, function ($value, $key) use (&$array) {
             if (is_object($value) && method_exists($value, 'toArray')) {
                 $array[$key] = $value->toArray();
             }
         });
-
         return $array;
     }
 }

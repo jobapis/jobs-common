@@ -54,7 +54,11 @@ trait AttributeTrait
         } elseif ($this->isGetterMethod($method)) {
             return $this->{$attribute};
         }
-        throw new \BadMethodCallException;
+        throw new \BadMethodCallException(sprintf(
+            '%s does not contain a method by the name of "%s"',
+            __CLASS__,
+            $method
+        ));
     }
 
     /**

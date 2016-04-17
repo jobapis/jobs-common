@@ -8,9 +8,9 @@ namespace JobBrander\Jobs\Client\Schema\Entity;
 
 /**
  * The basic data types such as Integers, Strings, etc.
- *
+ * 
  * @see http://schema.org/DataType Documentation on Schema.org
  */
-abstract class DataType
-{
-}
+class DataType extends class
+ {
+ }

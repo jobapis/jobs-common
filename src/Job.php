@@ -3,6 +3,7 @@
 use \DateTime;
 use \JsonSerializable;
 use JobBrander\Jobs\Client\Exceptions\InvalidFormatException;
+use JobBrander\Jobs\Client\Schema\Entity\GeoCoordinates;
 use JobBrander\Jobs\Client\Schema\Entity\JobPosting;
 use JobBrander\Jobs\Client\Schema\Entity\Organization;
 use JobBrander\Jobs\Client\Schema\Entity\Place;

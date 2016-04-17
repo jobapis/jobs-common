@@ -8,7 +8,7 @@ namespace JobBrander\Jobs\Client\Schema\Entity;
 
 /**
  * A listing that describes a job opening in a certain organization.
- *
+ * 
  * @see http://schema.org/JobPosting Documentation on Schema.org
  */
 class JobPosting extends Thing
@@ -30,8 +30,7 @@ class JobPosting extends Thing
      */
     protected $educationRequirements;
     /**
-     * @var string Type of employment (e.g. full-time, part-time, contract,
-     * temporary, seasonal, internship).
+     * @var string Type of employment (e.g. full-time, part-time, contract, temporary, seasonal, internship).
      */
     protected $employmentType;
     /**
@@ -55,9 +54,7 @@ class JobPosting extends Thing
      */
     protected $jobLocation;
     /**
-     * @var string Category or categories describing the job. Use BLS O*NET-SOC
-     * taxonomy: http://www.onetcenter.org/taxonomy.html. Ideally includes
-     * textual label and formal code, with the property repeated for each applicable value.
+     * @var string Category or categories describing the job. Use BLS O*NET-SOC taxonomy: http://www.onetcenter.org/taxonomy.html. Ideally includes textual label and formal code, with the property repeated for each applicable value.
      */
     protected $occupationalCategory;
     /**
@@ -69,8 +66,7 @@ class JobPosting extends Thing
      */
     protected $responsibilities;
     /**
-     * @var string The currency (coded using ISO 4217, http://en.wikipedia.org/wiki/ISO_4217 )
-     * used for the main salary information in this job posting or for this employee.
+     * @var string The currency (coded using ISO 4217, http://en.wikipedia.org/wiki/ISO_4217 ) used for the main salary information in this job posting or for this employee.
      */
     protected $salaryCurrency;
     /**
@@ -78,8 +74,7 @@ class JobPosting extends Thing
      */
     protected $skills;
     /**
-     * @var string Any special commitments associated with this job posting.
-     * Valid entries include VeteranCommit, MilitarySpouseCommit, etc.
+     * @var string Any special commitments associated with this job posting. Valid entries include VeteranCommit, MilitarySpouseCommit, etc.
      */
     protected $specialCommitments;
     /**
@@ -93,9 +88,9 @@ class JobPosting extends Thing
 
     /**
      * Sets baseSalary.
-     *
+     * 
      * @param float $baseSalary
-     *
+     * 
      * @return $this
      */
     public function setBaseSalary($baseSalary)
@@ -107,7 +102,7 @@ class JobPosting extends Thing
 
     /**
      * Gets baseSalary.
-     *
+     * 
      * @return float
      */
     public function getBaseSalary()
@@ -117,9 +112,9 @@ class JobPosting extends Thing
 
     /**
      * Sets jobBenefits.
-     *
+     * 
      * @param string $jobBenefits
-     *
+     * 
      * @return $this
      */
     public function setJobBenefits($jobBenefits)
@@ -131,7 +126,7 @@ class JobPosting extends Thing
 
     /**
      * Gets jobBenefits.
-     *
+     * 
      * @return string
      */
     public function getJobBenefits()
@@ -141,9 +136,9 @@ class JobPosting extends Thing
 
     /**
      * Sets datePosted.
-     *
+     * 
      * @param \DateTime $datePosted
-     *
+     * 
      * @return $this
      */
     public function setDatePosted(\DateTime $datePosted = null)
@@ -155,7 +150,7 @@ class JobPosting extends Thing
 
     /**
      * Gets datePosted.
-     *
+     * 
      * @return \DateTime
      */
     public function getDatePosted()
@@ -165,9 +160,9 @@ class JobPosting extends Thing
 
     /**
      * Sets educationRequirements.
-     *
+     * 
      * @param string $educationRequirements
-     *
+     * 
      * @return $this
      */
     public function setEducationRequirements($educationRequirements)
@@ -179,7 +174,7 @@ class JobPosting extends Thing
 
     /**
      * Gets educationRequirements.
-     *
+     * 
      * @return string
      */
     public function getEducationRequirements()
@@ -189,9 +184,9 @@ class JobPosting extends Thing
 
     /**
      * Sets employmentType.
-     *
+     * 
      * @param string $employmentType
-     *
+     * 
      * @return $this
      */
     public function setEmploymentType($employmentType)
@@ -203,7 +198,7 @@ class JobPosting extends Thing
 
     /**
      * Gets employmentType.
-     *
+     * 
      * @return string
      */
     public function getEmploymentType()
@@ -213,9 +208,9 @@ class JobPosting extends Thing
 
     /**
      * Sets experienceRequirements.
-     *
+     * 
      * @param string $experienceRequirements
-     *
+     * 
      * @return $this
      */
     public function setExperienceRequirements($experienceRequirements)
@@ -227,7 +222,7 @@ class JobPosting extends Thing
 
     /**
      * Gets experienceRequirements.
-     *
+     * 
      * @return string
      */
     public function getExperienceRequirements()
@@ -237,9 +232,9 @@ class JobPosting extends Thing
 
     /**
      * Sets hiringOrganization.
-     *
+     * 
      * @param Organization $hiringOrganization
-     *
+     * 
      * @return $this
      */
     public function setHiringOrganization(Organization $hiringOrganization = null)
@@ -251,7 +246,7 @@ class JobPosting extends Thing
 
     /**
      * Gets hiringOrganization.
-     *
+     * 
      * @return Organization
      */
     public function getHiringOrganization()
@@ -261,9 +256,9 @@ class JobPosting extends Thing
 
     /**
      * Sets incentiveCompensation.
-     *
+     * 
      * @param string $incentiveCompensation
-     *
+     * 
      * @return $this
      */
     public function setIncentiveCompensation($incentiveCompensation)
@@ -275,7 +270,7 @@ class JobPosting extends Thing
 
     /**
      * Gets incentiveCompensation.
-     *
+     * 
      * @return string
      */
     public function getIncentiveCompensation()
@@ -285,9 +280,9 @@ class JobPosting extends Thing
 
     /**
      * Sets industry.
-     *
+     * 
      * @param string $industry
-     *
+     * 
      * @return $this
      */
     public function setIndustry($industry)
@@ -299,7 +294,7 @@ class JobPosting extends Thing
 
     /**
      * Gets industry.
-     *
+     * 
      * @return string
      */
     public function getIndustry()
@@ -309,9 +304,9 @@ class JobPosting extends Thing
 
     /**
      * Sets jobLocation.
-     *
+     * 
      * @param Place $jobLocation
-     *
+     * 
      * @return $this
      */
     public function setJobLocation(Place $jobLocation = null)
@@ -323,7 +318,7 @@ class JobPosting extends Thing
 
     /**
      * Gets jobLocation.
-     *
+     * 
      * @return Place
      */
     public function getJobLocation()
@@ -333,9 +328,9 @@ class JobPosting extends Thing
 
     /**
      * Sets occupationalCategory.
-     *
+     * 
      * @param string $occupationalCategory
-     *
+     * 
      * @return $this
      */
     public function setOccupationalCategory($occupationalCategory)
@@ -347,7 +342,7 @@ class JobPosting extends Thing
 
     /**
      * Gets occupationalCategory.
-     *
+     * 
      * @return string
      */
     public function getOccupationalCategory()
@@ -357,9 +352,9 @@ class JobPosting extends Thing
 
     /**
      * Sets qualifications.
-     *
+     * 
      * @param string $qualifications
-     *
+     * 
      * @return $this
      */
     public function setQualifications($qualifications)
@@ -371,7 +366,7 @@ class JobPosting extends Thing
 
     /**
      * Gets qualifications.
-     *
+     * 
      * @return string
      */
     public function getQualifications()
@@ -381,9 +376,9 @@ class JobPosting extends Thing
 
     /**
      * Sets responsibilities.
-     *
+     * 
      * @param string $responsibilities
-     *
+     * 
      * @return $this
      */
     public function setResponsibilities($responsibilities)
@@ -395,7 +390,7 @@ class JobPosting extends Thing
 
     /**
      * Gets responsibilities.
-     *
+     * 
      * @return string
      */
     public function getResponsibilities()
@@ -405,9 +400,9 @@ class JobPosting extends Thing
 
     /**
      * Sets salaryCurrency.
-     *
+     * 
      * @param string $salaryCurrency
-     *
+     * 
      * @return $this
      */
     public function setSalaryCurrency($salaryCurrency)
@@ -419,7 +414,7 @@ class JobPosting extends Thing
 
     /**
      * Gets salaryCurrency.
-     *
+     * 
      * @return string
      */
     public function getSalaryCurrency()
@@ -429,9 +424,9 @@ class JobPosting extends Thing
 
     /**
      * Sets skills.
-     *
+     * 
      * @param string $skills
-     *
+     * 
      * @return $this
      */
     public function setSkills($skills)
@@ -443,7 +438,7 @@ class JobPosting extends Thing
 
     /**
      * Gets skills.
-     *
+     * 
      * @return string
      */
     public function getSkills()
@@ -453,9 +448,9 @@ class JobPosting extends Thing
 
     /**
      * Sets specialCommitments.
-     *
+     * 
      * @param string $specialCommitments
-     *
+     * 
      * @return $this
      */
     public function setSpecialCommitments($specialCommitments)
@@ -467,7 +462,7 @@ class JobPosting extends Thing
 
     /**
      * Gets specialCommitments.
-     *
+     * 
      * @return string
      */
     public function getSpecialCommitments()
@@ -477,9 +472,9 @@ class JobPosting extends Thing
 
     /**
      * Sets title.
-     *
+     * 
      * @param string $title
-     *
+     * 
      * @return $this
      */
     public function setTitle($title)
@@ -491,7 +486,7 @@ class JobPosting extends Thing
 
     /**
      * Gets title.
-     *
+     * 
      * @return string
      */
     public function getTitle()
@@ -501,9 +496,9 @@ class JobPosting extends Thing
 
     /**
      * Sets workHours.
-     *
+     * 
      * @param string $workHours
-     *
+     * 
      * @return $this
      */
     public function setWorkHours($workHours)
@@ -515,7 +510,7 @@ class JobPosting extends Thing
 
     /**
      * Gets workHours.
-     *
+     * 
      * @return string
      */
     public function getWorkHours()
