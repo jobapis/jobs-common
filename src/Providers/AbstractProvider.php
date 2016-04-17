@@ -1,14 +1,11 @@
 <?php namespace JobBrander\Jobs\Client\Providers;
 
 use GuzzleHttp\Client as HttpClient;
-use JobBrander\Jobs\Client\AttributeTrait;
 use JobBrander\Jobs\Client\Collection;
 use JobBrander\Jobs\Client\Exceptions\MissingParameterException;
 
 abstract class AbstractProvider
 {
-    use AttributeTrait;
-
     /**
      * Base API Url
      *

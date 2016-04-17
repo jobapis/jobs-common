@@ -29,19 +29,19 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $constructor = $reflectedClass->getConstructor();
         $constructor->invoke($client, $attributes);
 
-        $this->assertEquals([], $client->queryParams);
+        $this->assertEquals([], $client->getQueryParams());
     }
 
     public function testItCanGetQueryString()
     {
-        $query = http_build_query($this->client->queryParams);
+        $query = http_build_query($this->client->getQueryParams());
 
         $this->assertEquals($query, $this->client->getQueryString());
     }
 
     public function testItCanGetQueryParams()
     {
-        $params = $this->client->queryParams;
+        $params = [];
 
         $this->assertEquals($params, $this->client->getQueryParams());
     }
@@ -55,7 +55,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 
         $url = $this->client->getUrl();
 
-        $this->assertEquals($this->client->baseUrl.$queryString, $url);
+        $this->assertContains($queryString, $url);
     }
 
     public function testItHttpClientOptionsEmptyWhenVerbIsGet()
