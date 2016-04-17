@@ -17,6 +17,13 @@ abstract class AbstractProvider
     protected $baseUrl;
 
     /**
+     * HTTP Client
+     *
+     * @var HttpClient
+     */
+    protected $client;
+
+    /**
      * Map of setter methods to query parameters
      *
      * @var array
@@ -49,28 +56,24 @@ abstract class AbstractProvider
     }
 
     /**
-     * Magic method to handle get and set methods for properties
+     * Magic method to handle set methods for properties
      *
-     * @param  string $method
-     * @param  array  $parameters
+     * @param  string $name
+     * @param  mixed  $value
      *
      * @return mixed
      * @throws BadMethodCallException
      */
-    public function __call($method, $parameters)
+    public function __set($name, $value)
     {
-        if (isset($this->queryMap[$method], $parameters[0])) {
-            $this->updateQuery($parameters[0], $this->queryMap[$method]);
+        $method = 'set'.ucfirst($name);
+        // If there's a special rule in the querymap for this value, use it
+        if (isset($this->queryMap[$method], $value)) {
+            return $this->updateQuery($value, $this->queryMap[$method]);
         }
-        $attribute = $this->getAttributeFromGetSetMethod($method);
-        $value = count($parameters) ? $parameters[0] : null;
-
-        if ($this->isSetterMethod($method)) {
-            $this->queryParams[$attribute] = $value;
-
-            return $this;
-        } elseif ($this->isGetterMethod($method)) {
-            return $this->queryParams[$attribute];
+        // Check if parameter name is valid and set it
+        elseif (array_key_exists($name, $this->queryParams)) {
+            return $this->updateQuery($value, $name);
         }
 
         throw new \BadMethodCallException;
