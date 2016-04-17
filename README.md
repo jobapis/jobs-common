@@ -11,12 +11,12 @@
 
 This package makes it makes it easy to integrate job board APIs into your application. Whether you want to aggregate job board data, or supplement your site's job listings with listings from third party providers, or anything else you can dream up, this package (and the api clients listed below) can help.
 
-This package is compliant with [PSR-1][], [PSR-2][] and [PSR-4][]. If you notice compliance oversights, please send
-a patch via pull request.
+This package is compliant with [PSR-1][], [PSR-2][], [PSR-4][], and [PSR-7][]. If you notice compliance oversights, please send a patch via pull request.
 
 [PSR-1]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md
 [PSR-2]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
 [PSR-4]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md
+[PSR-7]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md
 
 ## Requirements
 
@@ -28,7 +28,7 @@ The following versions of PHP are supported.
 * HHVM
 
 ## Usage
-This package is not meant to be used on its own, but rather it is used by the providers listed below to access job board APIs and gather results in a standard data format.
+This package is not meant to be used on its own, but rather it is used by the providers listed below to access job board APIs and gather results in a standard data format. For details on creating your own job board provider, read on!
 
 ## Providers
 
