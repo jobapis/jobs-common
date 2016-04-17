@@ -67,9 +67,7 @@ abstract class AbstractProvider
         // If there's a special rule in the querymap for this value, use it
         if (isset($this->queryMap[$method], $value)) {
             return $this->updateQuery($value, $this->queryMap[$method]);
-        }
-        // Check if parameter name is valid and set it
-        elseif (array_key_exists($name, $this->queryParams)) {
+        } elseif (array_key_exists($name, $this->queryParams)) {
             return $this->updateQuery($value, $name);
         }
 
