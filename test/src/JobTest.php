@@ -316,6 +316,20 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($postal_code, $this->job->getJobLocation()->getAddress()->getPostalCode());
     }
 
+    public function testSetLatitudeLongitude()
+    {
+        $latitude = uniqid();
+        $longitude = uniqid();
+        $this->job->setLatitude($latitude);
+        $this->job->setLongitude($longitude);
+
+        $this->assertEquals($latitude, $this->job->getLatitude());
+        $this->assertEquals($longitude, $this->job->getLongitude());
+
+        // $this->assertEquals($latitude, $this->job->getJobLocation()->getLatitude());
+        // $this->assertEquals($longitude, $this->job->getJobLocation()->getLongitude());
+    }
+
     public function testSetTelephone()
     {
         $telephone = uniqid();

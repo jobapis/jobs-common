@@ -33,7 +33,10 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method string getJavascriptFunction()
  * @method string getJobBenefits()
  * @method Place getJobLocation()
+ * @method string getLatitude()
+ * @method string getLinkedDataSchemaTypes()
  * @method string getLocation()
+ * @method string getLongitude()
  * @method string getOccupationalCategory()
  * @method string getName()
  * @method string getMaximumSalary()
@@ -79,7 +82,9 @@ use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
  * @method Job setJavascriptFunction($function)
  * @method Job setJobBenefits($value)
  * @method Job setJobLocation($value)
+ * @method Job setLatitude($value)
  * @method Job setLocation($value)
+ * @method Job setLongitude($value)
  * @method Job setMaximumSalary($value)
  * @method Job setMinimumSalary($value)
  * @method Job setName($value)
@@ -336,6 +341,16 @@ class Job extends JobPosting implements JsonSerializable
     }
 
     /**
+     * Gets latitude.
+     *
+     * @return string
+     */
+    public function getLatitude()
+    {
+        return $this->getJobLocation()->getGeo()->getLatitude();
+    }
+
+    /**
      * Get linked data schema types
      *
      * @return array
@@ -353,6 +368,16 @@ class Job extends JobPosting implements JsonSerializable
     public function getLocation()
     {
         return $this->location;
+    }
+
+    /**
+     * Gets longitude.
+     *
+     * @return string
+     */
+    public function getLongitude()
+    {
+        return $this->getJobLocation()->getGeo()->getLongitude();
     }
 
     /**
@@ -617,6 +642,24 @@ class Job extends JobPosting implements JsonSerializable
     }
 
     /**
+     * Set latitude.
+     *
+     * @param string $latitude
+     *
+     * @return $this
+     */
+    public function setLatitude($latitude)
+    {
+        $location = $this->getOrCreateJobLocation();
+        $geo = $location->getGeo();
+        $geo->setLatitude($latitude);
+        $location->setGeo($geo);
+        $this->setJobLocation($location);
+
+        return $this;
+    }
+
+    /**
      * Set location
      *
      * @param string $location
@@ -626,6 +669,24 @@ class Job extends JobPosting implements JsonSerializable
     public function setLocation($location)
     {
         $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * Set longitude.
+     *
+     * @param string $longitude
+     *
+     * @return $this
+     */
+    public function setLongitude($longitude)
+    {
+        $location = $this->getOrCreateJobLocation();
+        $geo = $location->getGeo();
+        $geo->setLongitude($longitude);
+        $location->setGeo($geo);
+        $this->setJobLocation($location);
 
         return $this;
     }
@@ -820,6 +881,8 @@ class Job extends JobPosting implements JsonSerializable
 
         if (!$location) {
             $location = new Place;
+            $geo = new GeoCoordinates;
+            $location->setGeo($geo);
         }
 
         return $location;
