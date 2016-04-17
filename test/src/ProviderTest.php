@@ -39,6 +39,13 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($query, $this->client->getQueryString());
     }
 
+    public function testItCanGetQueryParams()
+    {
+        $params = $this->client->queryParams;
+
+        $this->assertEquals($params, $this->client->getQueryParams());
+    }
+
     public function testItCanGetUrl()
     {
         $queryString = uniqid();
