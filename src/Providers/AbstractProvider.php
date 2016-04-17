@@ -232,6 +232,16 @@ abstract class AbstractProvider
     }
 
     /**
+     * Get query parameters that have been set
+     *
+     * @return string
+     */
+    public function getQueryParams()
+    {
+        return $this->queryParams;
+    }
+
+    /**
      * Get url
      *
      * @return  string
