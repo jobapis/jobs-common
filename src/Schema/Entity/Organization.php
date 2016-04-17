@@ -8,7 +8,7 @@ namespace JobBrander\Jobs\Client\Schema\Entity;
 
 /**
  * An organization such as a school, NGO, corporation, club, etc.
- * 
+ *
  * @see http://schema.org/Organization Documentation on Schema.org
  */
 class Organization extends Thing
@@ -32,9 +32,9 @@ class Organization extends Thing
 
     /**
      * Sets address.
-     * 
+     *
      * @param PostalAddress $address
-     * 
+     *
      * @return $this
      */
     public function setAddress(PostalAddress $address = null)
@@ -46,7 +46,7 @@ class Organization extends Thing
 
     /**
      * Gets address.
-     * 
+     *
      * @return PostalAddress
      */
     public function getAddress()
@@ -56,9 +56,9 @@ class Organization extends Thing
 
     /**
      * Sets email.
-     * 
+     *
      * @param string $email
-     * 
+     *
      * @return $this
      */
     public function setEmail($email)
@@ -70,7 +70,7 @@ class Organization extends Thing
 
     /**
      * Gets email.
-     * 
+     *
      * @return string
      */
     public function getEmail()
@@ -80,9 +80,9 @@ class Organization extends Thing
 
     /**
      * Sets logo.
-     * 
+     *
      * @param string $logo
-     * 
+     *
      * @return $this
      */
     public function setLogo($logo)
@@ -94,7 +94,7 @@ class Organization extends Thing
 
     /**
      * Gets logo.
-     * 
+     *
      * @return string
      */
     public function getLogo()
@@ -104,9 +104,9 @@ class Organization extends Thing
 
     /**
      * Sets telephone.
-     * 
+     *
      * @param string $telephone
-     * 
+     *
      * @return $this
      */
     public function setTelephone($telephone)
@@ -118,7 +118,7 @@ class Organization extends Thing
 
     /**
      * Gets telephone.
-     * 
+     *
      * @return string
      */
     public function getTelephone()

@@ -8,7 +8,7 @@ namespace JobBrander\Jobs\Client\Schema\Entity;
 
 /**
  * Entities that have a somewhat fixed, physical extension.
- * 
+ *
  * @see http://schema.org/Place Documentation on Schema.org
  */
 class Place extends Thing
@@ -28,9 +28,9 @@ class Place extends Thing
 
     /**
      * Sets address.
-     * 
+     *
      * @param PostalAddress $address
-     * 
+     *
      * @return $this
      */
     public function setAddress(PostalAddress $address = null)
@@ -42,7 +42,7 @@ class Place extends Thing
 
     /**
      * Gets address.
-     * 
+     *
      * @return PostalAddress
      */
     public function getAddress()
@@ -52,9 +52,9 @@ class Place extends Thing
 
     /**
      * Sets geo.
-     * 
+     *
      * @param GeoCoordinates $geo
-     * 
+     *
      * @return $this
      */
     public function setGeo(GeoCoordinates $geo = null)
@@ -66,7 +66,7 @@ class Place extends Thing
 
     /**
      * Gets geo.
-     * 
+     *
      * @return GeoCoordinates
      */
     public function getGeo()
@@ -76,9 +76,9 @@ class Place extends Thing
 
     /**
      * Sets telephone.
-     * 
+     *
      * @param string $telephone
-     * 
+     *
      * @return $this
      */
     public function setTelephone($telephone)
@@ -90,7 +90,7 @@ class Place extends Thing
 
     /**
      * Gets telephone.
-     * 
+     *
      * @return string
      */
     public function getTelephone()

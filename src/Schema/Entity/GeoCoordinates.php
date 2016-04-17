@@ -8,7 +8,7 @@ namespace JobBrander\Jobs\Client\Schema\Entity;
 
 /**
  * The geographic coordinates of a place or event.
- * 
+ *
  * @see http://schema.org/GeoCoordinates Documentation on Schema.org
  */
 class GeoCoordinates extends StructuredValue
@@ -24,9 +24,9 @@ class GeoCoordinates extends StructuredValue
 
     /**
      * Sets latitude.
-     * 
+     *
      * @param string $latitude
-     * 
+     *
      * @return $this
      */
     public function setLatitude($latitude)
@@ -38,7 +38,7 @@ class GeoCoordinates extends StructuredValue
 
     /**
      * Gets latitude.
-     * 
+     *
      * @return string
      */
     public function getLatitude()
@@ -48,9 +48,9 @@ class GeoCoordinates extends StructuredValue
 
     /**
      * Sets longitude.
-     * 
+     *
      * @param string $longitude
-     * 
+     *
      * @return $this
      */
     public function setLongitude($longitude)
@@ -62,7 +62,7 @@ class GeoCoordinates extends StructuredValue
 
     /**
      * Gets longitude.
-     * 
+     *
      * @return string
      */
     public function getLongitude()
