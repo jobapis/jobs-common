@@ -326,8 +326,8 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($latitude, $this->job->getLatitude());
         $this->assertEquals($longitude, $this->job->getLongitude());
 
-        // $this->assertEquals($latitude, $this->job->getJobLocation()->getLatitude());
-        // $this->assertEquals($longitude, $this->job->getJobLocation()->getLongitude());
+        $this->assertEquals($latitude, $this->job->getJobLocation()->getGeo()->getLatitude());
+        $this->assertEquals($longitude, $this->job->getJobLocation()->getGeo()->getLongitude());
     }
 
     public function testSetTelephone()
