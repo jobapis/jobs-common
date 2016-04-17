@@ -408,7 +408,7 @@ abstract class AbstractProvider
      *
      * @return  AbstractClient
      */
-    private function setAttributeFromMethod($method, $parameters)
+    private function setAttributeValueFromMethod($method, $parameters)
     {
         $attribute = $this->getAttributeFromGetSetMethod($method);
         $value = count($parameters) ? $parameters[0] : null;
