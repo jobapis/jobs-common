@@ -57,7 +57,7 @@ abstract class AbstractProvider
      *
      * @param array|object $payload
      *
-     * @return \JobBrander\Jobs\Client\Job
+     * @return \JobApis\Jobs\Client\Job
      */
     abstract public function createJobObject($payload);
 
@@ -86,7 +86,7 @@ abstract class AbstractProvider
     /**
      * Makes the api call and returns a collection of job objects
      *
-     * @return  JobBrander\Jobs\Client\Collection
+     * @return  JobApis\Jobs\Client\Collection
      * @throws MissingParameterException
      */
     public function getJobs()

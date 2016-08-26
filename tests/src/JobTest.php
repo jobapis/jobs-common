@@ -1,10 +1,10 @@
-<?php namespace JobBrander\Jobs\Client\Test;
+<?php namespace JobApis\Jobs\Client\Test;
 
-use JobBrander\Jobs\Client\Job;
-use JobBrander\Jobs\Client\Schema\Entity\GeoCoordinates;
-use JobBrander\Jobs\Client\Schema\Entity\Organization;
-use JobBrander\Jobs\Client\Schema\Entity\Place;
-use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
+use JobApis\Jobs\Client\Job;
+use JobApis\Jobs\Client\Schema\Entity\GeoCoordinates;
+use JobApis\Jobs\Client\Schema\Entity\Organization;
+use JobApis\Jobs\Client\Schema\Entity\Place;
+use JobApis\Jobs\Client\Schema\Entity\PostalAddress;
 
 /**
  *  Uses PHPUnit to test methods and properties set in
@@ -388,7 +388,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException JobBrander\Jobs\Client\Exceptions\InvalidFormatException
+     * @expectedException JobApis\Jobs\Client\Exceptions\InvalidFormatException
      */
     public function testSetDatePostedAsStringWithoutValidDateTimeString()
     {
@@ -490,7 +490,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $job = new Job($attributes);
         $ref = new \ReflectionClass($job);
         $properties = array_filter($ref->getProperties(), function ($property) {
-            return $property->class != 'JobBrander\Jobs\Client\Job';
+            return $property->class != 'JobApis\Jobs\Client\Job';
         });
 
         $toJson = $job->toJson(Job::SERIALIZE_CORE_SCHEMA_LD);

@@ -1,13 +1,14 @@
 {
-    "name": "jobbrander/jobs-common",
+    "name": "jobapis/jobs-common",
     "type": "library",
     "description": "Making it simple to integrate your application with job api providers.",
     "keywords": [
+        "job boards",
         "jobs",
         "api client",
         "object"
     ],
-    "homepage": "https://github.com/JobBrander/jobs-common",
+    "homepage": "http://jobapis.com",
     "license": "Apache-2.0",
     "authors": [
         {
@@ -34,12 +35,12 @@
     },
     "autoload": {
         "psr-4": {
-            "JobBrander\\Jobs\\Client\\": "src/"
+            "JobApis\\Jobs\\Client\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "JobBrander\\Jobs\\Client\\Test\\": "test/src/"
+            "JobApis\\Jobs\\Client\\Test\\": "test/src/"
         }
     }
 }

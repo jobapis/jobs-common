@@ -1,12 +1,12 @@
-<?php namespace JobBrander\Jobs\Client\Test;
+<?php namespace JobApis\Jobs\Client\Test;
 
 use Mockery as m;
 
 class ProviderTest extends \PHPUnit_Framework_TestCase
 {
-    private $clientClass = 'JobBrander\Jobs\Client\Providers\AbstractProvider';
-    private $collectionClass = 'JobBrander\Jobs\Client\Collection';
-    private $jobClass = 'JobBrander\Jobs\Client\Job';
+    private $clientClass = 'JobApis\Jobs\Client\Providers\AbstractProvider';
+    private $collectionClass = 'JobApis\Jobs\Client\Collection';
+    private $jobClass = 'JobApis\Jobs\Client\Job';
 
     public function setUp()
     {
@@ -338,7 +338,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException JobBrander\Jobs\Client\Exceptions\MissingParameterException
+     * @expectedException JobApis\Jobs\Client\Exceptions\MissingParameterException
      */
     public function testItCanNotGetJobsRequiredAttributeMissing()
     {
