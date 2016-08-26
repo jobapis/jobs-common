@@ -1,13 +1,13 @@
-<?php namespace JobBrander\Jobs\Client;
+<?php namespace JobApis\Jobs\Client;
 
 use \DateTime;
 use \JsonSerializable;
-use JobBrander\Jobs\Client\Exceptions\InvalidFormatException;
-use JobBrander\Jobs\Client\Schema\Entity\GeoCoordinates;
-use JobBrander\Jobs\Client\Schema\Entity\JobPosting;
-use JobBrander\Jobs\Client\Schema\Entity\Organization;
-use JobBrander\Jobs\Client\Schema\Entity\Place;
-use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
+use JobApis\Jobs\Client\Exceptions\InvalidFormatException;
+use JobApis\Jobs\Client\Schema\Entity\GeoCoordinates;
+use JobApis\Jobs\Client\Schema\Entity\JobPosting;
+use JobApis\Jobs\Client\Schema\Entity\Organization;
+use JobApis\Jobs\Client\Schema\Entity\Place;
+use JobApis\Jobs\Client\Schema\Entity\PostalAddress;
 
 /**
  * @method string getAlternateName()

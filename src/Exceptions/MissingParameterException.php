@@ -1,4 +1,4 @@
-<?php namespace JobBrander\Jobs\Client\Exceptions;
+<?php namespace JobApis\Jobs\Client\Exceptions;
 
 class MissingParameterException extends \Exception
 {
