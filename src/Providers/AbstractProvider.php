@@ -6,6 +6,8 @@ use JobApis\Jobs\Client\Exceptions\MissingParameterException;
 
 abstract class AbstractProvider
 {
+    // Attributes
+
     /**
      * Base API Url
      *
@@ -21,25 +23,13 @@ abstract class AbstractProvider
     protected $client;
 
     /**
-     * Map of setter methods to query parameters
-     *
-     * @var array
-     */
-    protected $queryMap = [];
-
-    /**
      * Query params
      *
      * @var array
      */
     protected $queryParams = [];
 
-    /**
-     * Required params
-     *
-     * @var array
-     */
-    protected $requiredParams = [];
+    // Magic methods
 
     /**
      * Create new client
@@ -53,6 +43,32 @@ abstract class AbstractProvider
     }
 
     /**
+     * Get query param as properties, if exists
+     *
+     * @param  string $name
+     *
+     * @return mixed
+     * @throws \OutOfRangeException
+     */
+    public function __get($name)
+    {
+        // First check if there's a method by this name
+
+
+        // Then check to see if there's a query parameter
+        if (!$this->queryParams[$name]) {
+            throw new \OutOfRangeException(sprintf(
+                '%s does not contain a property by the name of "%s"',
+                __CLASS__,
+                $name
+            ));
+        }
+        return $this->queryParams[$name];
+    }
+
+    // Abstract methods
+
+    /**
      * Returns the standardized job object
      *
      * @param array|object $payload
@@ -62,11 +78,36 @@ abstract class AbstractProvider
     abstract public function createJobObject($payload);
 
     /**
+     * Get listings path
+     *
+     * @return  string
+     */
+    abstract public function getListingsPath();
+
+    /**
+     * Get parameters that MUST be set in order to satisfy the APIs requirements
+     *
+     * @return  string
+     */
+    abstract public function getRequiredParameters();
+
+    /**
+     * Get parameters that CAN be set
+     *
+     * @return  string
+     */
+    abstract public function getValidParameters();
+
+    // Public methods
+
+    /**
      * Get format
      *
      * @return  string Currently only 'json' and 'xml' supported
      */
-    abstract public function getFormat();
+    public function getFormat() {
+        return 'json';
+    }
 
     /**
      * Get http client options based on current client
@@ -112,79 +153,6 @@ abstract class AbstractProvider
     }
 
     /**
-     * Create and get collection of jobs from given listings
-     *
-     * @param  array $listings
-     *
-     * @return Collection
-     */
-    protected function getJobsCollectionFromListings(array $listings = array())
-    {
-        $collection = new Collection;
-
-        array_map(function ($item) use ($collection) {
-            $job = $this->createJobObject($item);
-            $job->setQuery($this->getKeyword())
-                ->setSource($this->getSource());
-            $collection->add($job);
-        }, $listings);
-
-        return $collection;
-    }
-
-    /**
-     * Get listings path
-     *
-     * @return  string
-     */
-    abstract public function getListingsPath();
-
-    /**
-     * Get keyword for search query
-     *
-     * @return string Should return the value of the parameter describing this query
-     */
-    abstract public function getKeyword();
-
-    /**
-     * Get raw listings from payload
-     *
-     * @param  array $payload
-     *
-     * @return array
-     */
-    protected function getRawListings(array $payload = array())
-    {
-        $path = $this->getListingsPath();
-
-        if (!empty($path)) {
-            $index = explode('.', $path);
-
-            return (array) self::getValue($index, $payload);
-        }
-
-        return (array) $payload;
-    }
-
-    /**
-     * Get short name of a given or current class
-     *
-     * @param  object $object Optional object
-     *
-     * @return string
-     */
-    private function getShortName($object = null)
-    {
-        if (is_null($object)) {
-            $object = $this;
-        }
-
-        $ref = new \ReflectionClass(get_class($object));
-
-        return $ref->getShortName();
-    }
-
-    /**
      * Get source attribution
      *
      * @return string
@@ -225,6 +193,118 @@ abstract class AbstractProvider
     }
 
     /**
+     * Get http verb to use when making request
+     *
+     * @return  string
+     */
+    public function getVerb() {
+        return 'GET';
+    }
+
+    /**
+     * Parse job attributes against defaults
+     *
+     * @param  array $attributes
+     * @param  array $defaults
+     *
+     * @return array
+     */
+    public static function parseAttributeDefaults(array $attributes, array $defaults = array())
+    {
+        array_map(function ($attribute) use (&$attributes) {
+            if (!isset($attributes[$attribute])) {
+                $attributes[$attribute] = null;
+            }
+        }, $defaults);
+
+        return $attributes;
+    }
+
+    /**
+     * Parse location string into components.
+     *
+     * @param string $location
+     *
+     * @return  array
+     **/
+    public static function parseLocation($location, $separator = ', ')
+    {
+        return explode($separator, $location);
+    }
+
+    /**
+     * Determines if all required parameters have been set
+     *
+     * @return  bool
+     */
+    public function requiredParamsIncluded()
+    {
+        foreach ($this->requiredParams as $key) {
+            if (!isset($this->queryParams[$key])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Sets http client
+     *
+     * @param HttpClient $client
+     *
+     * @return  AbstractProvider
+     */
+    public function setClient(HttpClient $client)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    // Protected methods
+
+    /**
+     * Create and get collection of jobs from given listings
+     *
+     * @param  array $listings
+     *
+     * @return Collection
+     */
+    protected function getJobsCollectionFromListings(array $listings = array())
+    {
+        $collection = new Collection;
+
+        array_map(function ($item) use ($collection) {
+            $job = $this->createJobObject($item);
+            $job->setQuery($this->getKeyword())
+                ->setSource($this->getSource());
+            $collection->add($job);
+        }, $listings);
+
+        return $collection;
+    }
+
+    /**
+     * Get raw listings from payload
+     *
+     * @param  array $payload
+     *
+     * @return array
+     */
+    protected function getRawListings(array $payload = array())
+    {
+        $path = $this->getListingsPath();
+
+        if (!empty($path)) {
+            $index = explode('.', $path);
+
+            return (array) self::getValue($index, $payload);
+        }
+
+        return (array) $payload;
+    }
+
+    /**
      * Navigate through a payload array looking for a particular index
      *
      * @param array $index The index sequence we are navigating down
@@ -251,6 +331,24 @@ abstract class AbstractProvider
     }
 
     /**
+     * Attempts to update current query parameters.
+     *
+     * @param  string  $value
+     * @param  string  $key
+     *
+     * @return AbstractProvider
+     */
+    protected function updateQuery($value, $key)
+    {
+        if (in_array($key, $this->getValidParameters())) {
+            $this->queryParams[$key] = $value;
+        }
+        return $this;
+    }
+
+    // Private methods
+
+    /**
      * Get value current index
      *
      * @param  mixed $index
@@ -263,13 +361,6 @@ abstract class AbstractProvider
     }
 
     /**
-     * Get http verb to use when making request
-     *
-     * @return  string
-     */
-    abstract public function getVerb();
-
-    /**
      * Checks if given value is an array and that it has contents
      *
      * @param  mixed $array
@@ -279,25 +370,6 @@ abstract class AbstractProvider
     private static function isArrayNotEmpty($array)
     {
         return is_array($array) && count($array);
-    }
-
-    /**
-     * Parse job attributes against defaults
-     *
-     * @param  array $attributes
-     * @param  array $defaults
-     *
-     * @return array
-     */
-    public static function parseAttributeDefaults(array $attributes, array $defaults = array())
-    {
-        array_map(function ($attribute) use (&$attributes) {
-            if (!isset($attributes[$attribute])) {
-                $attributes[$attribute] = null;
-            }
-        }, $defaults);
-
-        return $attributes;
     }
 
     /**
@@ -371,39 +443,12 @@ abstract class AbstractProvider
     }
 
     /**
-     * Parse location string into components.
-     *
-     * @param string $location
-     *
-     * @return  array
-     **/
-    public static function parseLocation($location, $separator = ', ')
-    {
-        return explode($separator, $location);
-    }
-
-    /**
-     * Determines if all required parameters have been set
-     *
-     * @return  bool
-     */
-    public function requiredParamsIncluded()
-    {
-        foreach ($this->requiredParams as $key) {
-            if (!isset($this->queryParams[$key])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * Sets an attribute based on arbitrary method name and parameters
      *
      * @param string $method
      * @param array $parameters
      *
-     * @return  AbstractClient
+     * @return  AbstractProvider
      */
     private function setAttributeValueFromMethod($method, $parameters)
     {
@@ -419,32 +464,20 @@ abstract class AbstractProvider
     }
 
     /**
-     * Sets http client
+     * Get short name of a given or current class
      *
-     * @param HttpClient $client
+     * @param  object $object Optional object
      *
-     * @return  AbstractClient
+     * @return string
      */
-    public function setClient(HttpClient $client)
+    private function getShortName($object = null)
     {
-        $this->client = $client;
-
-        return $this;
-    }
-
-    /**
-     * Attempts to update current query parameters.
-     *
-     * @param  string  $value
-     * @param  string  $key
-     *
-     * @return AbstractClient
-     */
-    protected function updateQuery($value, $key)
-    {
-        if (array_key_exists($key, $this->queryParams)) {
-            $this->queryParams[$key] = $value;
+        if (is_null($object)) {
+            $object = $this;
         }
-        return $this;
+
+        $ref = new \ReflectionClass(get_class($object));
+
+        return $ref->getShortName();
     }
 }

@@ -1,4 +1,4 @@
-<?php namespace JobApis\Jobs\Client\Test;
+<?php namespace JobApis\Jobs\Client\Tests;
 
 use Mockery as m;
 

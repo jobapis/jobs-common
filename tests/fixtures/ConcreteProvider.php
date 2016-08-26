@@ -1,9 +1,16 @@
-<?php namespace JobApis\Jobs\Client\Test;
+<?php namespace JobApis\Jobs\Client\Fixtures;
 
 use JobApis\Jobs\Client\Providers\AbstractProvider;
 
 class ConcreteProvider extends AbstractProvider
 {
+    /**
+     * Base API Url
+     *
+     * @var string
+     */
+    protected $baseUrl = 'http://api.example.com/';
+
     /**
      * Returns the standardized job object
      *
@@ -14,31 +21,40 @@ class ConcreteProvider extends AbstractProvider
     public function createJobObject($payload) {}
 
     /**
-     * Get format
-     *
-     * @return  string Currently only 'json' and 'xml' supported
-     */
-    public function getFormat() {}
-
-    /**
      * Get listings path
      *
      * @return  string
      */
-    public function getListingsPath() {}
+    public function getListingsPath() {
+        return 'jobs';
+    }
 
     /**
-     * Get keyword for search query
-     *
-     * @return string Should return the value of the parameter describing this query
-     */
-    public function getKeyword() {}
-
-    /**
-     * Get http verb to use when making request
+     * Get parameters that MUST be set in order to satisfy the APIs requirements
      *
      * @return  string
      */
-    public function getVerb() {}
+    public function getRequiredParameters() {
+        return [
+            'keyword',
+            'ipAddress',
+            'affiliateUrl',
+        ];
+    }
+
+    /**
+     * Get parameters that CAN be set
+     *
+     * @return  string
+     */
+    public function getValidParameters() {
+        return [
+            'keyword',
+            'ipAddress',
+            'affiliateUrl',
+            'optionalParam1',
+            'optionalParam2',
+        ];
+    }
 
 }

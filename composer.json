@@ -40,7 +40,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "JobApis\\Jobs\\Client\\Test\\": "test/src/"
+            "JobApis\\Jobs\\Client\\Tests\\": "tests/src/",
+            "JobApis\\Jobs\\Client\\Fixtures\\": "tests/fixtures/"
         }
     }
 }

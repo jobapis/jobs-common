@@ -1,4 +1,4 @@
-<?php namespace JobApis\Jobs\Client\Test;
+<?php namespace JobApis\Jobs\Client\Tests;
 
 use JobApis\Jobs\Client\Job;
 use JobApis\Jobs\Client\Schema\Entity\GeoCoordinates;
