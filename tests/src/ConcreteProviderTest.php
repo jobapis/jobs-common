@@ -7,7 +7,7 @@ class ConcreteProviderTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        // $this->client = new ConcreteProvider();
+        $this->client = new ConcreteProvider();
     }
 
     public function testItCanInstantiateProviderWithAttributesInConstructor()
@@ -23,6 +23,24 @@ class ConcreteProviderTest extends \PHPUnit_Framework_TestCase
             $method = 'get'.ucwords($key);
             $this->assertEquals($attribute, $client->$method());
         }
-        // var_dump($client); exit;
+    }
+
+    public function testItCanSetValidAttributeOnClient()
+    {
+        $keyword = uniqid();
+
+        $this->client->setKeyword($keyword);
+
+        $this->assertEquals($keyword, $this->client->getKeyword());
+    }
+
+    /**
+     * @expectedException \OutOfRangeException
+     */
+    public function testItCannotSetInvalidAttributeOnClient()
+    {
+        $flanken = uniqid();
+
+        $this->client->setFlanken($flanken);
     }
 }

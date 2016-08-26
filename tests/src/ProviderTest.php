@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-class ProviderTest extends \PHPUnit_Framework_TestCase
+class ProviderTest // extends \PHPUnit_Framework_TestCase
 {
     private $clientClass = 'JobApis\Jobs\Client\Providers\AbstractProvider';
     private $collectionClass = 'JobApis\Jobs\Client\Collection';

@@ -115,6 +115,27 @@ class Job extends JobPosting implements JsonSerializable
         });
     }
 
+    /**
+     * Magic method to get protected property, if exists
+     *
+     * @param  string $name
+     *
+     * @return mixed
+     * @throws \OutOfRangeException
+     */
+    public function __get($name)
+    {
+        if (!property_exists($this, $name)) {
+            throw new \OutOfRangeException(sprintf(
+                '%s does not contain a property by the name of "%s"',
+                __CLASS__,
+                $name
+            ));
+        }
+
+        return $this->{$name};
+    }
+
     // Getters
 
     /**

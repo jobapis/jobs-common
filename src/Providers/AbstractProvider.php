@@ -1,11 +1,13 @@
 <?php namespace JobApis\Jobs\Client\Providers;
 
 use GuzzleHttp\Client as HttpClient;
+use JobApis\Jobs\Client\AttributeTrait;
 use JobApis\Jobs\Client\Collection;
 use JobApis\Jobs\Client\Exceptions\MissingParameterException;
 
 abstract class AbstractProvider
 {
+    use AttributeTrait;
     // Attributes
 
     /**
@@ -50,20 +52,39 @@ abstract class AbstractProvider
      * @return mixed
      * @throws \OutOfRangeException
      */
-    public function __get($name)
+    public function __get($key)
     {
-        // First check if there's a method by this name
-
-
         // Then check to see if there's a query parameter
-        if (!$this->queryParams[$name]) {
+        if (!isset($this->queryParams[$key])) {
             throw new \OutOfRangeException(sprintf(
                 '%s does not contain a property by the name of "%s"',
                 __CLASS__,
-                $name
+                $key
             ));
         }
-        return $this->queryParams[$name];
+        return $this->queryParams[$key];
+    }
+
+    /**
+     * Set query param as properties, if exists
+     *
+     * @param  string $name
+     *
+     * @return mixed
+     * @throws \OutOfRangeException
+     */
+    public function __set($key, $value)
+    {
+        // Then check to see if there's a query parameter
+        if (!$this->isValidParameter($key)) {
+            throw new \OutOfRangeException(sprintf(
+                '%s does not contain a property by the name of "%s"',
+                __CLASS__,
+                $key
+            ));
+        }
+        $this->queryParams[$key] = $value;
+        return $this;
     }
 
     // Abstract methods
@@ -199,6 +220,16 @@ abstract class AbstractProvider
      */
     public function getVerb() {
         return 'GET';
+    }
+
+    /**
+     * Check whether a key is valid for this client
+     *
+     * @return  string
+     */
+    public function isValidParameter($key = null)
+    {
+        return in_array($key, $this->getValidParameters());
     }
 
     /**
@@ -440,27 +471,6 @@ abstract class AbstractProvider
         }
 
         return [];
-    }
-
-    /**
-     * Sets an attribute based on arbitrary method name and parameters
-     *
-     * @param string $method
-     * @param array $parameters
-     *
-     * @return  AbstractProvider
-     */
-    private function setAttributeValueFromMethod($method, $parameters)
-    {
-        $attribute = $this->getAttributeFromGetSetMethod($method);
-        $value = count($parameters) ? $parameters[0] : null;
-        if (isset($this->queryMap[$method], $value)) {
-            // If there's a special rule in the querymap for this value, use it
-            return $this->updateQuery($value, $this->queryMap[$method]);
-        } elseif (array_key_exists($attribute, $this->queryParams)) {
-            // Otherwise, just set it
-            return $this->updateQuery($value, $attribute);
-        }
     }
 
     /**
