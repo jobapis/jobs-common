@@ -108,6 +108,13 @@ abstract class AbstractProvider
     abstract public function getRequiredParameters();
 
     /**
+     * Job object default keys that must be set.
+     *
+     * @return  string
+     */
+    abstract public function getResponseDefaults();
+
+    /**
      * Get parameters that CAN be set
      *
      * @return  string
@@ -293,6 +300,7 @@ abstract class AbstractProvider
         $collection = new Collection;
 
         array_map(function ($item) use ($collection) {
+            $item = static::parseAttributeDefaults($item, $this->getResponseDefaults());
             $job = $this->createJobObject($item);
             $job->setQuery($this->getKeyword())
                 ->setSource($this->getSource());

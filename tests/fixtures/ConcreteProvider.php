@@ -22,7 +22,6 @@ class ConcreteProvider extends AbstractProvider
      * @return \JobApis\Jobs\Client\Job
      */
     public function createJobObject($payload) {
-        $payload = static::parseAttributeDefaults($payload, $this->getResponseDefaults());
         $job = new Job([
             'title' => $payload['name'],
             'name' => $payload['name'],
