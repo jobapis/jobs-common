@@ -1,5 +1,8 @@
 <?php namespace JobApis\Jobs\Client\Fixtures;
 
+use JobApis\Jobs\Client\Collection;
+use JobApis\Jobs\Client\Exceptions\MissingParameterException;
+use JobApis\Jobs\Client\Job;
 use JobApis\Jobs\Client\Providers\AbstractProvider;
 
 class ConcreteProvider extends AbstractProvider
@@ -18,7 +21,56 @@ class ConcreteProvider extends AbstractProvider
      *
      * @return \JobApis\Jobs\Client\Job
      */
-    public function createJobObject($payload) {}
+    public function createJobObject($payload) {
+        $payload = static::parseAttributeDefaults($payload, $this->getResponseDefaults());
+        $job = new Job([
+            'title' => $payload['name'],
+            'name' => $payload['name'],
+            'description' => $payload['snippet'],
+            'url' => $payload['url'],
+            'sourceId' => $payload['id'],
+        ]);
+        return $job->setCompany($payload['company'])
+            ->setDatePostedAsString($payload['date']);
+    }
+
+    /**
+     * Simulates making an api call and returning a collection of job objects
+     *
+     * @return  Collection
+     * @throws MissingParameterException
+     */
+    public function getJobs()
+    {
+        if ($this->requiredParamsIncluded()) {
+            $body = json_encode([
+                'jobs' => [
+                    0 => [
+                        'id' => uniqid(),
+                        'name' => uniqid(),
+                        'company' => uniqid(),
+                        'date' => date('m/d/y'),
+                        'url' => uniqid(),
+                    ],
+                    1 => [
+                        'id' => uniqid(),
+                        'name' => uniqid(),
+                        'company' => uniqid(),
+                        'date' => date('m/d/y'),
+                        'url' => uniqid(),
+                    ],
+                ]
+            ]);
+
+            $payload = $this->parseAsFormat($body, $this->getFormat());
+
+            $listings = is_array($payload) ? $this->getRawListings($payload) : [];
+
+            return $this->getJobsCollectionFromListings($listings);
+        } else {
+            throw new MissingParameterException("All Required parameters for this provider must be set");
+        }
+    }
 
     /**
      * Get listings path
@@ -38,7 +90,24 @@ class ConcreteProvider extends AbstractProvider
         return [
             'keyword',
             'ipAddress',
-            'affiliateUrl',
+            'affiliateId',
+        ];
+    }
+
+    /**
+     * Job object default keys that must be set.
+     *
+     * @return  string
+     */
+    public function getResponseDefaults()
+    {
+        return [
+            'id',
+            'name',
+            'company',
+            'date',
+            'snippet',
+            'url',
         ];
     }
 
@@ -51,10 +120,31 @@ class ConcreteProvider extends AbstractProvider
         return [
             'keyword',
             'ipAddress',
-            'affiliateUrl',
+            'affiliateId',
             'optionalParam1',
             'optionalParam2',
         ];
+    }
+
+    /**
+     * Get optional parameter. Demonstrates simple transformation on getter.
+     *
+     * @return  string
+     */
+    public function getOptionalParam2()
+    {
+        return strrev($this->optionalParam2);
+    }
+
+    /**
+     * Set optional parameter. Demonstrates simple transformation on setter.
+     *
+     * @return  string
+     */
+    public function setOptionalParam1($value)
+    {
+        $this->optionalParam1 = strrev($value);
+        return $this;
     }
 
 }

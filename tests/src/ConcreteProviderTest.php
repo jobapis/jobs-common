@@ -15,7 +15,7 @@ class ConcreteProviderTest extends \PHPUnit_Framework_TestCase
         $attributes = [
             'keyword' => uniqid(),
             'ipAddress' => uniqid(),
-            'affiliateUrl' => uniqid(),
+            'affiliateId' => uniqid(),
         ];
         $client = new ConcreteProvider($attributes);
 
@@ -42,5 +42,38 @@ class ConcreteProviderTest extends \PHPUnit_Framework_TestCase
         $flanken = uniqid();
 
         $this->client->setFlanken($flanken);
+    }
+
+    public function testItCanSetOptionalTransformedAttributeOnClient()
+    {
+        $optionalParam = uniqid();
+
+        $this->client->setOptionalParam1($optionalParam);
+
+        $this->assertEquals(strrev($optionalParam), $this->client->getOptionalParam1());
+    }
+
+    public function testItCanGetOptionalTransformedAttributeOnClient()
+    {
+        $optionalParam = uniqid();
+
+        $this->client->setOptionalParam2($optionalParam);
+
+        $this->assertEquals(strrev($optionalParam), $this->client->getOptionalParam2());
+    }
+
+    public function testItCanGetJobsWhenRequiredParametersSet()
+    {
+        $keyword = uniqid();
+        $ipAddress = uniqid();
+        $affiliateId = uniqid();
+
+        $this->client->setKeyword($keyword);
+        $this->client->setIpAddress($ipAddress);
+        $this->client->setAffiliateId($affiliateId);
+
+        $jobs = $this->client->getJobs();
+
+        $this->assertInstanceOf('JobApis\Jobs\Client\Collection', $jobs);
     }
 }

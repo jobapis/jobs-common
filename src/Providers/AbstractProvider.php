@@ -8,7 +8,6 @@ use JobApis\Jobs\Client\Exceptions\MissingParameterException;
 abstract class AbstractProvider
 {
     use AttributeTrait;
-    // Attributes
 
     /**
      * Base API Url
@@ -30,8 +29,6 @@ abstract class AbstractProvider
      * @var array
      */
     protected $queryParams = [];
-
-    // Magic methods
 
     /**
      * Create new client
@@ -86,8 +83,6 @@ abstract class AbstractProvider
         $this->queryParams[$key] = $value;
         return $this;
     }
-
-    // Abstract methods
 
     /**
      * Returns the standardized job object
@@ -190,17 +185,7 @@ abstract class AbstractProvider
      */
     public function getQueryString()
     {
-        return http_build_query($this->queryParams);
-    }
-
-    /**
-     * Get query parameters that have been set
-     *
-     * @return string
-     */
-    public function getQueryParams()
-    {
-        return $this->queryParams;
+        return '?'.http_build_query($this->queryParams);
     }
 
     /**
@@ -210,6 +195,9 @@ abstract class AbstractProvider
      */
     public function getUrl()
     {
+        if (!$this->baseUrl) {
+            throw new MissingParameterException("Base URL parameter not set in provider.");
+        }
         return $this->baseUrl.$this->getQueryString();
     }
 
@@ -247,7 +235,6 @@ abstract class AbstractProvider
                 $attributes[$attribute] = null;
             }
         }, $defaults);
-
         return $attributes;
     }
 
@@ -270,7 +257,7 @@ abstract class AbstractProvider
      */
     public function requiredParamsIncluded()
     {
-        foreach ($this->requiredParams as $key) {
+        foreach ($this->getRequiredParameters() as $key) {
             if (!isset($this->queryParams[$key])) {
                 return false;
             }
@@ -301,7 +288,7 @@ abstract class AbstractProvider
      *
      * @return Collection
      */
-    protected function getJobsCollectionFromListings(array $listings = array())
+    protected function getJobsCollectionFromListings(array $listings = [])
     {
         $collection = new Collection;
 
@@ -362,6 +349,25 @@ abstract class AbstractProvider
     }
 
     /**
+     * Attempt to parse string as given format
+     *
+     * @param  string  $string
+     * @param  string  $format
+     *
+     * @return array
+     */
+    protected function parseAsFormat($string, $format)
+    {
+        $method = 'parseAs'.ucfirst(strtolower($format));
+
+        if (method_exists($this, $method)) {
+            return $this->$method($string);
+        }
+
+        return [];
+    }
+
+    /**
      * Attempts to update current query parameters.
      *
      * @param  string  $value
@@ -401,25 +407,6 @@ abstract class AbstractProvider
     private static function isArrayNotEmpty($array)
     {
         return is_array($array) && count($array);
-    }
-
-    /**
-     * Attempt to parse string as given format
-     *
-     * @param  string  $string
-     * @param  string  $format
-     *
-     * @return array
-     */
-    private function parseAsFormat($string, $format)
-    {
-        $method = 'parseAs'.ucfirst(strtolower($format));
-
-        if (method_exists($this, $method)) {
-            return $this->$method($string);
-        }
-
-        return [];
     }
 
     /**
