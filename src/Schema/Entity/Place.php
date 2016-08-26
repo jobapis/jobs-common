@@ -4,7 +4,7 @@
  * This class was automatically generated.
  */
 
-namespace JobBrander\Jobs\Client\Schema\Entity;
+namespace JobApis\Jobs\Client\Schema\Entity;
 
 /**
  * Entities that have a somewhat fixed, physical extension.
