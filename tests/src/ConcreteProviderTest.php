@@ -34,6 +34,11 @@ class ConcreteProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($keyword, $this->client->getKeyword());
     }
 
+    public function testDefaultParametersAreSetInClient()
+    {
+        $this->assertNotNull($this->client->getIpAddress());
+    }
+
     /**
      * @expectedException \OutOfRangeException
      */

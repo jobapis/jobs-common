@@ -72,6 +72,34 @@ class ConcreteProvider extends AbstractProvider
     }
 
     /**
+     * Get default parameters and values
+     *
+     * @return  string
+     */
+    public function defaultParameters() {
+        return [
+            'ipAddress' => $this->currentUserIpAddress(),
+        ];
+    }
+
+    /**
+     * Job object default keys that should be set
+     *
+     * @return  string
+     */
+    public function defaultResponseFields()
+    {
+        return [
+            'id',
+            'name',
+            'company',
+            'date',
+            'snippet',
+            'url',
+        ];
+    }
+
+    /**
      * Get listings path
      *
      * @return  string
@@ -85,28 +113,11 @@ class ConcreteProvider extends AbstractProvider
      *
      * @return  string
      */
-    public function getRequiredParameters() {
+    public function requiredParameters() {
         return [
             'keyword',
             'ipAddress',
             'affiliateId',
-        ];
-    }
-
-    /**
-     * Job object default keys that must be set.
-     *
-     * @return  string
-     */
-    public function getResponseDefaults()
-    {
-        return [
-            'id',
-            'name',
-            'company',
-            'date',
-            'snippet',
-            'url',
         ];
     }
 
@@ -115,7 +126,7 @@ class ConcreteProvider extends AbstractProvider
      *
      * @return  string
      */
-    public function getValidParameters() {
+    public function validParameters() {
         return [
             'keyword',
             'ipAddress',
@@ -123,6 +134,11 @@ class ConcreteProvider extends AbstractProvider
             'optionalParam1',
             'optionalParam2',
         ];
+    }
+
+    public function currentUserIpAddress()
+    {
+        return uniqid();
     }
 
     /**

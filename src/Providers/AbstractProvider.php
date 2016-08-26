@@ -37,7 +37,10 @@ abstract class AbstractProvider
      */
     public function __construct($parameters = [])
     {
+        $parameters = array_merge($this->defaultParameters(), $parameters);
+
         array_walk($parameters, [$this, 'updateQuery']);
+
         $this->setClient(new HttpClient);
     }
 
@@ -94,6 +97,20 @@ abstract class AbstractProvider
     abstract public function createJobObject($payload);
 
     /**
+     * Get default parameters and values
+     *
+     * @return  string
+     */
+    abstract public function defaultParameters();
+
+    /**
+     * Job object default keys that must be set.
+     *
+     * @return  string
+     */
+    abstract public function defaultResponseFields();
+
+    /**
      * Get listings path
      *
      * @return  string
@@ -105,21 +122,14 @@ abstract class AbstractProvider
      *
      * @return  string
      */
-    abstract public function getRequiredParameters();
-
-    /**
-     * Job object default keys that must be set.
-     *
-     * @return  string
-     */
-    abstract public function getResponseDefaults();
+    abstract public function requiredParameters();
 
     /**
      * Get parameters that CAN be set
      *
      * @return  string
      */
-    abstract public function getValidParameters();
+    abstract public function validParameters();
 
     // Public methods
 
@@ -224,7 +234,7 @@ abstract class AbstractProvider
      */
     public function isValidParameter($key = null)
     {
-        return in_array($key, $this->getValidParameters());
+        return in_array($key, $this->validParameters());
     }
 
     /**
@@ -264,7 +274,7 @@ abstract class AbstractProvider
      */
     public function requiredParamsIncluded()
     {
-        foreach ($this->getRequiredParameters() as $key) {
+        foreach ($this->requiredParameters() as $key) {
             if (!isset($this->queryParams[$key])) {
                 return false;
             }
@@ -300,7 +310,7 @@ abstract class AbstractProvider
         $collection = new Collection;
 
         array_map(function ($item) use ($collection) {
-            $item = static::parseAttributeDefaults($item, $this->getResponseDefaults());
+            $item = static::parseAttributeDefaults($item, $this->defaultResponseFields());
             $job = $this->createJobObject($item);
             $job->setQuery($this->getKeyword())
                 ->setSource($this->getSource());
@@ -385,7 +395,7 @@ abstract class AbstractProvider
      */
     protected function updateQuery($value, $key)
     {
-        if (in_array($key, $this->getValidParameters())) {
+        if (in_array($key, $this->validParameters())) {
             $this->queryParams[$key] = $value;
         }
         return $this;
