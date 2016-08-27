@@ -138,7 +138,8 @@ abstract class AbstractProvider
      *
      * @return  string Currently only 'json' and 'xml' supported
      */
-    public function getFormat() {
+    public function getFormat()
+    {
         return 'json';
     }
 
@@ -223,7 +224,8 @@ abstract class AbstractProvider
      *
      * @return  string
      */
-    public function getVerb() {
+    public function getVerb()
+    {
         return 'GET';
     }
 

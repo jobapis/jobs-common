@@ -1,6 +1,22 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 2.0.0-beta - 2016-08-26
+
+### Added
+- Moving required, default, and valid params to abstract methods
+- Continued to refine queryParams array setter/getter methods from Alpha
+- Included concrete provider in tests
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Nothing
+
+### Security
+- Nothing
+
 ## 2.0.0-alpha - 2016-04-04
 
 ### Added
