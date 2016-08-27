@@ -131,8 +131,6 @@ abstract class AbstractProvider
      */
     abstract public function validParameters();
 
-    // Public methods
-
     /**
      * Get format
      *
@@ -161,7 +159,7 @@ abstract class AbstractProvider
     /**
      * Makes the api call and returns a collection of job objects
      *
-     * @return  JobApis\Jobs\Client\Collection
+     * @return  \JobApis\Jobs\Client\Collection
      * @throws MissingParameterException
      */
     public function getJobs()
@@ -298,8 +296,6 @@ abstract class AbstractProvider
         return $this;
     }
 
-    // Protected methods
-
     /**
      * Create and get collection of jobs from given listings
      *
@@ -402,8 +398,6 @@ abstract class AbstractProvider
         }
         return $this;
     }
-
-    // Private methods
 
     /**
      * Get value current index
