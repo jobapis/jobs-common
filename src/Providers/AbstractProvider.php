@@ -1,21 +1,12 @@
 <?php namespace JobApis\Jobs\Client\Providers;
 
 use GuzzleHttp\Client as HttpClient;
-use JobApis\Jobs\Client\AttributeTrait;
 use JobApis\Jobs\Client\Collection;
 use JobApis\Jobs\Client\Exceptions\MissingParameterException;
+use JobApis\Jobs\Client\Queries\AbstractQuery;
 
 abstract class AbstractProvider
 {
-    use AttributeTrait;
-
-    /**
-     * Base API Url
-     *
-     * @var string
-     */
-    protected $baseUrl;
-
     /**
      * HTTP Client
      *
@@ -28,63 +19,17 @@ abstract class AbstractProvider
      *
      * @var array
      */
-    protected $queryParams = [];
+    protected $query;
 
     /**
      * Create new client
      *
      * @param array $parameters
      */
-    public function __construct($parameters = [])
+    public function __construct(AbstractQuery $query)
     {
-        $parameters = array_merge($this->defaultParameters(), $parameters);
-
-        array_walk($parameters, [$this, 'updateQuery']);
-
+        $this->query = $query;
         $this->setClient(new HttpClient);
-    }
-
-    /**
-     * Get query param as properties, if exists
-     *
-     * @param  string $name
-     *
-     * @return mixed
-     * @throws \OutOfRangeException
-     */
-    public function __get($key)
-    {
-        // Then check to see if there's a query parameter
-        if (!isset($this->queryParams[$key])) {
-            throw new \OutOfRangeException(sprintf(
-                '%s does not contain a property by the name of "%s"',
-                __CLASS__,
-                $key
-            ));
-        }
-        return $this->queryParams[$key];
-    }
-
-    /**
-     * Set query param as properties, if exists
-     *
-     * @param  string $name
-     *
-     * @return mixed
-     * @throws \OutOfRangeException
-     */
-    public function __set($key, $value)
-    {
-        // Then check to see if there's a query parameter
-        if (!$this->isValidParameter($key)) {
-            throw new \OutOfRangeException(sprintf(
-                '%s does not contain a property by the name of "%s"',
-                __CLASS__,
-                $key
-            ));
-        }
-        $this->queryParams[$key] = $value;
-        return $this;
     }
 
     /**
@@ -381,22 +326,6 @@ abstract class AbstractProvider
         }
 
         return [];
-    }
-
-    /**
-     * Attempts to update current query parameters.
-     *
-     * @param  string  $value
-     * @param  string  $key
-     *
-     * @return AbstractProvider
-     */
-    protected function updateQuery($value, $key)
-    {
-        if (in_array($key, $this->validParameters())) {
-            $this->queryParams[$key] = $value;
-        }
-        return $this;
     }
 
     /**
