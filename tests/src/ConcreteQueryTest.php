@@ -10,7 +10,7 @@ class ConcreteProviderTest extends \PHPUnit_Framework_TestCase
         $this->query = new ConcreteQuery();
     }
 
-    public function testItCanInstantiateQuery()
+    public function testItCanInstantiateQueryWithValues()
     {
         $attributes = [
             'keyword' => uniqid(),
@@ -22,7 +22,22 @@ class ConcreteProviderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testItCanSetValueWithCustomMethod()
+    public function testItCanInstantiateQueryWithDefaultValues()
+    {
+        $this->assertEquals('1', $this->query->get('highlight'));
+    }
+
+    public function testItCanSetAndGetValidAttribute()
+    {
+        $key = 'keyword';
+        $value = uniqid();
+
+        $this->query->set($key, $value);
+
+        $this->assertEquals($value, $this->query->get($key));
+    }
+
+    public function testItCanSetAttributeWithCustomMethod()
     {
         $key = 'sampleAttribute1';
         $value = uniqid();
@@ -32,7 +47,18 @@ class ConcreteProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(strrev($value), $this->query->get($key));
     }
 
-    public function testItCanGetValueWithCustomMethod()
+    /**
+     * @expectedException \OutOfRangeException
+     */
+    public function testItThrowsErrorWhenSettingInvalidAttribute()
+    {
+        $key = uniqid();
+        $value = uniqid();
+
+        $this->query->set($key, $value);
+    }
+
+    public function testItCanGetAttributeWithCustomMethod()
     {
         $key = 'sampleAttribute2';
         $value = uniqid();
@@ -40,5 +66,15 @@ class ConcreteProviderTest extends \PHPUnit_Framework_TestCase
         $this->query->set($key, $value);
 
         $this->assertEquals(strrev($value), $this->query->get($key));
+    }
+
+    /**
+     * @expectedException \OutOfRangeException
+     */
+    public function testItThrowsErrorWhenGettingInvalidAttribute()
+    {
+        $key = uniqid();
+
+        $this->query->get($key);
     }
 }

@@ -5,6 +5,13 @@ use JobApis\Jobs\Client\Queries\AbstractQuery;
 class ConcreteQuery extends AbstractQuery
 {
     /**
+     * API Key
+     *
+     * @var string
+     */
+    protected $apiKey;
+
+    /**
      * Base API Url
      *
      * @var string
@@ -12,11 +19,11 @@ class ConcreteQuery extends AbstractQuery
     protected $baseUrl = 'http://api.example.com/';
 
     /**
-     * Default query parameters
+     * Highlight
      *
-     * @var array
+     * @var string
      */
-    protected $defaults = [];
+    protected $highlight;
 
     /**
      * Keyword
@@ -47,6 +54,30 @@ class ConcreteQuery extends AbstractQuery
     protected function getSampleAttribute2()
     {
         return strrev($this->sampleAttribute2);
+    }
+
+    /**
+     * Default parameters
+     *
+     * @var array
+     */
+    protected function defaultAttributes()
+    {
+        return [
+            'highlight' => '1',
+        ];
+    }
+
+    /**
+     * Required parameters
+     *
+     * @var array
+     */
+    protected function requiredAttributes()
+    {
+        return [
+            'api_key',
+        ];
     }
 
     /**

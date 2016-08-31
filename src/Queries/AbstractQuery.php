@@ -12,65 +12,15 @@ abstract class AbstractQuery
     protected $baseUrl;
 
     /**
-     * Default query parameters
-     *
-     * @var array
-     */
-    protected $defaults = [];
-
-    /**
-     * Create new query from parameters
+     * Create new query from parameters and defaults
      *
      * @param array $parameters
      */
     public function __construct($parameters = [])
     {
-        $parameters = array_flip(array_merge($this->defaults, $parameters));
+        $parameters = array_flip(array_merge($this->defaultAttributes(), $parameters));
 
         array_walk($parameters, [$this, 'set']);
-    }
-
-    /**
-     * Get query param as properties, if exists
-     *
-     * @param  string $name
-     *
-     * @return mixed
-     * @throws \OutOfRangeException
-     */
-    public function __get($key)
-    {
-        // Then check to see if there's a query parameter
-        if (!$this->isValidParameter($key)) {
-            throw new \OutOfRangeException(sprintf(
-                '%s does not contain a property by the name of "%s"',
-                __CLASS__,
-                $key
-            ));
-        }
-        return $this->queryParams[$key];
-    }
-
-    /**
-     * Set query param as properties, if exists
-     *
-     * @param  string $name
-     *
-     * @return mixed
-     * @throws \OutOfRangeException
-     */
-    public function __set($key, $value)
-    {
-        // Then check to see if there's a query parameter
-        if (!$this->isValidParameter($key)) {
-            throw new \OutOfRangeException(sprintf(
-                '%s does not contain a property by the name of "%s"',
-                __CLASS__,
-                $key
-            ));
-        }
-        $this->$key = $value;
-        return $this;
     }
 
     /**
@@ -82,6 +32,13 @@ abstract class AbstractQuery
      */
     public function get($key)
     {
+        if (!$this->isValidParameter($key)) {
+            throw new \OutOfRangeException(sprintf(
+                '%s does not contain a property by the name of "%s"',
+                __CLASS__,
+                $key
+            ));
+        }
         if (method_exists($this, 'get'.self::toStudlyCase($key))) {
             return $this->{'get'.self::toStudlyCase($key)}();
         }
@@ -98,11 +55,29 @@ abstract class AbstractQuery
      */
     public function set($key, $value)
     {
+        // Then check to see if there's a query parameter
+        if (!$this->isValidParameter($key)) {
+            throw new \OutOfRangeException(sprintf(
+                '%s does not contain a property by the name of "%s"',
+                __CLASS__,
+                $key
+            ));
+        }
         if (method_exists($this, 'set'.self::toStudlyCase($key))) {
             return $this->{'set'.self::toStudlyCase($key)}($value);
         }
         $this->$key = $value;
         return $this;
+    }
+
+    /**
+     * Default parameters
+     *
+     * @var array
+     */
+    protected function defaultAttributes()
+    {
+        return [];
     }
 
     /**
@@ -121,13 +96,23 @@ abstract class AbstractQuery
     }
 
     /**
+     * Required parameters
+     *
+     * @var array
+     */
+    protected function requiredAttributes()
+    {
+        return [];
+    }
+
+    /**
      * Converts snakecase or underscores to camelcase
      *
      * @param string
      *
      * @return string
      */
-    private static function toStudlyCase($value)
+    protected static function toStudlyCase($value)
     {
         return str_replace(' ', '' , ucwords(str_replace(array('-', '_'), ' ', $value)));
     }
