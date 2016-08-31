@@ -42,6 +42,13 @@ abstract class AbstractProvider
     abstract public function createJobObject($payload);
 
     /**
+     * Get listings path
+     *
+     * @return  string
+     */
+    abstract public function getListingsPath();
+
+    /**
      * Get format
      *
      * @return  string Currently only 'json' and 'xml' supported
@@ -59,20 +66,17 @@ abstract class AbstractProvider
      */
     public function getJobs()
     {
-        if ($this->requiredParamsIncluded()) {
-            $client = $this->client;
-            $verb = strtolower($this->getVerb());
-            $url = $this->getUrl();
-            $options = $this->getHttpClientOptions();
-
-            $response = $client->{$verb}($url, $options);
-
+        // Verify that all required query vars are set
+        if ($this->query->isValid()) {
+            // Get the response from the client using the query
+            $response = $this->getClientResponse();
+            // Get the response body as a string
             $body = (string) $response->getBody();
-
+            // Parse the string
             $payload = $this->parseAsFormat($body, $this->getFormat());
-
+            // Gets listings if they're nested
             $listings = is_array($payload) ? $this->getRawListings($payload) : [];
-
+            // Return a job collection
             return $this->getJobsCollectionFromListings($listings);
         } else {
             throw new MissingParameterException("All Required parameters for this provider must be set");
@@ -87,49 +91,6 @@ abstract class AbstractProvider
     public function getSource()
     {
         return $this->getShortName();
-    }
-
-    /**
-     * Get query string for client based on properties
-     *
-     * @return string
-     */
-    public function getQueryString()
-    {
-        return '?'.http_build_query($this->queryParams);
-    }
-
-    /**
-     * Get url
-     *
-     * @return  string
-     */
-    public function getUrl()
-    {
-        if (!$this->baseUrl) {
-            throw new MissingParameterException("Base URL parameter not set in provider.");
-        }
-        return $this->baseUrl.$this->getQueryString();
-    }
-
-    /**
-     * Get http verb to use when making request
-     *
-     * @return  string
-     */
-    public function getVerb()
-    {
-        return 'GET';
-    }
-
-    /**
-     * Check whether a key is valid for this client
-     *
-     * @return  string
-     */
-    public function isValidParameter($key = null)
-    {
-        return in_array($key, $this->validParameters());
     }
 
     /**
@@ -163,21 +124,6 @@ abstract class AbstractProvider
     }
 
     /**
-     * Determines if all required parameters have been set
-     *
-     * @return  bool
-     */
-    public function requiredParamsIncluded()
-    {
-        foreach ($this->requiredParameters() as $key) {
-            if (!isset($this->queryParams[$key])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * Sets http client
      *
      * @param HttpClient $client
@@ -206,6 +152,29 @@ abstract class AbstractProvider
     }
 
     /**
+     * Uses the Query to make a call to the client
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function getClientResponse()
+    {
+        // Create a local copy of the client object
+        $client = $this->client;
+
+        // GET or POST request
+        $verb = strtolower($this->query->getVerb());
+
+        // The URL string
+        $url = $this->query->getUrl();
+
+        // HTTP method options
+        $options = $this->query->getHttpMethodOptions();
+
+        // Get the response
+        return $client->{$verb}($url, $options);
+    }
+
+    /**
      * Create and get collection of jobs from given listings
      *
      * @param  array $listings
@@ -219,7 +188,7 @@ abstract class AbstractProvider
         array_map(function ($item) use ($collection) {
             $item = static::parseAttributeDefaults($item, $this->defaultResponseFields());
             $job = $this->createJobObject($item);
-            $job->setQuery($this->getKeyword())
+            $job->setQuery($this->query->getKeyword())
                 ->setSource($this->getSource());
             $collection->add($job);
         }, $listings);

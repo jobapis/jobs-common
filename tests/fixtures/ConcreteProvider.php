@@ -34,44 +34,6 @@ class ConcreteProvider extends AbstractProvider
     }
 
     /**
-     * Simulates making an api call and returning a collection of job objects
-     *
-     * @return  Collection
-     * @throws MissingParameterException
-     */
-    public function getJobs()
-    {
-        if ($this->requiredParamsIncluded()) {
-            $body = json_encode([
-                'jobs' => [
-                    0 => [
-                        'id' => uniqid(),
-                        'name' => uniqid(),
-                        'company' => uniqid(),
-                        'date' => date('m/d/y'),
-                        'url' => uniqid(),
-                    ],
-                    1 => [
-                        'id' => uniqid(),
-                        'name' => uniqid(),
-                        'company' => uniqid(),
-                        'date' => date('m/d/y'),
-                        'url' => uniqid(),
-                    ],
-                ]
-            ]);
-
-            $payload = $this->parseAsFormat($body, $this->getFormat());
-
-            $listings = is_array($payload) ? $this->getRawListings($payload) : [];
-
-            return $this->getJobsCollectionFromListings($listings);
-        } else {
-            throw new MissingParameterException("All Required parameters for this provider must be set");
-        }
-    }
-
-    /**
      * Get default parameters and values
      *
      * @return  string

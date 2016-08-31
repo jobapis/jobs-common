@@ -47,6 +47,16 @@ class ConcreteQuery extends AbstractQuery
     protected $sampleAttribute2;
 
     /**
+     * Get keyword
+     *
+     * @return  string Attribute being used as the search keyword
+     */
+    public function getKeyword()
+    {
+        return $this->keyword;
+    }
+
+    /**
      * Custom method to get sample attribute 2
      *
      * @var string
@@ -63,9 +73,7 @@ class ConcreteQuery extends AbstractQuery
      */
     protected function defaultAttributes()
     {
-        return [
-            'highlight' => '1',
-        ];
+        return array_merge(['highlight' => '1'], parent::defaultAttributes());
     }
 
     /**
@@ -75,9 +83,7 @@ class ConcreteQuery extends AbstractQuery
      */
     protected function requiredAttributes()
     {
-        return [
-            'api_key',
-        ];
+        return array_merge(['api_key'], parent::requiredAttributes());
     }
 
     /**

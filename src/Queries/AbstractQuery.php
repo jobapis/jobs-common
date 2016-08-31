@@ -24,11 +24,11 @@ abstract class AbstractQuery
     }
 
     /**
-     * Get listings path
+     * Get keyword
      *
-     * @return  string
+     * @return  string Attribute being used as the search keyword
      */
-    // abstract public function getListingsPath();
+    abstract public function getKeyword();
 
     /**
      * Attempts to get an attribute by key
@@ -50,6 +50,53 @@ abstract class AbstractQuery
             return $this->{'get'.self::toStudlyCase($key)}();
         }
         return $this->$key;
+    }
+
+    /**
+     * Get http method options based on current client
+     *
+     * @return array
+     */
+    public function getHttpMethodOptions()
+    {
+        $options = [];
+        if (strtolower($this->getVerb()) != 'get') {
+            $options['body'] = $this->getParameters();
+        }
+        return $options;
+    }
+
+    /**
+     * Get query string for client based on properties
+     *
+     * @return string
+     */
+    public function getQueryString()
+    {
+        return '?'.http_build_query((array) $this);
+    }
+
+    /**
+     * Get url
+     *
+     * @return  string
+     */
+    public function getUrl()
+    {
+        if (!$this->baseUrl) {
+            throw new MissingParameterException("Base URL parameter not set in provider.");
+        }
+        return $this->baseUrl.$this->getQueryString();
+    }
+
+    /**
+     * Get http verb to use when making request
+     *
+     * @return  string
+     */
+    public function getVerb()
+    {
+        return 'GET';
     }
 
     /**
@@ -78,6 +125,21 @@ abstract class AbstractQuery
     }
 
     /**
+     * Determines whether the query is valid and ready to use
+     *
+     * @return bool Validity of the Query
+     */
+    public function isValid()
+    {
+        foreach ($this->requiredAttributes() as $key) {
+            if (!isset($this->$key)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Default parameters
      *
      * @var array
@@ -103,7 +165,7 @@ abstract class AbstractQuery
     }
 
     /**
-     * Required parameters
+     * Required attributes for the query
      *
      * @var array
      */
@@ -113,7 +175,7 @@ abstract class AbstractQuery
     }
 
     /**
-     * Converts snakecase or underscores to camelcase
+     * Converts snake case or underscores to camelcase
      *
      * @param string
      *
