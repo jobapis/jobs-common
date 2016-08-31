@@ -28,8 +28,8 @@ abstract class AbstractProvider
      */
     public function __construct(AbstractQuery $query)
     {
-        $this->query = $query;
-        $this->setClient(new HttpClient);
+        $this->setQuery($query)
+            ->setClient(new HttpClient);
     }
 
     /**
@@ -42,41 +42,6 @@ abstract class AbstractProvider
     abstract public function createJobObject($payload);
 
     /**
-     * Get default parameters and values
-     *
-     * @return  string
-     */
-    abstract public function defaultParameters();
-
-    /**
-     * Job object default keys that must be set.
-     *
-     * @return  string
-     */
-    abstract public function defaultResponseFields();
-
-    /**
-     * Get listings path
-     *
-     * @return  string
-     */
-    abstract public function getListingsPath();
-
-    /**
-     * Get parameters that MUST be set in order to satisfy the APIs requirements
-     *
-     * @return  string
-     */
-    abstract public function requiredParameters();
-
-    /**
-     * Get parameters that CAN be set
-     *
-     * @return  string
-     */
-    abstract public function validParameters();
-
-    /**
      * Get format
      *
      * @return  string Currently only 'json' and 'xml' supported
@@ -84,21 +49,6 @@ abstract class AbstractProvider
     public function getFormat()
     {
         return 'json';
-    }
-
-    /**
-     * Get http client options based on current client
-     *
-     * @return array
-     */
-    public function getHttpClientOptions()
-    {
-        $options = [];
-        if (strtolower($this->getVerb()) != 'get') {
-            $options['body'] = $this->queryParams;
-        }
-
-        return $options;
     }
 
     /**
@@ -237,6 +187,20 @@ abstract class AbstractProvider
     public function setClient(HttpClient $client)
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Sets query object
+     *
+     * @param AbstractQuery $query
+     *
+     * @return  AbstractProvider
+     */
+    public function setQuery(AbstractQuery $query)
+    {
+        $this->query = $query;
 
         return $this;
     }

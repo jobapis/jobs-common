@@ -3,7 +3,7 @@
 use JobApis\Jobs\Client\Fixtures\ConcreteQuery;
 use Mockery as m;
 
-class ConcreteProviderTest extends \PHPUnit_Framework_TestCase
+class AbstractQueryTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {

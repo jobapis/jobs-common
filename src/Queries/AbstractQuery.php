@@ -24,6 +24,13 @@ abstract class AbstractQuery
     }
 
     /**
+     * Get listings path
+     *
+     * @return  string
+     */
+    // abstract public function getListingsPath();
+
+    /**
      * Attempts to get an attribute by key
      *
      * @param  string  $key
