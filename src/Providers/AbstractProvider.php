@@ -42,11 +42,41 @@ abstract class AbstractProvider
     abstract public function createJobObject($payload);
 
     /**
+     * Job response object default keys that should be set
+     *
+     * @return  string
+     */
+    abstract public function getDefaultResponseFields();
+
+    /**
      * Get listings path
      *
      * @return  string
      */
     abstract public function getListingsPath();
+
+    /**
+     * Uses the Query to make a call to the client
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function getClientResponse()
+    {
+        // Create a local copy of the client object
+        $client = $this->client;
+
+        // GET or POST request
+        $verb = strtolower($this->query->getVerb());
+
+        // The URL string
+        $url = $this->query->getUrl();
+
+        // HTTP method options
+        $options = $this->query->getHttpMethodOptions();
+
+        // Get the response
+        return $client->{$verb}($url, $options);
+    }
 
     /**
      * Get format
@@ -90,7 +120,9 @@ abstract class AbstractProvider
      */
     public function getSource()
     {
-        return $this->getShortName();
+        $ref = new \ReflectionClass(get_class($this));
+
+        return $ref->getShortName();
     }
 
     /**
@@ -152,29 +184,6 @@ abstract class AbstractProvider
     }
 
     /**
-     * Uses the Query to make a call to the client
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    protected function getClientResponse()
-    {
-        // Create a local copy of the client object
-        $client = $this->client;
-
-        // GET or POST request
-        $verb = strtolower($this->query->getVerb());
-
-        // The URL string
-        $url = $this->query->getUrl();
-
-        // HTTP method options
-        $options = $this->query->getHttpMethodOptions();
-
-        // Get the response
-        return $client->{$verb}($url, $options);
-    }
-
-    /**
      * Create and get collection of jobs from given listings
      *
      * @param  array $listings
@@ -186,7 +195,9 @@ abstract class AbstractProvider
         $collection = new Collection;
 
         array_map(function ($item) use ($collection) {
-            $item = static::parseAttributeDefaults($item, $this->defaultResponseFields());
+            $item = static::parseAttributeDefaults(
+                $item, $this->getDefaultResponseFields()
+            );
             $job = $this->createJobObject($item);
             $job->setQuery($this->query->getKeyword())
                 ->setSource($this->getSource());
@@ -334,23 +345,5 @@ abstract class AbstractProvider
         }
 
         return [];
-    }
-
-    /**
-     * Get short name of a given or current class
-     *
-     * @param  object $object Optional object
-     *
-     * @return string
-     */
-    private function getShortName($object = null)
-    {
-        if (is_null($object)) {
-            $object = $this;
-        }
-
-        $ref = new \ReflectionClass(get_class($object));
-
-        return $ref->getShortName();
     }
 }

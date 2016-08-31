@@ -25,6 +25,23 @@ class ConcreteProvider extends AbstractProvider
     }
 
     /**
+     * Job response object default keys that should be set
+     *
+     * @return  string
+     */
+    public function getDefaultResponseFields()
+    {
+        return [
+            'id',
+            'name',
+            'company',
+            'date',
+            'snippet',
+            'url',
+        ];
+    }
+
+    /**
      * Get listings path
      *
      * @return  string
