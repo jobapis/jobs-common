@@ -77,4 +77,48 @@ class QueryTest extends \PHPUnit_Framework_TestCase
 
         $this->query->get($key);
     }
+
+    public function testItCanGetHttpOptions()
+    {
+        $this->assertEquals([], $this->query->getHttpMethodOptions());
+    }
+
+    public function testItCanGetQueryString()
+    {
+        $query = $this->query->getQueryString();
+        $this->assertEquals('?highlight=1', $query);
+    }
+
+    public function testItCanGetQueryUrl()
+    {
+        $query = $this->query->getQueryString();
+        $baseUrl = $this->query->getBaseUrl();
+
+        $url = $this->query->getUrl();
+
+        $this->assertEquals($baseUrl.$query, $url);
+    }
+
+    public function testItCanGetHttpVerb()
+    {
+        $this->assertEquals('GET', $this->query->getVerb());
+    }
+
+    public function testItReturnsFalseWhenQueryInvalid()
+    {
+        $valid = $this->query->isValid();
+        $this->assertFalse($valid);
+    }
+
+    public function testItReturnsTrueWhenQueryValid()
+    {
+        $query = $this->query;
+
+        $query->set('api_key', uniqid());
+
+        $valid = $query->isValid();
+
+        $this->assertTrue($valid);
+    }
+
 }

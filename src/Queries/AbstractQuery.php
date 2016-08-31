@@ -24,6 +24,13 @@ abstract class AbstractQuery
     }
 
     /**
+     * Get baseUrl
+     *
+     * @return  string Value of the base url to this api
+     */
+    abstract public function getBaseUrl();
+
+    /**
      * Get keyword
      *
      * @return  string Attribute being used as the search keyword
@@ -53,17 +60,13 @@ abstract class AbstractQuery
     }
 
     /**
-     * Get http method options based on current client
+     * Get http method options based on current client. Good for adding POST parameters.
      *
      * @return array
      */
     public function getHttpMethodOptions()
     {
-        $options = [];
-        if (strtolower($this->getVerb()) != 'get') {
-            $options['body'] = $this->getParameters();
-        }
-        return $options;
+        return [];
     }
 
     /**
@@ -73,7 +76,7 @@ abstract class AbstractQuery
      */
     public function getQueryString()
     {
-        return '?'.http_build_query((array) $this);
+        return '?'.http_build_query($this->getQueryAttributes());
     }
 
     /**
@@ -83,10 +86,7 @@ abstract class AbstractQuery
      */
     public function getUrl()
     {
-        if (!$this->baseUrl) {
-            throw new MissingParameterException("Base URL parameter not set in provider.");
-        }
-        return $this->baseUrl.$this->getQueryString();
+        return $this->getBaseUrl().$this->getQueryString();
     }
 
     /**
@@ -137,6 +137,16 @@ abstract class AbstractQuery
             }
         }
         return true;
+    }
+
+    /**
+     * Gets the attributes to use for this API's query
+     *
+     * @var array
+     */
+    protected function getQueryAttributes()
+    {
+        return get_object_vars($this);
     }
 
     /**

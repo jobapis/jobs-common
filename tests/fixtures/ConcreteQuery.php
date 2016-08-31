@@ -9,14 +9,7 @@ class ConcreteQuery extends AbstractQuery
      *
      * @var string
      */
-    protected $apiKey;
-
-    /**
-     * Base API Url
-     *
-     * @var string
-     */
-    protected $baseUrl = 'http://api.example.com/';
+    protected $api_key;
 
     /**
      * Highlight
@@ -45,6 +38,16 @@ class ConcreteQuery extends AbstractQuery
      * @var string
      */
     protected $sampleAttribute2;
+
+    /**
+     * Get baseUrl
+     *
+     * @return  string Value of the base url to this api
+     */
+    public function getBaseUrl()
+    {
+        return 'http://api.example.com/';
+    }
 
     /**
      * Get keyword
