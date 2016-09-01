@@ -63,7 +63,36 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('ConcreteProvider', $this->client->getSource());
     }
-    
+
+    public function testItCanParseDefaultAttributes()
+    {
+        $attributes = [
+            'attr_1' => uniqid(),
+            'attr_2' => uniqid(),
+            'attr_3' => uniqid(),
+        ];
+        $defaults = [
+            'name',
+        ];
+
+        $results = ConcreteProvider::parseAttributeDefaults($attributes, $defaults);
+
+        $this->assertNull($results['name']);
+        $this->assertEquals($attributes['attr_1'], $results['attr_1']);
+        $this->assertEquals($attributes['attr_2'], $results['attr_2']);
+        $this->assertEquals($attributes['attr_3'], $results['attr_3']);
+    }
+
+    public function testItCanParseLocation()
+    {
+        $separator = ', ';
+        $location = uniqid(). $separator . uniqid();
+
+        $results = ConcreteProvider::parseLocation($location, $separator);
+
+        $this->assertEquals(explode($separator, $location), $results);
+    }
+
     // TODO: Test for each method
 
     public function testItCanGetJobsWhenValidQueryProvided()
