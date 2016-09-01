@@ -193,6 +193,8 @@ abstract class AbstractQuery
      */
     protected static function toStudlyCase($value)
     {
-        return str_replace(' ', '' , ucwords(str_replace(array('-', '_'), ' ', $value)));
+        return str_replace(' ', '', ucwords(
+            str_replace(array('-', '_'), ' ', $value))
+        );
     }
 }
