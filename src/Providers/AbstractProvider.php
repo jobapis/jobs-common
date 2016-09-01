@@ -196,7 +196,8 @@ abstract class AbstractProvider
 
         array_map(function ($item) use ($collection) {
             $item = static::parseAttributeDefaults(
-                $item, $this->getDefaultResponseFields()
+                $item,
+                $this->getDefaultResponseFields()
             );
             $job = $this->createJobObject($item);
             $job->setQuery($this->query->getKeyword())
