@@ -1,6 +1,11 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 2.0.0-beta.1 - 2016-09-02
+
+### Fixed
+- Abstract query construct method was overwriting keys with duplicate values. Array flip is dangerous like that.
+
 ## 2.0.0-beta - 2016-09-01
 
 ### Added
