@@ -40,6 +40,27 @@ class ConcreteQuery extends AbstractQuery
     protected $sampleAttribute2;
 
     /**
+     * Random attribute 1
+     *
+     * @var string
+     */
+    protected $randomAttribute1;
+
+    /**
+     * Random attribute 2
+     *
+     * @var string
+     */
+    protected $randomAttribute2;
+
+    /**
+     * Random attribute 3
+     *
+     * @var string
+     */
+    protected $randomAttribute3;
+
+    /**
      * Get baseUrl
      *
      * @return  string Value of the base url to this api

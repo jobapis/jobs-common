@@ -27,6 +27,22 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('1', $this->query->get('highlight'));
     }
 
+    public function testItCanInstantiateQueryWithMultipleParametersWithSameValue()
+    {
+        $key1 = 'randomAttribute1';
+        $key2 = 'randomAttribute2';
+        $key3 = 'randomAttribute3';
+        $parameters = [
+            $key1 => 'true',
+            $key2 => 'true',
+            $key3 => 'true',
+        ];
+        $query = new ConcreteQuery($parameters);
+        $this->assertEquals('true', $query->get($key1));
+        $this->assertEquals('true', $query->get($key2));
+        $this->assertEquals('true', $query->get($key3));
+    }
+
     public function testItCanSetAndGetValidAttribute()
     {
         $key = 'keyword';
