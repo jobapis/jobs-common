@@ -21,7 +21,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
             'location' => uniqid(),
         ];
 
-        $response = m::mock('\Psr\Http\Message\ResponseInterface');
+        $response = m::mock('GuzzleHttp\Message\Response');
 
         $this->query->shouldReceive('getVerb')
             ->once()
@@ -93,8 +93,6 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(explode($separator, $location), $results);
     }
 
-    // TODO: Test for each method
-
     public function testItCanGetJobsWhenValidQueryProvided()
     {
         $url = 'http://'.uniqid().'.com/api';
@@ -103,7 +101,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
             'location' => uniqid(),
         ];
 
-        $response = m::mock('\Psr\Http\Message\ResponseInterface');
+        $response = m::mock('GuzzleHttp\Message\Response');
 
         $jobs = json_encode((object) [
             'jobs' => [
