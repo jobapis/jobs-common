@@ -79,11 +79,7 @@ You should use your own username as the vendor prefix, and prepend `jobs-` to th
 If you are working with a job board service not supported out-of-the-box or by an existing package, it is quite simple to implement your own. Simply extend `JobApis\Jobs\Client\Providers\AbstractProvider` and implement the required abstract methods:
 
 ```php
-abstract public function createJobObject($payload);
-abstract public function getFormat();
-abstract public function getListingsPath();
-abstract public function getKeyword();
-abstract public function getVerb();
+// Documentation coming soon
 ```
 
 Each of these abstract methods contain a docblock defining their expectations and typical behaviour. Once you have extended this class, you can simply follow the example above using your new `Provider`.
@@ -112,16 +108,12 @@ $ ./vendor/bin/phpunit
 
 Please see [CONTRIBUTING](https://github.com/jobapis/jobs-common/blob/master/CONTRIBUTING.md) for details.
 
-
 ## Credits
 
 - [Karl Hughes](https://github.com/karllhughes)
 - [Steven Maguire](https://github.com/stevenmaguire)
 - [All Contributors](https://github.com/jobapis/jobs-common/contributors)
 
-
 ## License
 
 The Apache 2.0. Please see [License File](https://github.com/jobapis/jobs-common/blob/master/LICENSE) for more information.
-
-:)
