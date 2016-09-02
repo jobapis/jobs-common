@@ -9,9 +9,11 @@ abstract class AbstractQuery
      */
     public function __construct($parameters = [])
     {
-        $parameters = array_flip(array_merge($this->defaultAttributes(), $parameters));
+        $parameters = array_merge($this->defaultAttributes(), $parameters);
 
-        array_walk($parameters, [$this, 'set']);
+        foreach ($parameters as $key => $value) {
+            $this->set($key, $value);
+        }
     }
 
     /**
