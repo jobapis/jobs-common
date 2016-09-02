@@ -1,16 +1,7 @@
 <?php namespace JobApis\Jobs\Client\Queries;
 
-use JobApis\Jobs\Client\Exceptions\MissingParameterException;
-
 abstract class AbstractQuery
 {
-    /**
-     * Base API Url
-     *
-     * @var string
-     */
-    protected $baseUrl;
-
     /**
      * Create new query from parameters and defaults
      *
