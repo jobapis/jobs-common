@@ -1,6 +1,11 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 2.0.0 - 2016-09-03
+
+### Added
+- Readme updates.
+
 ## 2.0.0-beta.1 - 2016-09-02
 
 ### Fixed

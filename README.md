@@ -70,21 +70,38 @@ Gateway | Composer Package | Maintainer
 
 ### Build your own providers
 
-New providers can be created by cloning the layout of an existing package. When choosing a name for your package, please don’t use the `JobApis` vendor prefix, as this implies that it is officially supported.
+New providers can be created by cloning the layout of an existing package. When choosing a name for your package, please don’t use the `joabpis` vendor prefix, as this implies that it is officially supported.
 
-You should use your own username as the vendor prefix, and prepend `jobs-` to the package name to make it clear that your package works with Jobs Client. For example, if your GitHub username was prometheus, and you were implementing the Dice.com job listing library, a good name for your composer package would be `prometheus/jobs-dice`.
+You should use your own username as the vendor prefix, and prepend `jobs-` to the package name to make it clear that your package works with Jobs Common. For example, if your GitHub username were prometheus, and you were implementing the Dice.com job listing API, a good name for your composer package would be `prometheus/jobs-dice`.
 
 #### Implementing your own provider
 
-If you are working with a job board service not supported out-of-the-box or by an existing package, it is quite simple to implement your own. Simply extend `JobApis\Jobs\Client\Providers\AbstractProvider` and implement the required abstract methods:
+If you are working with a job board service not supported out-of-the-box or by an existing package, it is quite simple to implement your own. Simply extend `JobApis\Jobs\Client\Providers\AbstractProvider` and `JobApis\Jobs\Client\Queries\AbstractQuery` and implement the required abstract methods in each:
 
 ```php
-// Documentation coming soon
+
+// JobApis\Jobs\Client\Providers\AbstractProvider
+
+abstract public function createJobObject($payload);
+
+abstract public function getDefaultResponseFields();
+
+abstract public function getListingsPath();
+
+
+// JobApis\Jobs\Client\Queries\AbstractQuery
+
+abstract public function getBaseUrl();
+
+abstract public function getKeyword();
+
 ```
 
-Each of these abstract methods contain a docblock defining their expectations and typical behaviour. Once you have extended this class, you can simply follow the example above using your new `Provider`.
+Each of these abstract methods contain a docblock defining their expectations and typical behavior. Once you have extended these classes, you can simply follow the example above using your new `Provider`.
 
 Each job object that is created will automatically set `source` and `query` based on the criteria passed into the provider. If you would like to customize this `source` value, your provider must implement a `getSource` method that returns a string to identify your provider's source.
+
+For an example of each of the concrete classes you'll need to implement, see the `/tests/fixtures` folder in this repository. 
 
 #### Make your provider official
 
