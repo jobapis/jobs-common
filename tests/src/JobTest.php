@@ -1,9 +1,10 @@
-<?php namespace JobBrander\Jobs\Client\Test;
+<?php namespace JobApis\Jobs\Client\Tests;
 
-use JobBrander\Jobs\Client\Job;
-use JobBrander\Jobs\Client\Schema\Entity\Organization;
-use JobBrander\Jobs\Client\Schema\Entity\Place;
-use JobBrander\Jobs\Client\Schema\Entity\PostalAddress;
+use JobApis\Jobs\Client\Job;
+use JobApis\Jobs\Client\Schema\Entity\GeoCoordinates;
+use JobApis\Jobs\Client\Schema\Entity\Organization;
+use JobApis\Jobs\Client\Schema\Entity\Place;
+use JobApis\Jobs\Client\Schema\Entity\PostalAddress;
 
 /**
  *  Uses PHPUnit to test methods and properties set in
@@ -315,6 +316,20 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($postal_code, $this->job->getJobLocation()->getAddress()->getPostalCode());
     }
 
+    public function testSetLatitudeLongitude()
+    {
+        $latitude = uniqid();
+        $longitude = uniqid();
+        $this->job->setLatitude($latitude);
+        $this->job->setLongitude($longitude);
+
+        $this->assertEquals($latitude, $this->job->getLatitude());
+        $this->assertEquals($longitude, $this->job->getLongitude());
+
+        $this->assertEquals($latitude, $this->job->getJobLocation()->getGeo()->getLatitude());
+        $this->assertEquals($longitude, $this->job->getJobLocation()->getGeo()->getLongitude());
+    }
+
     public function testSetTelephone()
     {
         $telephone = uniqid();
@@ -373,7 +388,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException JobBrander\Jobs\Client\Exceptions\InvalidFormatException
+     * @expectedException JobApis\Jobs\Client\Exceptions\InvalidFormatException
      */
     public function testSetDatePostedAsStringWithoutValidDateTimeString()
     {
@@ -475,7 +490,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $job = new Job($attributes);
         $ref = new \ReflectionClass($job);
         $properties = array_filter($ref->getProperties(), function ($property) {
-            return $property->class != 'JobBrander\Jobs\Client\Job';
+            return $property->class != 'JobApis\Jobs\Client\Job';
         });
 
         $toJson = $job->toJson(Job::SERIALIZE_CORE_SCHEMA_LD);
@@ -491,6 +506,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
         $address = new PostalAddress;
         $hiringOrg = new Organization;
         $jobLocation = new Place;
+        $geoCoordinates = new GeoCoordinates;
         $hiringOrg->setAddress($address);
         $jobLocation->setAddress($address);
         $job = new Job($attributes);

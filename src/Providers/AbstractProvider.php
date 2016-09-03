@@ -1,72 +1,35 @@
-<?php namespace JobBrander\Jobs\Client\Providers;
+<?php namespace JobApis\Jobs\Client\Providers;
 
 use GuzzleHttp\Client as HttpClient;
-use JobBrander\Jobs\Client\AttributeTrait;
-use JobBrander\Jobs\Client\Collection;
+use JobApis\Jobs\Client\Collection;
+use JobApis\Jobs\Client\Exceptions\MissingParameterException;
+use JobApis\Jobs\Client\Queries\AbstractQuery;
 
-/**
- * @method string getKeyword()
- * */
 abstract class AbstractProvider
 {
-    use AttributeTrait;
-
     /**
-     * City
-     *
-     * @var string
-     */
-    protected $city = null;
-
-    /**
-     * Http client
+     * HTTP Client
      *
      * @var HttpClient
      */
-    private $client;
+    protected $client;
 
     /**
-     * Count
+     * Query params
      *
-     * @var integer
+     * @var array
      */
-    protected $count = 10;
-
-    /**
-     * Keyword
-     *
-     * @var string
-     */
-    protected $keyword = null;
-
-    /**
-     * Page
-     *
-     * @var integer
-     */
-    protected $page = 1;
-
-    /**
-     * State
-     *
-     * @var string
-     */
-    protected $state = null;
+    protected $query;
 
     /**
      * Create new client
      *
      * @param array $parameters
      */
-    public function __construct($parameters = [])
+    public function __construct(AbstractQuery $query)
     {
-        array_walk($parameters, function ($value, $key) {
-            if (property_exists($this, $key)) {
-                $this->{$key} = $value;
-            }
-        });
-
-        $this->setClient(new HttpClient);
+        $this->setQuery($query)
+            ->setClient(new HttpClient);
     }
 
     /**
@@ -74,85 +37,16 @@ abstract class AbstractProvider
      *
      * @param array|object $payload
      *
-     * @return \JobBrander\Jobs\Client\Job
+     * @return \JobApis\Jobs\Client\Job
      */
     abstract public function createJobObject($payload);
 
     /**
-     * Get format
+     * Job response object default keys that should be set
      *
-     * @return  string Currently only 'json' and 'xml' supported
+     * @return  string
      */
-    abstract public function getFormat();
-
-    /**
-     * Get source attribution
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return $this->getShortName();
-    }
-
-    /**
-     * Get http client options based on current client
-     *
-     * @return array
-     */
-    public function getHttpClientOptions()
-    {
-        $options = [];
-        if (strtolower($this->getVerb()) != 'get') {
-            $options['body'] = $this->getParameters();
-        }
-
-        return $options;
-    }
-
-    /**
-     * Makes the api call and returns a collection of job objects
-     *
-     * @return  JobBrander\Jobs\Client\Collection
-     */
-    public function getJobs()
-    {
-        $client = $this->client;
-        $verb = strtolower($this->getVerb());
-        $url = $this->getUrl();
-        $options = $this->getHttpClientOptions();
-
-        $response = $client->{$verb}($url, $options);
-
-        $body = (string) $response->getBody();
-
-        $payload = $this->parseAsFormat($body, $this->getFormat());
-
-        $listings = is_array($payload) ? $this->getRawListings($payload) : [];
-
-        return $this->getJobsCollectionFromListings($listings);
-    }
-
-    /**
-     * Create and get collection of jobs from given listings
-     *
-     * @param  array $listings
-     *
-     * @return Collection
-     */
-    protected function getJobsCollectionFromListings(array $listings = array())
-    {
-        $collection = new Collection;
-
-        array_map(function ($item) use ($collection) {
-            $job = $this->createJobObject($item);
-            $job->setQuery($this->getKeyword())
-                ->setSource($this->getSource());
-            $collection->add($job);
-        }, $listings);
-
-        return $collection;
-    }
+    abstract public function getDefaultResponseFields();
 
     /**
      * Get listings path
@@ -162,13 +56,156 @@ abstract class AbstractProvider
     abstract public function getListingsPath();
 
     /**
-     * Get parameters
+     * Uses the Query to make a call to the client
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function getClientResponse()
+    {
+        // Create a local copy of the client object
+        $client = $this->client;
+
+        // GET or POST request
+        $verb = strtolower($this->query->getVerb());
+
+        // The URL string
+        $url = $this->query->getUrl();
+
+        // HTTP method options
+        $options = $this->query->getHttpMethodOptions();
+
+        // Get the response
+        return $client->{$verb}($url, $options);
+    }
+
+    /**
+     * Get format
+     *
+     * @return  string Currently only 'json' and 'xml' supported
+     */
+    public function getFormat()
+    {
+        return 'json';
+    }
+
+    /**
+     * Makes the api call and returns a collection of job objects
+     *
+     * @return  \JobApis\Jobs\Client\Collection
+     * @throws MissingParameterException
+     */
+    public function getJobs()
+    {
+        // Verify that all required query vars are set
+        if ($this->query->isValid()) {
+            // Get the response from the client using the query
+            $response = $this->getClientResponse();
+            // Get the response body as a string
+            $body = (string) $response->getBody();
+            // Parse the string
+            $payload = $this->parseAsFormat($body, $this->getFormat());
+            // Gets listings if they're nested
+            $listings = is_array($payload) ? $this->getRawListings($payload) : [];
+            // Return a job collection
+            return $this->getJobsCollectionFromListings($listings);
+        } else {
+            throw new MissingParameterException("All Required parameters for this provider must be set");
+        }
+    }
+
+    /**
+     * Get source attribution
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        $ref = new \ReflectionClass(get_class($this));
+
+        return $ref->getShortName();
+    }
+
+    /**
+     * Parse job attributes against defaults
+     *
+     * @param  array $attributes
+     * @param  array $defaults
+     *
+     * @return array
+     */
+    public static function parseAttributeDefaults(array $attributes, array $defaults = array())
+    {
+        array_map(function ($attribute) use (&$attributes) {
+            if (!isset($attributes[$attribute])) {
+                $attributes[$attribute] = null;
+            }
+        }, $defaults);
+        return $attributes;
+    }
+
+    /**
+     * Parse location string into components.
+     *
+     * @param string $location
      *
      * @return  array
-     */
-    public function getParameters()
+     **/
+    public static function parseLocation($location, $separator = ', ')
     {
-        return [];
+        return explode($separator, $location);
+    }
+
+    /**
+     * Sets http client
+     *
+     * @param HttpClient $client
+     *
+     * @return  AbstractProvider
+     */
+    public function setClient(HttpClient $client)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Sets query object
+     *
+     * @param AbstractQuery $query
+     *
+     * @return  AbstractProvider
+     */
+    public function setQuery(AbstractQuery $query)
+    {
+        $this->query = $query;
+
+        return $this;
+    }
+
+    /**
+     * Create and get collection of jobs from given listings
+     *
+     * @param  array $listings
+     *
+     * @return Collection
+     */
+    protected function getJobsCollectionFromListings(array $listings = [])
+    {
+        $collection = new Collection;
+
+        array_map(function ($item) use ($collection) {
+            $item = static::parseAttributeDefaults(
+                $item,
+                $this->getDefaultResponseFields()
+            );
+            $job = $this->createJobObject($item);
+            $job->setQuery($this->query->getKeyword())
+                ->setSource($this->getSource());
+            $collection->add($job);
+        }, $listings);
+
+        return $collection;
     }
 
     /**
@@ -190,31 +227,6 @@ abstract class AbstractProvider
 
         return (array) $payload;
     }
-
-    /**
-     * Get short name of a given or current class
-     *
-     * @param  object $object Optional object
-     *
-     * @return string
-     */
-    private function getShortName($object = null)
-    {
-        if (is_null($object)) {
-            $object = $this;
-        }
-
-        $ref = new \ReflectionClass(get_class($object));
-
-        return $ref->getShortName();
-    }
-
-    /**
-     * Get url
-     *
-     * @return  string
-     */
-    abstract public function getUrl();
 
     /**
      * Navigate through a payload array looking for a particular index
@@ -243,6 +255,25 @@ abstract class AbstractProvider
     }
 
     /**
+     * Attempt to parse string as given format
+     *
+     * @param  string  $string
+     * @param  string  $format
+     *
+     * @return array
+     */
+    protected function parseAsFormat($string, $format)
+    {
+        $method = 'parseAs'.ucfirst(strtolower($format));
+
+        if (method_exists($this, $method)) {
+            return $this->$method($string);
+        }
+
+        return [];
+    }
+
+    /**
      * Get value current index
      *
      * @param  mixed $index
@@ -255,13 +286,6 @@ abstract class AbstractProvider
     }
 
     /**
-     * Get http verb to use when making request
-     *
-     * @return  string
-     */
-    abstract public function getVerb();
-
-    /**
      * Checks if given value is an array and that it has contents
      *
      * @param  mixed $array
@@ -271,44 +295,6 @@ abstract class AbstractProvider
     private static function isArrayNotEmpty($array)
     {
         return is_array($array) && count($array);
-    }
-
-    /**
-     * Parse job attributes against defaults
-     *
-     * @param  array $attributes
-     * @param  array $defaults
-     *
-     * @return array
-     */
-    public static function parseAttributeDefaults(array $attributes, array $defaults = array())
-    {
-        array_map(function ($attribute) use (&$attributes) {
-            if (!isset($attributes[$attribute])) {
-                $attributes[$attribute] = null;
-            }
-        }, $defaults);
-
-        return $attributes;
-    }
-
-    /**
-     * Attempt to parse string as given format
-     *
-     * @param  string  $string
-     * @param  string  $format
-     *
-     * @return array
-     */
-    private function parseAsFormat($string, $format)
-    {
-        $method = 'parseAs'.ucfirst(strtolower($format));
-
-        if (method_exists($this, $method)) {
-            return $this->$method($string);
-        }
-
-        return [];
     }
 
     /**
@@ -360,30 +346,5 @@ abstract class AbstractProvider
         }
 
         return [];
-    }
-
-    /**
-     * Parse location string into components.
-     *
-     * @param string $location
-     * @return  array
-     **/
-    public static function parseLocation($location, $separator = ', ')
-    {
-        return explode($separator, $location);
-    }
-
-    /**
-     * Sets http client
-     *
-     * @param HttpClient $client
-     *
-     * @return  AbstractClient
-     */
-    public function setClient(HttpClient $client)
-    {
-        $this->client = $client;
-
-        return $this;
     }
 }

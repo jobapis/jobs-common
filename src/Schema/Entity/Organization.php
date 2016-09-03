@@ -4,7 +4,7 @@
  * This class was automatically generated.
  */
 
-namespace JobBrander\Jobs\Client\Schema\Entity;
+namespace JobApis\Jobs\Client\Schema\Entity;
 
 /**
  * An organization such as a school, NGO, corporation, club, etc.

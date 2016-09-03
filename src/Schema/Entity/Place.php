@@ -4,7 +4,7 @@
  * This class was automatically generated.
  */
 
-namespace JobBrander\Jobs\Client\Schema\Entity;
+namespace JobApis\Jobs\Client\Schema\Entity;
 
 /**
  * Entities that have a somewhat fixed, physical extension.
@@ -17,6 +17,10 @@ class Place extends Thing
      * @var PostalAddress Physical address of the item.
      */
     protected $address;
+    /**
+     * @var GeoCoordinates The geo coordinates of the place.
+     */
+    protected $geo;
     /**
      * @var string The telephone number.
      */
@@ -44,6 +48,30 @@ class Place extends Thing
     public function getAddress()
     {
         return $this->address;
+    }
+
+    /**
+     * Sets geo.
+     *
+     * @param GeoCoordinates $geo
+     *
+     * @return $this
+     */
+    public function setGeo(GeoCoordinates $geo = null)
+    {
+        $this->geo = $geo;
+
+        return $this;
+    }
+
+    /**
+     * Gets geo.
+     *
+     * @return GeoCoordinates
+     */
+    public function getGeo()
+    {
+        return $this->geo;
     }
 
     /**

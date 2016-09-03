@@ -1,6 +1,40 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 2.0.0 - 2016-09-03
+
+### Added
+- Readme updates.
+
+## 2.0.0-beta.1 - 2016-09-02
+
+### Fixed
+- Abstract query construct method was overwriting keys with duplicate values. Array flip is dangerous like that.
+
+## 2.0.0-beta - 2016-09-01
+
+### Added
+- Moved API parameters to new Query object.
+- Improved test coverage with concrete provider and query instances.
+
+### Deprecated
+- Old method of setting query parameters via the Provider's constructor or "setX()" methods removed
+
+## 2.0.0-alpha - 2016-04-04
+
+### Added
+- Required parameters
+- Inputs as query parameter array rather than attributes on the provider object
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Nothing
+
+### Security
+- Nothing
+
 ## 1.0.4 - 2015-10-28
 
 ### Added
