@@ -17,7 +17,7 @@ abstract class AbstractProvider
     /**
      * Query params
      *
-     * @var array
+     * @var AbstractQuery
      */
     protected $query;
 

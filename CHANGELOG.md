@@ -1,6 +1,11 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 2.0.1 - 2016-10-29
+
+### Fixed
+- Typo in docblock.
+
 ## 2.0.0 - 2016-09-03
 
 ### Added
