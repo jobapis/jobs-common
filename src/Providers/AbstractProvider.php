@@ -222,7 +222,13 @@ abstract class AbstractProvider
         if (!empty($path)) {
             $index = explode('.', $path);
 
-            return (array) self::getValue($index, $payload);
+            $listings = self::getValue($index, $payload);
+
+            // Listings should be returned as an array of arrays
+            if (reset($listings) && is_array(reset($listings))) {
+                return $listings;
+            }
+            return [0 => $listings];
         }
 
         return (array) $payload;

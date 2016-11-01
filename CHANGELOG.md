@@ -1,6 +1,11 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 2.0.2 - 2016-11-01
+
+### Fixed
+- `getRawListings` was unable to tolerate a single result. I fixed this by converting the array to an array of arrays.
+
 ## 2.0.1 - 2016-10-29
 
 ### Fixed

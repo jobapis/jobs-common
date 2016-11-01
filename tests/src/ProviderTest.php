@@ -146,6 +146,55 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testItCanGetJobsWhenSingleJobReturned()
+    {
+        $url = 'http://'.uniqid().'.com/api';
+        $options = [
+            'keyword' => uniqid(),
+            'location' => uniqid(),
+        ];
+
+        $response = m::mock('GuzzleHttp\Message\Response');
+
+        $jobs = json_encode((object) [
+            'jobs' => $this->createJob(),
+        ]);
+
+        $this->query->shouldReceive('isValid')
+            ->once()
+            ->andReturn(true);
+        $this->query->shouldReceive('getVerb')
+            ->once()
+            ->andReturn('GET');
+        $this->query->shouldReceive('getUrl')
+            ->once()
+            ->andReturn($url);
+        $this->query->shouldReceive('getHttpMethodOptions')
+            ->once()
+            ->andReturn($options);
+        $this->guzzle->shouldReceive('get')
+            ->with($url, $options)
+            ->once()
+            ->andReturn($response);
+        $response->shouldReceive('getBody')
+            ->once()
+            ->andReturn($jobs);
+        $this->query->shouldReceive('getKeyword')
+            ->once()
+            ->andReturn($options['keyword']);
+
+        $results = $this->client->getJobs();
+
+        $this->assertEquals(\JobApis\Jobs\Client\Collection::class, get_class($results));
+        $this->assertEquals(1, count($results));
+
+        foreach ($results as $result) {
+            $this->assertNotNull($result->company);
+            $this->assertNotNull($result->sourceId);
+            $this->assertNotNull($result->title);
+        }
+    }
+
     private function createJob()
     {
         return (object) [
