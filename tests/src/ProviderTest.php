@@ -61,7 +61,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testItCanGetSource()
     {
-        $this->assertEquals('ConcreteProvider', $this->client->getSource());
+        $this->assertEquals('Concrete', $this->client->getSource());
     }
 
     public function testItCanParseDefaultAttributes()
