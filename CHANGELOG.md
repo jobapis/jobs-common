@@ -1,6 +1,11 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 2.1.0 - 2016-12-01
+
+### Added
+- New methods to Collection object: `addCollection`, `filter`, `orderBy`, and `truncate`. 
+
 ## 2.0.2 - 2016-11-01
 
 ### Fixed
