@@ -120,9 +120,16 @@ abstract class AbstractProvider
      */
     public function getSource()
     {
-        $ref = new \ReflectionClass(get_class($this));
+        $classSuffix = "Provider";
 
-        return $ref->getShortName();
+        $className = (new \ReflectionClass(get_class($this)))->getShortName();
+
+        // Strip off the suffix from the provider
+        if ($this->stringEndsWith($className, $classSuffix)) {
+            $className = substr($className, 0, strlen($classSuffix));
+        }
+
+        return $className;
     }
 
     /**
@@ -352,5 +359,23 @@ abstract class AbstractProvider
         }
 
         return [];
+    }
+
+    /**
+     * Determine whether a string ends with another string
+     *
+     * @param $string
+     * @param $test
+     *
+     * @return bool
+     */
+    private function stringEndsWith($string, $test)
+    {
+        $stringLen = strlen($string);
+        $testLen = strlen($test);
+        if ($testLen > $stringLen) {
+            return false;
+        }
+        return substr_compare($string, $test, $stringLen - $testLen, $testLen) === 0;
     }
 }

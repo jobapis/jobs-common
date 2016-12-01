@@ -1,6 +1,14 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 2.1.0 - 2016-12-01
+
+### Added
+- New methods to Collection object: `addCollection`, `filter`, `orderBy`, and `truncate`. 
+
+### Fixed
+- `getSource` method was returning the source with the suffix `Provider` since the v2 upgrade. I created a method to remove `Provider` from the end of the string if present.
+
 ## 2.0.2 - 2016-11-01
 
 ### Fixed
