@@ -373,7 +373,9 @@ abstract class AbstractProvider
     {
         $stringLen = strlen($string);
         $testLen = strlen($test);
-        if ($testLen > $stringLen) return false;
+        if ($testLen > $stringLen) {
+            return false;
+        }
         return substr_compare($string, $test, $stringLen - $testLen, $testLen) === 0;
     }
 }
