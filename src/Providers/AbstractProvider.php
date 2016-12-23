@@ -126,7 +126,7 @@ abstract class AbstractProvider
 
         // Strip off the suffix from the provider
         if ($this->stringEndsWith($className, $classSuffix)) {
-            $className = substr($className, 0, strlen($classSuffix));
+            $className = substr($className, 0, strlen($className) - strlen($classSuffix));
         }
 
         return $className;

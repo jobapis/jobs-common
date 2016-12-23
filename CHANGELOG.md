@@ -1,6 +1,11 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 2.1.1 - 2016-12-23
+
+### Fixed
+- Bug in `getSource` method. It was truncating at the wrong place.
+
 ## 2.1.0 - 2016-12-01
 
 ### Added
