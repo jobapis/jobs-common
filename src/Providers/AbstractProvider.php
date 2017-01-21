@@ -198,7 +198,8 @@ abstract class AbstractProvider
      *
      * @return $collection
      */
-    protected function addJobItemToCollection(&$collection, $item = []) {
+    protected function addJobItemToCollection(&$collection, $item = [])
+    {
         if ($item) {
             $item = static::parseAttributeDefaults(
                 $item,
