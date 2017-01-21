@@ -191,6 +191,28 @@ abstract class AbstractProvider
     }
 
     /**
+     * Adds a single job item to a collection (passed by reference)
+     *
+     * @param $collection Collection
+     * @param $item array
+     *
+     * @return $collection
+     */
+    protected function addJobItemToCollection(&$collection, $item = []) {
+        if ($item) {
+            $item = static::parseAttributeDefaults(
+                $item,
+                $this->getDefaultResponseFields()
+            );
+            $job = $this->createJobObject($item);
+            $job->setQuery($this->query->getKeyword())
+                ->setSource($this->getSource());
+            $collection->add($job);
+        }
+        return $collection;
+    }
+
+    /**
      * Create and get collection of jobs from given listings
      *
      * @param  array $listings
@@ -202,14 +224,7 @@ abstract class AbstractProvider
         $collection = new Collection;
 
         array_map(function ($item) use ($collection) {
-            $item = static::parseAttributeDefaults(
-                $item,
-                $this->getDefaultResponseFields()
-            );
-            $job = $this->createJobObject($item);
-            $job->setQuery($this->query->getKeyword())
-                ->setSource($this->getSource());
-            $collection->add($job);
+            $this->addJobItemToCollection($collection, $item);
         }, $listings);
 
         return $collection;

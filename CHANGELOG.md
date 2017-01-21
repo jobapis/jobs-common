@@ -1,6 +1,11 @@
 # Changelog
 All Notable changes to `jobs-common` will be documented in this file
 
+## 2.1.2 - 2017-01-21
+
+### Fixed
+- Fixed bug that threw an exception for some providers when empty results were returned from the API.
+
 ## 2.1.1 - 2016-12-23
 
 ### Fixed
