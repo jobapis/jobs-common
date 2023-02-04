@@ -9,7 +9,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/jobapis/jobs-common.svg?style=flat-square)](https://scrutinizer-ci.com/g/jobapis/jobs-common)
 [![Total Downloads](https://img.shields.io/packagist/dt/jobapis/jobs-common.svg?style=flat-square)](https://packagist.org/packages/jobapis/jobs-common)
 
-This package makes it makes it easy to integrate job board APIs into your application. Whether you want to aggregate job board data, or supplement your site's job listings with listings from third party providers, or anything else you can dream up, this package (and the api clients listed below) can help.
+This package makes it easy to integrate job board APIs into your application. Whether you want to aggregate job board data, or supplement your site's job listings with listings from third party providers, or anything else you can dream up, this package (and the api clients listed below) can help.
 
 This package is compliant with [PSR-1][], [PSR-2][], [PSR-4][], and [PSR-7][]. If you notice compliance oversights, please send a patch via pull request.
 
